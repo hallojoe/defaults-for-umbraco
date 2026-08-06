@@ -7,19 +7,19 @@ namespace Casko.DefaultsForUmbraco.Common.Http;
 
 public static class HttpExtensions
 {
-    public static WebApplication UseForwardHeadersPerEnvironment(this WebApplication webApplication)
+    public static WebApplication UseDefaultForwardHeaders(this WebApplication webApplication)
     {
         if (!ShouldAddForwardHeaders())
         {
             return webApplication;
         }
-
+        
         webApplication.UseForwardedHeaders();
        
         return webApplication;
     }
     
-    public static WebApplicationBuilder AddForwardHeadersPerEnvironment(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddDefaultForwardHeaders(this WebApplicationBuilder builder)
     {
         if (!ShouldAddForwardHeaders())
         {
@@ -40,7 +40,7 @@ public static class HttpExtensions
         return builder;
     }
 
-    private static bool ShouldAddForwardHeaders()
+    public static bool ShouldAddForwardHeaders()
     {
         return Environment.GetEnvironmentVariable(CommonConstants.EnableForwardHeadersEnvironmentVariableName)?
             .Equals("true", StringComparison.OrdinalIgnoreCase) is true;

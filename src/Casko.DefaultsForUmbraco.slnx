@@ -1,7 +1,7 @@
 <Solution>
   <Project Path="Casko.DefaultsForUmbraco.Common/Casko.DefaultsForUmbraco.Common.csproj" />
-  <Project Path="Casko.DefaultsForUmbraco.Networking/Casko.DefaultsForUmbraco.Networking.csproj" />
   <Project Path="Casko.DefaultsForUmbraco.Package/Casko.DefaultsForUmbraco.Package.csproj" />
   <Project Path="Casko.DefaultsForUmbraco.Search/Casko.DefaultsForUmbraco.Search.csproj" />
   <Project Path="Casko.DefaultsForUmbraco.Web.UI/Casko.DefaultsForUmbraco.Web.UI.csproj" />
+  <Project Path="Casko.DefaultsForUmbraco.Yarp/Casko.DefaultsForUmbraco.Yarp.csproj" />
 </Solution>

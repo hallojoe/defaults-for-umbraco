@@ -8,7 +8,6 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <PackageReference Include="Diplo.GodMode" />
     <PackageReference Include="Umbraco.Cms"/>
     <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice"/>
     <PackageReference Include="uSync" />
@@ -22,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Casko.DefaultsForUmbraco.Common\Casko.DefaultsForUmbraco.Common.csproj" />
-    <ProjectReference Include="..\Casko.DefaultsForUmbraco.Search\Casko.DefaultsForUmbraco.Search.csproj" />
   </ItemGroup>
     
   <PropertyGroup>

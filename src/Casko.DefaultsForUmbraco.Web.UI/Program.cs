@@ -21,7 +21,7 @@ webApplicationBuilder.CreateUmbracoBuilder()
 
 var webApplication = webApplicationBuilder.Build();
 
-webApplication.UseForwardHeadersPerEnvironment();
+webApplication.UseDefaultForwardHeaders();
 
 await webApplication.BootUmbracoAsync();
 
