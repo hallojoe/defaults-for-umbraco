@@ -1,15 +1,28 @@
-# Casko.DefaultsForUmbraco
+# DefaultsForUmbraco
 
-This solution is a local Umbraco 17 / .NET 10 setup for collecting reusable defaults, package references, and development hosting conventions around Umbraco.
+This solution is a local Umbraco 17 / .NET 10 setup for running a single or multiple Umbraco. Supports `SchedulingPublisher` → `Subsciber` and `Single`. Will run `Single` out of the box.
 
-It includes a reusable defaults package, shared infrastructure helpers, a runnable Umbraco web project, search-related defaults, and a YARP reverse proxy for split-role local development.
+```mermaid
+flowchart TD
+    A["Browser<br/>→ cd.dev.localhost<br/>→ cm.dev.localhost/umbraco"]
+    B["Reverse Proxy<br/>→ localhost:443"]
+
+    C{"Match Host header"}
+
+    D["cm.dev.localhost<br/>→ localhost:64101"]
+    E["cd.dev.localhost<br/>→ localhost:44101"]
+   
+    A --> B
+    B --> C
+    C --> D
+    C --> E
+```
 
 ## Projects
 
 | Project | Purpose |
 | ------- | ------- |
 | `src/Casko.DefaultsForUmbraco.Common` | Shared helpers for server roles, environment-specific configuration, forwarded headers, and distributed cache setup. |
-| `src/Casko.DefaultsForUmbraco.Search` | `Umbraco.Cms.Search` configuration and defaults. |
 | `src/Casko.DefaultsForUmbraco.Web.UI` | Runnable Umbraco site used to validate the defaults locally. |
 | `src/Casko.DefaultsForUmbraco.Yarp` | Local YARP reverse proxy for friendly hostnames and split-role development. |
 
