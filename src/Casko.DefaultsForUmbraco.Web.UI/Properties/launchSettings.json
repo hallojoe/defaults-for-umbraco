@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Umbraco.Web.UI.SchedulingPublisher": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchUrl": "https://cm.dev.localhost/umbraco/",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:64101;http://localhost:54101",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "UMBRACO_SERVER_ROLE": "SchedulingPublisher",
+        "FORWARD_HEADERS_ENABLED": "true"      
+      }
+    },
+    "Umbraco.Web.UI.Subscriber": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchUrl": "https://cd.dev.localhost/",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:44101;http://localhost:34101",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "UMBRACO_SERVER_ROLE": "Subscriber",
+        "FORWARD_HEADERS_ENABLED": "true"
+      }
+    },
+    "Umbraco.Web.UI.Single": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchUrl": "https://localhost:24101/umbraco/",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:24101;http://localhost:24101",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "UMBRACO_SERVER_ROLE": "Single",
+        "FORWARD_HEADERS_ENABLED": "true"
+      }
+    }
+  }
+}

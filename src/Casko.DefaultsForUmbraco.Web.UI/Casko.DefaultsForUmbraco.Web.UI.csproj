@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <CompressionEnabled>false</CompressionEnabled>
+    <RootNamespace>Casko.DefaultsForUmbraco.Web.UI</RootNamespace>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="Diplo.GodMode" />
+    <PackageReference Include="Umbraco.Cms"/>
+    <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice"/>
+    <PackageReference Include="uSync" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <!-- Opt-in to app-local ICU to ensure consistent globalization APIs across different platforms -->
+    <PackageReference Include="Microsoft.ICU.ICU4C.Runtime"/>
+    <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="72.1.0.3" Condition="$(RuntimeIdentifier.StartsWith('linux')) or $(RuntimeIdentifier.StartsWith('win')) or ('$(RuntimeIdentifier)' == '' and !$([MSBuild]::IsOSPlatform('osx')))"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Casko.DefaultsForUmbraco.Common\Casko.DefaultsForUmbraco.Common.csproj" />
+    <ProjectReference Include="..\Casko.DefaultsForUmbraco.Search\Casko.DefaultsForUmbraco.Search.csproj" />
+  </ItemGroup>
+    
+  <PropertyGroup>
+    <!-- Razor files are needed for the backoffice to work correctly -->
+    <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Remove RazorCompileOnBuild and RazorCompileOnPublish when not using ModelsMode InMemoryAuto -->
+    <RazorCompileOnBuild>true</RazorCompileOnBuild>
+    <RazorCompileOnPublish>true</RazorCompileOnPublish>
+  </PropertyGroup>
+
+</Project>

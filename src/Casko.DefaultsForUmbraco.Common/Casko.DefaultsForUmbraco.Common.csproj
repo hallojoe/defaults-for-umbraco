@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Casko.DefaultsForUmbraco.Common</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.HttpOverrides" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />
+        <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" />
+        
+        <PackageReference Include="Umbraco.Cms.Core" />
+        <PackageReference Include="Umbraco.Cms.Infrastructure" />
+    </ItemGroup>
+
+</Project>
