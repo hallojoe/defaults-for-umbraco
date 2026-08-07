@@ -1,5 +1,5 @@
 <Solution>
   <Project Path="Casko.DefaultsForUmbraco.Common/Casko.DefaultsForUmbraco.Common.csproj" />
   <Project Path="Casko.DefaultsForUmbraco.Web.UI/Casko.DefaultsForUmbraco.Web.UI.csproj" />
-<!--  <Project Path="Casko.DefaultsForUmbraco.Yarp/Casko.DefaultsForUmbraco.Yarp.csproj" />-->
+  <Project Path="Casko.DefaultsForUmbraco.Yarp/Casko.DefaultsForUmbraco.Yarp.csproj" />
 </Solution>

@@ -21,7 +21,7 @@
     "Umbraco.Web.UI.SchedulingPublisher": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchUrl": "https://localhost:64101/umbraco/",
+      "launchUrl": "https://cm.dev.localhost/umbraco/",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:64101;http://localhost:54101",
       "environmentVariables": {
@@ -34,14 +34,14 @@
         "Umbraco__CMS__Global__UmbracoMediaPhysicalRootPath": "../../aspnet/media",
         "Umbraco__CMS__Logging__Directory": "../../aspnet/logs",
         "Umbraco__CMS__Logging__FileNameFormat": "UmbracoTraceLog.SchedulingPublisher.{0}.json",
-        "Umbraco__CMS__Security__BackOfficeHost": "https://localhost:64101",
-        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://localhost:44101/"
+        "Umbraco__CMS__Security__BackOfficeHost": "https://cm.dev.localhost",
+        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://cd.dev.localhost//"
       }
     },
     "Umbraco.Web.UI.Subscriber": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchUrl": "https://localhost:44101/",
+      "launchUrl": "https://cd.dev.localhost/",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:44101;https://localhost:44102;https://localhost:44103;http://localhost:34101",
       "environmentVariables": {
@@ -55,7 +55,7 @@
         "Umbraco__CMS__Logging__Directory": "../../aspnet/logs",
         "Umbraco__CMS__Logging__FileNameFormat": "UmbracoTraceLog.Subscriber.{0}.json",
         "Umbraco__CMS__Security__BackOfficeHost": "",
-        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://localhost:44101/"
+        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://cd.dev.localhost/"
       }
     }
   }
