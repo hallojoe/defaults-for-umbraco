@@ -9,9 +9,9 @@
 *.user
 *.userosscache
 *.sln.docstates
-aspnet/logs/**
-aspnet/media/**
-aspnet/temp/**
+src/aspnet/logs/*
+src/aspnet/media/*
+src/aspnet/temp/*
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
