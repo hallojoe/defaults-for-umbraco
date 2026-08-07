@@ -11,6 +11,9 @@ var umbracoServerRole = Environment.GetEnvironmentVariable(CommonConstants.Umbra
 var useBackoffice =
     umbracoServerRole?.Equals(CommonConstants.SubscriberServerRoleName, StringComparison.OrdinalIgnoreCase) is false;
 
+var directory = webApplicationBuilder.Environment.WebRootPath;
+var directory2 = webApplicationBuilder.Environment.WebRootPath;
+
 webApplicationBuilder.CreateUmbracoBuilder()
     .AddServerRole(umbracoServerRole)
     .AddBackOffice()

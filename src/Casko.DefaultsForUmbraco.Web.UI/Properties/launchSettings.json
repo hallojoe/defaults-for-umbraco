@@ -10,7 +10,12 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "UMBRACO_SERVER_ROLE": "Single",
-        "FORWARD_HEADERS_ENABLED": "false"
+        "FORWARD_HEADERS_ENABLED": "false",
+        "TEMP": "..\\..\\aspnet\\temp\\single",
+        "TMP": "..\\..\\aspnet\\temp\\single",
+        "TMPDIR": "tmp/aspnet/single",
+        "Umbraco__CMS__Security__BackOfficeHost": "https://localhost:24101",
+        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://localhost:24101/"
       }
     },
     "Umbraco.Web.UI.SchedulingPublisher": {
@@ -22,7 +27,15 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "UMBRACO_SERVER_ROLE": "SchedulingPublisher",
-        "FORWARD_HEADERS_ENABLED": "false"      
+        "FORWARD_HEADERS_ENABLED": "true",
+        "TEMP": "..\\..\\aspnet\\temp\\schedulingpublisher",
+        "TMP": "..\\..\\aspnet\\temp\\schedulingpublisher",
+        "TMPDIR": "tmp/aspnet/schedulingpublisher",
+        "Umbraco__CMS__Global__UmbracoMediaPhysicalRootPath": "../../aspnet/media",
+        "Umbraco__CMS__Logging__Directory": "../../aspnet/logs",
+        "Umbraco__CMS__Logging__FileNameFormat": "UmbracoTraceLog.SchedulingPublisher.{0}.json",
+        "Umbraco__CMS__Security__BackOfficeHost": "https://localhost:64101",
+        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://localhost:44101/"
       }
     },
     "Umbraco.Web.UI.Subscriber": {
@@ -30,11 +43,19 @@
       "dotnetRunMessages": true,
       "launchUrl": "https://localhost:44101/",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44101;http://localhost:34101",
+      "applicationUrl": "https://localhost:44101;https://localhost:44102;https://localhost:44103;http://localhost:34101",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "UMBRACO_SERVER_ROLE": "Subscriber",
-        "FORWARD_HEADERS_ENABLED": "false"
+        "FORWARD_HEADERS_ENABLED": "true",
+        "TEMP": "..\\..\\aspnet\\temp\\subscriber",
+        "TMP": "..\\..\\aspnet\\temp\\subscriber",
+        "TMPDIR": "tmp/aspnet/subscriber",
+        "Umbraco__CMS__Global__UmbracoMediaPhysicalRootPath": "../../aspnet/media",
+        "Umbraco__CMS__Logging__Directory": "../../aspnet/logs",
+        "Umbraco__CMS__Logging__FileNameFormat": "UmbracoTraceLog.Subscriber.{0}.json",
+        "Umbraco__CMS__Security__BackOfficeHost": "",
+        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://localhost:44101/"
       }
     }
   }
