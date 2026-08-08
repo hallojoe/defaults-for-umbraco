@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Casko.DefaultsFor.NemLogin3.Web.UI</AssemblyName>
+    <PackageId>Casko.DefaultsFor.NemLogin3.Web.UI</PackageId>
+    <Version>10.0.0</Version>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\Casko.NemLogin3.Web\Casko.NemLogin3.Web.csproj" />
+  </ItemGroup>
+</Project>
