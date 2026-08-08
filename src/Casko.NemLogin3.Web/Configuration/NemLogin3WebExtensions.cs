@@ -73,7 +73,7 @@ public static class NemLogin3WebExtensions
         return app;
     }
 
-    private static IServiceCollection ConfigureForwardedHeaders(this IServiceCollection services)
+    private static void ConfigureForwardedHeaders(this IServiceCollection services)
     {
         services.Configure<ForwardedHeadersOptions>(options =>
         {
@@ -85,12 +85,9 @@ public static class NemLogin3WebExtensions
             options.KnownProxies.Add(IPAddress.Loopback);
             options.KnownProxies.Add(IPAddress.IPv6Loopback);
         });
-
-        return services;
     }
 
-    private static IServiceCollection ConfigureSaml2(
-        this IServiceCollection services,
+    private static void ConfigureSaml2(this IServiceCollection services,
         IConfiguration configuration,
         IWebHostEnvironment environment)
     {
@@ -108,11 +105,9 @@ public static class NemLogin3WebExtensions
 
             return saml2Configuration;
         });
-
-        return services;
     }
 
-    private static IServiceCollection AddNemLogin3HttpClient(this IServiceCollection services)
+    private static void AddNemLogin3HttpClient(this IServiceCollection services)
     {
         services.AddHttpClient();
 
@@ -123,8 +118,6 @@ public static class NemLogin3WebExtensions
                 ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
             });
 #endif
-
-        return services;
     }
 
     private static void ConfigureIdentityProviderMetadata(

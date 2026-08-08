@@ -7,8 +7,7 @@
       "launchUrl": "https://samlcasko0001.dev.localhost/",
       "applicationUrl": "https://localhost:44305;http://localhost:34119",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "FORWARD_HEADERS_ENABLED": "true"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }    
   }

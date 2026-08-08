@@ -11,16 +11,16 @@ namespace Casko.NemLogin3.Web.Controllers;
 [Route("Metadata")]
 public class MetadataController : Controller
 {
-    private readonly INemLogin3MetadataService metadataService;
+    private readonly INemLogin3MetadataService _metadataService;
 
     public MetadataController(INemLogin3MetadataService metadataService)
     {
-        this.metadataService = metadataService;
+        _metadataService = metadataService;
     }
 
     public IActionResult Index()
     {
-        var entityDescriptor = metadataService.CreateMetadata(Request);
+        var entityDescriptor = _metadataService.CreateMetadata(Request);
         return new Saml2Metadata(entityDescriptor).CreateMetadata().ToActionResult();
     }
 }

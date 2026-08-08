@@ -8,18 +8,12 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Casko.NemLogin3.Web.Services;
 
-public class NemLogin3MetadataService : INemLogin3MetadataService
+public class NemLogin3MetadataService(
+    Saml2Configuration saml2Configuration,
+    IOptions<NemLogin3Options> options)
+    : INemLogin3MetadataService
 {
-    private readonly Saml2Configuration saml2Configuration;
-    private readonly NemLogin3Options options;
-
-    public NemLogin3MetadataService(
-        Saml2Configuration saml2Configuration,
-        IOptions<NemLogin3Options> options)
-    {
-        this.saml2Configuration = saml2Configuration;
-        this.options = options.Value;
-    }
+    private readonly NemLogin3Options _options = options.Value;
 
     /// <inheritdoc />
     public EntityDescriptor CreateMetadata(HttpRequest request)
@@ -43,8 +37,8 @@ public class NemLogin3MetadataService : INemLogin3MetadataService
                     new SingleLogoutService
                     {
                         Binding = ProtocolBindings.HttpPost,
-                        Location = new Uri(defaultSite, options.SingleLogoutPath.TrimStart('/')),
-                        ResponseLocation = new Uri(defaultSite, options.LoggedOutPath.TrimStart('/'))
+                        Location = new Uri(defaultSite, _options.SingleLogoutPath.TrimStart('/')),
+                        ResponseLocation = new Uri(defaultSite, _options.LoggedOutPath.TrimStart('/'))
                     }
                 ],
                 NameIDFormats = [NameIdentifierFormats.Persistent],
@@ -53,14 +47,14 @@ public class NemLogin3MetadataService : INemLogin3MetadataService
                     new AssertionConsumerService
                     {
                         Binding = ProtocolBindings.HttpPost,
-                        Location = new Uri(defaultSite, options.AssertionConsumerServicePath.TrimStart('/'))
+                        Location = new Uri(defaultSite, _options.AssertionConsumerServicePath.TrimStart('/'))
                     },
                 ],
                 AttributeConsumingServices =
                 [
                     new AttributeConsumingService
                     {
-                        ServiceNames = [new LocalizedNameType(options.Metadata.ServiceName, "en")],
+                        ServiceNames = [new LocalizedNameType(_options.Metadata.ServiceName, "en")],
                         RequestedAttributes = CreateRequestedAttributes()
                     }
                 ],
@@ -69,18 +63,18 @@ public class NemLogin3MetadataService : INemLogin3MetadataService
 
         entityDescriptor.SPSsoDescriptor.SetDefaultEncryptionMethods();
         entityDescriptor.Organization = new Organization(
-            [new LocalizedNameType(options.Metadata.Organization.Name, "en")],
-            [new LocalizedNameType(options.Metadata.Organization.DisplayName, "en")],
-            [new LocalizedUriType(new Uri(options.Metadata.Organization.Url), "en")]);
+            [new LocalizedNameType(_options.Metadata.Organization.Name, "en")],
+            [new LocalizedNameType(_options.Metadata.Organization.DisplayName, "en")],
+            [new LocalizedUriType(new Uri(_options.Metadata.Organization.Url), "en")]);
         entityDescriptor.ContactPersons =
         [
             new ContactPerson(ContactTypes.Technical)
             {
-                Company = options.Metadata.Contact.Company,
-                GivenName = options.Metadata.Contact.GivenName,
-                SurName = options.Metadata.Contact.SurName,
-                EmailAddress = options.Metadata.Contact.EmailAddress,
-                TelephoneNumber = options.Metadata.Contact.TelephoneNumber,
+                Company = _options.Metadata.Contact.Company,
+                GivenName = _options.Metadata.Contact.GivenName,
+                SurName = _options.Metadata.Contact.SurName,
+                EmailAddress = _options.Metadata.Contact.EmailAddress,
+                TelephoneNumber = _options.Metadata.Contact.TelephoneNumber,
             }
         ];
 
@@ -89,8 +83,8 @@ public class NemLogin3MetadataService : INemLogin3MetadataService
 
     private IEnumerable<RequestedAttribute> CreateRequestedAttributes()
     {
-        var requestedAttributes = options.Metadata.RequestedAttributes.Count > 0
-            ? options.Metadata.RequestedAttributes
+        var requestedAttributes = _options.Metadata.RequestedAttributes.Count > 0
+            ? _options.Metadata.RequestedAttributes
             : CreateDefaultPrivateProfileAttributes();
 
         return requestedAttributes
@@ -118,9 +112,9 @@ public class NemLogin3MetadataService : INemLogin3MetadataService
 
     private Uri GetPublicBaseUri(HttpRequest request)
     {
-        if (!string.IsNullOrWhiteSpace(options.PublicBaseUrl))
+        if (!string.IsNullOrWhiteSpace(_options.PublicBaseUrl))
         {
-            return new Uri(EnsureTrailingSlash(options.PublicBaseUrl));
+            return new Uri(EnsureTrailingSlash(_options.PublicBaseUrl));
         }
 
         return new Uri($"{request.Scheme}://{request.Host.ToUriComponent()}/");

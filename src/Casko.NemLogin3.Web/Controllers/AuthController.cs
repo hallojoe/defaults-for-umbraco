@@ -16,18 +16,18 @@ public class AuthController : Controller
 {
     private const string RelayStateReturnUrl = "ReturnUrl";
 
-    private readonly Saml2Configuration config;
-    private readonly NemLogin3Options options;
-    private readonly INemLogin3ClaimsTransformer claimsTransformer;
+    private readonly Saml2Configuration _config;
+    private readonly NemLogin3Options _options;
+    private readonly INemLogin3ClaimsTransformer _claimsTransformer;
 
     public AuthController(
         Saml2Configuration config,
         IOptions<NemLogin3Options> options,
         INemLogin3ClaimsTransformer claimsTransformer)
     {
-        this.config = config;
-        this.options = options.Value;
-        this.claimsTransformer = claimsTransformer;
+        _config = config;
+        _options = options.Value;
+        _claimsTransformer = claimsTransformer;
     }
 
     [Route("Login")]
@@ -36,7 +36,7 @@ public class AuthController : Controller
         var binding = new Saml2RedirectBinding();
         binding.SetRelayStateQuery(new Dictionary<string, string> { { RelayStateReturnUrl, returnUrl ?? Url.Content("~/") } });
 
-        var resultBinding = binding.Bind(new Saml2AuthnRequest(config)
+        var resultBinding = binding.Bind(new Saml2AuthnRequest(_config)
         {
             NameIdPolicy = new NameIdPolicy
             {
@@ -46,7 +46,7 @@ public class AuthController : Controller
             RequestedAuthnContext = new RequestedAuthnContext
             {
                 Comparison = GetAuthnContextComparisonType(),
-                AuthnContextClassRef = [options.RequestedAuthnContext],
+                AuthnContextClassRef = [_options.RequestedAuthnContext],
             }
         });
 
@@ -57,7 +57,7 @@ public class AuthController : Controller
     public async Task<IActionResult> AssertionConsumerService()
     {
         var httpRequest = Request.ToGenericHttpRequest(validate: true);
-        var saml2AuthnResponse = new Saml2AuthnResponse(config);
+        var saml2AuthnResponse = new Saml2AuthnResponse(_config);
 
         httpRequest.Binding.ReadSamlResponse(httpRequest, saml2AuthnResponse);
         if (saml2AuthnResponse.Status != Saml2StatusCodes.Success)
@@ -68,7 +68,7 @@ public class AuthController : Controller
         httpRequest.Binding.Unbind(httpRequest, saml2AuthnResponse);
         await saml2AuthnResponse.CreateSessionAsync(
             HttpContext,
-            claimsTransform: claimsPrincipal => Task.FromResult(claimsTransformer.Transform(claimsPrincipal)));
+            claimsTransform: claimsPrincipal => Task.FromResult(_claimsTransformer.Transform(claimsPrincipal)));
 
         var relayStateQuery = httpRequest.Binding.GetRelayStateQuery();
         var returnUrl = relayStateQuery.TryGetValue(RelayStateReturnUrl, out var relayStateReturnUrl)
@@ -88,7 +88,7 @@ public class AuthController : Controller
         }
 
         var binding = new Saml2PostBinding();
-        var saml2LogoutRequest = await new Saml2LogoutRequest(config, User).DeleteSession(HttpContext);
+        var saml2LogoutRequest = await new Saml2LogoutRequest(_config, User).DeleteSession(HttpContext);
         return binding.Bind(saml2LogoutRequest).ToActionResult();
     }
 
@@ -96,7 +96,7 @@ public class AuthController : Controller
     public IActionResult LoggedOut()
     {
         var httpRequest = Request.ToGenericHttpRequest(validate: true);
-        httpRequest.Binding.Unbind(httpRequest, new Saml2LogoutResponse(config));
+        httpRequest.Binding.Unbind(httpRequest, new Saml2LogoutResponse(_config));
 
         return Redirect(Url.Content("~/"));
     }
@@ -106,7 +106,7 @@ public class AuthController : Controller
     {
         Saml2StatusCodes status;
         var httpRequest = Request.ToGenericHttpRequest(validate: true);
-        var logoutRequest = new Saml2LogoutRequest(config, User);
+        var logoutRequest = new Saml2LogoutRequest(_config, User);
 
         try
         {
@@ -123,7 +123,7 @@ public class AuthController : Controller
         {
             RelayState = httpRequest.Binding.RelayState
         };
-        var saml2LogoutResponse = new Saml2LogoutResponse(config)
+        var saml2LogoutResponse = new Saml2LogoutResponse(_config)
         {
             InResponseToAsString = logoutRequest.IdAsString,
             Status = status,
@@ -134,7 +134,7 @@ public class AuthController : Controller
 
     private AuthnContextComparisonTypes GetAuthnContextComparisonType()
     {
-        return Enum.TryParse<AuthnContextComparisonTypes>(options.RequestedAuthnContextComparison, ignoreCase: true, out var comparison)
+        return Enum.TryParse<AuthnContextComparisonTypes>(_options.RequestedAuthnContextComparison, ignoreCase: true, out var comparison)
             ? comparison
             : AuthnContextComparisonTypes.Minimum;
     }
