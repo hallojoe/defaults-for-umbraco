@@ -12,8 +12,14 @@ var umbracoServerRole = Environment.GetEnvironmentVariable(CommonConstants.Umbra
 var useBackoffice =
     umbracoServerRole?.Equals(CommonConstants.SubscriberServerRoleName, StringComparison.OrdinalIgnoreCase) is false;
 
-var directory = webApplicationBuilder.Environment.WebRootPath;
-var directory2 = webApplicationBuilder.Environment.WebRootPath;
+var useNemLogin3ExternalMemberLogin = 
+    Environment.GetEnvironmentVariable("NEMLOGIN_3_ENABLED")?.Equals("true", StringComparison.OrdinalIgnoreCase) is true;
+
+if (useNemLogin3ExternalMemberLogin && webApplicationBuilder.Environment.IsDevelopment())
+{
+    webApplicationBuilder.Configuration
+        .AddJsonFile($"appsettings.Development.NemLogin3.json", optional: true, reloadOnChange: true);
+}
 
 var umbracoBuilder = webApplicationBuilder.CreateUmbracoBuilder()
     .AddServerRole(umbracoServerRole)
@@ -22,7 +28,7 @@ var umbracoBuilder = webApplicationBuilder.CreateUmbracoBuilder()
     .AddDeliveryApi()
     .AddComposers();
 
-if (webApplicationBuilder.Environment.IsDevelopment())
+if (useNemLogin3ExternalMemberLogin && webApplicationBuilder.Environment.IsDevelopment())
 {
     umbracoBuilder.AddNemLogin3MemberLogin(webApplicationBuilder.Environment);
 }
@@ -31,7 +37,10 @@ umbracoBuilder.Build();
 
 var webApplication = webApplicationBuilder.Build();
 
-webApplication.UseDefaultForwardHeaders();
+if (webApplicationBuilder.Environment.IsDevelopment())
+{
+    webApplication.UseDefaultForwardHeaders();
+}
 
 await webApplication.BootUmbracoAsync();
 

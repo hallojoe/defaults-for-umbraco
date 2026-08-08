@@ -48,6 +48,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "UMBRACO_SERVER_ROLE": "Subscriber",
         "FORWARD_HEADERS_ENABLED": "true",
+        "NEMLOGIN_3_ENABLED": "true",
         "TEMP": "..\\aspnet\\temp\\subscriber",
         "TMP": "..\\aspnet\\temp\\subscriber",
         "TMPDIR": "tmp/aspnet/subscriber",
