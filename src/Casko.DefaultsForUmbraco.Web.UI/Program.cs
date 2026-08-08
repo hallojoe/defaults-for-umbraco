@@ -1,3 +1,4 @@
+using Casko.DefaultsForUmbraco.NemLogin3.Configuration;
 using Casko.DefaultsForUmbraco.Common;
 using Casko.DefaultsForUmbraco.Common.Configuration;
 using Casko.DefaultsForUmbraco.Common.Http;
@@ -14,13 +15,19 @@ var useBackoffice =
 var directory = webApplicationBuilder.Environment.WebRootPath;
 var directory2 = webApplicationBuilder.Environment.WebRootPath;
 
-webApplicationBuilder.CreateUmbracoBuilder()
+var umbracoBuilder = webApplicationBuilder.CreateUmbracoBuilder()
     .AddServerRole(umbracoServerRole)
     .AddBackOffice()
     .AddWebsite()
     .AddDeliveryApi()
-    .AddComposers()
-    .Build();
+    .AddComposers();
+
+if (webApplicationBuilder.Environment.IsDevelopment())
+{
+    umbracoBuilder.AddNemLogin3MemberLogin(webApplicationBuilder.Environment);
+}
+
+umbracoBuilder.Build();
 
 var webApplication = webApplicationBuilder.Build();
 

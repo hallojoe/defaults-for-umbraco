@@ -26,6 +26,20 @@ public static class NemLogin3WebExtensions
         IConfiguration configuration,
         IWebHostEnvironment environment)
     {
+        services.AddNemLogin3Saml(configuration, environment);
+        services.AddSaml2(slidingExpiration: true);
+        services
+            .AddControllersWithViews()
+            .AddApplicationPart(typeof(AuthController).Assembly);
+
+        return services;
+    }
+
+    public static IServiceCollection AddNemLogin3Saml(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        IWebHostEnvironment environment)
+    {
         IdentityModelEventSource.ShowPII = environment.IsDevelopment();
 
         services
@@ -34,14 +48,9 @@ public static class NemLogin3WebExtensions
 
         services.ConfigureForwardedHeaders();
         services.ConfigureSaml2(configuration, environment);
-
-        services.AddSaml2(slidingExpiration: true);
         services.AddNemLogin3HttpClient();
         services.AddScoped<INemLogin3MetadataService, NemLogin3MetadataService>();
         services.AddScoped<INemLogin3ClaimsTransformer, DefaultNemLogin3ClaimsTransformer>();
-        services
-            .AddControllersWithViews()
-            .AddApplicationPart(typeof(AuthController).Assembly);
 
         return services;
     }

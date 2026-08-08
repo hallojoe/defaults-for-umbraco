@@ -1,0 +1,141 @@
+using System.Security.Authentication;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
+using Casko.DefaultsForUmbraco.NemLogin3.Configuration;
+using Casko.DefaultsForUmbraco.NemLogin3.Services;
+using Casko.NemLogin3.Web.Configuration;
+using Casko.NemLogin3.Web.Services;
+using ITfoxtec.Identity.Saml2;
+using ITfoxtec.Identity.Saml2.MvcCore;
+using ITfoxtec.Identity.Saml2.Schemas;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
+namespace Casko.DefaultsForUmbraco.NemLogin3.Security;
+
+public sealed class NemLogin3AuthenticationHandler(
+    IOptionsMonitor<NemLogin3AuthenticationOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder,
+    IDataProtectionProvider dataProtectionProvider,
+    Saml2Configuration saml2Configuration,
+    IOptions<NemLogin3Options> nemLoginOptions,
+    INemLogin3ClaimsTransformer claimsTransformer,
+    INemLogin3MemberClaimsMapper memberClaimsMapper,
+    IMemoryCache memoryCache)
+    : RemoteAuthenticationHandler<NemLogin3AuthenticationOptions>(options, logger, encoder)
+{
+    private const string RelayStateCachePrefix = "Casko.DefaultsForUmbraco.NemLogin3.RelayState:";
+    private static readonly TimeSpan RelayStateCacheDuration = TimeSpan.FromMinutes(15);
+
+    private readonly Saml2Configuration _saml2Configuration = saml2Configuration;
+    private readonly NemLogin3Options _nemLoginOptions = nemLoginOptions.Value;
+    private readonly INemLogin3ClaimsTransformer _claimsTransformer = claimsTransformer;
+    private readonly INemLogin3MemberClaimsMapper _memberClaimsMapper = memberClaimsMapper;
+    private readonly IDataProtectionProvider _dataProtectionProvider = dataProtectionProvider;
+    private readonly IMemoryCache _memoryCache = memoryCache;
+
+    protected override Task HandleChallengeAsync(AuthenticationProperties properties)
+    {
+        GenerateCorrelationId(properties);
+        var stateKey = Guid.NewGuid().ToString("N");
+        _memoryCache.Set(CreateRelayStateCacheKey(stateKey), CreateStateDataFormat().Protect(properties), RelayStateCacheDuration);
+
+        var binding = new Saml2RedirectBinding();
+        binding.SetRelayStateQuery(new Dictionary<string, string>
+        {
+            [NemLogin3MemberLoginConstants.RelayStateKey] = stateKey,
+        });
+
+        var request = new Saml2AuthnRequest(_saml2Configuration)
+        {
+            NameIdPolicy = new NameIdPolicy
+            {
+                AllowCreate = true,
+                Format = NameIdentifierFormats.Persistent.OriginalString
+            },
+            RequestedAuthnContext = new RequestedAuthnContext
+            {
+                Comparison = GetAuthnContextComparisonType(),
+                AuthnContextClassRef = [_nemLoginOptions.RequestedAuthnContext],
+            }
+        };
+
+        binding.Bind(request);
+        Response.Redirect(binding.RedirectLocation.OriginalString);
+
+        return Task.CompletedTask;
+    }
+
+    protected override Task<HandleRequestResult> HandleRemoteAuthenticateAsync()
+    {
+        try
+        {
+            var httpRequest = Request.ToGenericHttpRequest(validate: true);
+            var response = new Saml2AuthnResponse(_saml2Configuration);
+
+            httpRequest.Binding.ReadSamlResponse(httpRequest, response);
+            if (response.Status != Saml2StatusCodes.Success)
+            {
+                return Task.FromResult(HandleRequestResult.Fail($"SAML response status: {response.Status}"));
+            }
+
+            httpRequest.Binding.Unbind(httpRequest, response);
+
+            var relayState = httpRequest.Binding.GetRelayStateQuery();
+            if (!relayState.TryGetValue(NemLogin3MemberLoginConstants.RelayStateKey, out var stateKey))
+            {
+                return Task.FromResult(HandleRequestResult.Fail("Missing NemLog-in relay state."));
+            }
+
+            if (!_memoryCache.TryGetValue(CreateRelayStateCacheKey(stateKey), out string? protectedState))
+            {
+                return Task.FromResult(HandleRequestResult.Fail("Expired or unknown NemLog-in relay state."));
+            }
+
+            _memoryCache.Remove(CreateRelayStateCacheKey(stateKey));
+
+            var properties = CreateStateDataFormat().Unprotect(protectedState);
+            if (properties is null)
+            {
+                return Task.FromResult(HandleRequestResult.Fail("Invalid NemLog-in relay state."));
+            }
+
+            if (!ValidateCorrelationId(properties))
+            {
+                return Task.FromResult(HandleRequestResult.Fail("Invalid NemLog-in correlation state."));
+            }
+
+            var principal = new ClaimsPrincipal(response.ClaimsIdentity);
+            principal = _claimsTransformer.Transform(principal);
+            principal = _memberClaimsMapper.Map(principal);
+
+            return Task.FromResult(HandleRequestResult.Success(new AuthenticationTicket(principal, properties, Scheme.Name)));
+        }
+        catch (AuthenticationException exception)
+        {
+            return Task.FromResult(HandleRequestResult.Fail(exception));
+        }
+        catch (Exception exception)
+        {
+            return Task.FromResult(HandleRequestResult.Fail(exception));
+        }
+    }
+
+    private AuthnContextComparisonTypes GetAuthnContextComparisonType()
+        => Enum.TryParse<AuthnContextComparisonTypes>(_nemLoginOptions.RequestedAuthnContextComparison, ignoreCase: true, out var comparison)
+            ? comparison
+            : AuthnContextComparisonTypes.Minimum;
+
+    private ISecureDataFormat<AuthenticationProperties> CreateStateDataFormat()
+        => new PropertiesDataFormat(_dataProtectionProvider.CreateProtector(
+            typeof(NemLogin3AuthenticationHandler).FullName!,
+            Scheme.Name,
+            "RelayState"));
+
+    private static string CreateRelayStateCacheKey(string stateKey)
+        => $"{RelayStateCachePrefix}{stateKey}";
+}

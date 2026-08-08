@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Casko.DefaultsForUmbraco.Common\Casko.DefaultsForUmbraco.Common.csproj" />
+    <ProjectReference Include="..\Casko.DefaultsForUmbraco.NemLogin3\Casko.DefaultsForUmbraco.NemLogin3.csproj" />
   </ItemGroup>
     
   <PropertyGroup>
