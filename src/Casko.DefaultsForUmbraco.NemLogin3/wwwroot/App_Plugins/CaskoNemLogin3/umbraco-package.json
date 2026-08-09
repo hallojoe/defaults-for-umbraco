@@ -1,0 +1,25 @@
+{
+  "$schema": "../../umbraco-package-schema.json",
+  "name": "Casko NemLogin3",
+  "allowPublicAccess": true,
+  "extensions": [
+    {
+      "type": "authProvider",
+      "alias": "Casko.AuthProvider.NemLogin3",
+      "name": "NemLog-in 3",
+      "forProviderName": "Umbraco.NemLogin3",
+      "meta": {
+        "label": "Sign in with NemLog-in",
+        "defaultView": {
+          "icon": "icon-key"
+        },
+        "behavior": {
+          "autoRedirect": false
+        },
+        "linking": {
+          "allowManualLinking": true
+        }
+      }
+    }
+  ]
+}

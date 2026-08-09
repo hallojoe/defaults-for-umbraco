@@ -42,14 +42,7 @@ public class NemLogin3MetadataService(
                     }
                 ],
                 NameIDFormats = [NameIdentifierFormats.Persistent],
-                AssertionConsumerServices =
-                [
-                    new AssertionConsumerService
-                    {
-                        Binding = ProtocolBindings.HttpPost,
-                        Location = new Uri(defaultSite, _options.AssertionConsumerServicePath.TrimStart('/'))
-                    },
-                ],
+                AssertionConsumerServices = CreateAssertionConsumerServices(defaultSite),
                 AttributeConsumingServices =
                 [
                     new AttributeConsumingService
@@ -95,6 +88,25 @@ public class NemLogin3MetadataService(
                     ? NemLogin3ClaimConstants.AttributeNameFormatUri
                     : attribute.NameFormat,
                 isRequired: attribute.IsRequired));
+    }
+
+    private List<AssertionConsumerService> CreateAssertionConsumerServices(Uri defaultSite)
+    {
+        var paths = new[] { _options.AssertionConsumerServicePath }
+            .Concat(_options.AdditionalAssertionConsumerServicePaths)
+            .Where(path => !string.IsNullOrWhiteSpace(path))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        return paths
+            .Select((path, index) => new AssertionConsumerService
+            {
+                Binding = ProtocolBindings.HttpPost,
+                Location = new Uri(defaultSite, path.TrimStart('/')),
+                Index = index,
+                IsDefault = index == 0,
+            })
+            .ToList();
     }
 
     private static List<RequestedAttributeOptions> CreateDefaultPrivateProfileAttributes()

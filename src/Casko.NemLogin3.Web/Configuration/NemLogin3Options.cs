@@ -12,6 +12,8 @@ public class NemLogin3Options
 
     public string AssertionConsumerServicePath { get; set; } = "/Auth/AssertionConsumerService";
 
+    public List<string> AdditionalAssertionConsumerServicePaths { get; set; } = [];
+
     public string SingleLogoutPath { get; set; } = "/Auth/SingleLogout";
 
     public string LoggedOutPath { get; set; } = "/Auth/LoggedOut";

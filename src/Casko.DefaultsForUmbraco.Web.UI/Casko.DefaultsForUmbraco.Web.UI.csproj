@@ -23,6 +23,14 @@
     <ProjectReference Include="..\Casko.DefaultsForUmbraco.Common\Casko.DefaultsForUmbraco.Common.csproj" />
     <ProjectReference Include="..\Casko.DefaultsForUmbraco.NemLogin3\Casko.DefaultsForUmbraco.NemLogin3.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="App_Plugins\CaskoNemLogin3\umbraco-package.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
     
   <PropertyGroup>
     <!-- Razor files are needed for the backoffice to work correctly -->

@@ -21,10 +21,26 @@ https://www.nemlog-in.dk/om-nemlog-in/dokumentation-og-vejledninger/#devtest4
 https://www.nemlog-in.dk/om-nemlog-in/miljoer-i-nemlog-in/devtest4-miljoet-tekniske-oplysninger/nyt-it-system-oprettes-i-devtest4-pre-produktionsmiljoet/
 ```
 
-When the IT-system asks for service provider metadata, upload the metadata from:
+When the IT-system asks for service provider metadata, upload the metadata from the host that belongs to that IT-system.
+
+For the current single-host setup:
 
 ```text
 https://samlcasko0001.dev.localhost/Metadata
+```
+
+For the planned CM/CD split with two IT-systems:
+
+```text
+https://samlcasko0001.dev.localhost/Metadata
+https://cm.dev.localhost/Metadata
+```
+
+DevTest4 permits only one `AssertionConsumerService` element per IT-system. Member and backoffice registrations each use the same path on their own host:
+
+```text
+https://samlcasko0001.dev.localhost/Auth/AssertionConsumerService
+https://cm.dev.localhost/Auth/AssertionConsumerService
 ```
 
 ## Local website
@@ -129,5 +145,8 @@ Before uploading, confirm that the XML:
 - contains one `SPSSODescriptor`
 - contains signing and encryption key descriptors
 - uses persistent NameID format
+- contains exactly one ACS `/Auth/AssertionConsumerService`
 - does not contain `cprNumber`
 - does not contain `privilegesIntermediate`
+
+For the backoffice IT-system, the entity ID and URLs should use `https://cm.dev.localhost` instead.

@@ -9,28 +9,45 @@ webApplicationBuilder.AddSpecializedEnvironment();
 
 var umbracoServerRole = Environment.GetEnvironmentVariable(CommonConstants.UmbracoServerRoleEnvironmentVariableName) 
                         ?? CommonConstants.SingleServerRoleName;
+ArgumentException.ThrowIfNullOrWhiteSpace(umbracoServerRole);
+
 var useBackoffice =
     umbracoServerRole?.Equals(CommonConstants.SubscriberServerRoleName, StringComparison.OrdinalIgnoreCase) is false;
 
-var useNemLogin3ExternalMemberLogin = 
+var useMemberLogin =
+    umbracoServerRole?.Equals(CommonConstants.SchedulingPublisherServerRoleName, StringComparison.OrdinalIgnoreCase) is false;
+
+var useBackOfficeLogin = useBackoffice;
+
+var useNemLogin3ExternalLogin =
     Environment.GetEnvironmentVariable("NEMLOGIN_3_ENABLED")?.Equals("true", StringComparison.OrdinalIgnoreCase) is true;
 
-if (useNemLogin3ExternalMemberLogin && webApplicationBuilder.Environment.IsDevelopment())
+if (useNemLogin3ExternalLogin && webApplicationBuilder.Environment.IsDevelopment())
 {
     webApplicationBuilder.Configuration
-        .AddJsonFile($"appsettings.Development.NemLogin3.json", optional: true, reloadOnChange: true);
+        .AddJsonFile("appsettings.Development.NemLogin3.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.Development.{umbracoServerRole}.NemLogin3.json", optional: true, reloadOnChange: true);
 }
 
+
 var umbracoBuilder = webApplicationBuilder.CreateUmbracoBuilder()
-    .AddServerRole(umbracoServerRole)
+    .AddServerRole(umbracoServerRole!)
     .AddBackOffice()
     .AddWebsite()
     .AddDeliveryApi()
     .AddComposers();
 
-if (useNemLogin3ExternalMemberLogin && webApplicationBuilder.Environment.IsDevelopment())
+if (useNemLogin3ExternalLogin && webApplicationBuilder.Environment.IsDevelopment())
 {
-    umbracoBuilder.AddNemLogin3MemberLogin(webApplicationBuilder.Environment);
+    if (useMemberLogin)
+    {
+        umbracoBuilder.AddNemLogin3MemberLogin(webApplicationBuilder.Environment);
+    }
+
+    if (useBackOfficeLogin)
+    {
+        umbracoBuilder.AddNemLogin3BackOfficeLogin(webApplicationBuilder.Environment);
+    }
 }
 
 umbracoBuilder.Build();
