@@ -12,12 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Casko.Authentication.NemLogin3.Web" />
     <PackageReference Include="Umbraco.Cms.Api.Management" />
     <PackageReference Include="Umbraco.Cms.Web.Website" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Casko.NemLogin3.Web\Casko.NemLogin3.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

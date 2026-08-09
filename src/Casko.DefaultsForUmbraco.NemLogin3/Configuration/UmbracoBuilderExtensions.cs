@@ -1,10 +1,10 @@
 using System.Text.Json;
 using System.Security.Claims;
+using Casko.Authentication.NemLogin3.Web.Configuration;
+using Casko.Authentication.NemLogin3.Web.Services;
 using Casko.DefaultsForUmbraco.NemLogin3.Models;
 using Casko.DefaultsForUmbraco.NemLogin3.Security;
 using Casko.DefaultsForUmbraco.NemLogin3.Services;
-using Casko.NemLogin3.Web.Configuration;
-using Casko.NemLogin3.Web.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;

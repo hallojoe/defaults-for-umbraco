@@ -1,4 +1,4 @@
-using Casko.NemLogin3.Web.Services;
+using Casko.Authentication.NemLogin3.Web.Services;
 using ITfoxtec.Identity.Saml2;
 using ITfoxtec.Identity.Saml2.MvcCore;
 using Microsoft.AspNetCore.Authorization;

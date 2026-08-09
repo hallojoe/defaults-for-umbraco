@@ -1,10 +1,10 @@
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using Casko.Authentication.NemLogin3.Web.Configuration;
+using Casko.Authentication.NemLogin3.Web.Services;
 using Casko.DefaultsForUmbraco.NemLogin3.Configuration;
 using Casko.DefaultsForUmbraco.NemLogin3.Services;
-using Casko.NemLogin3.Web.Configuration;
-using Casko.NemLogin3.Web.Services;
 using ITfoxtec.Identity.Saml2;
 using ITfoxtec.Identity.Saml2.MvcCore;
 using ITfoxtec.Identity.Saml2.Schemas;

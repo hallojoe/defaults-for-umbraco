@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using System.Text.Json;
+using Casko.Authentication.NemLogin3.Web.Configuration;
 using Casko.DefaultsForUmbraco.NemLogin3.Configuration;
 using Casko.DefaultsForUmbraco.NemLogin3.Models;
-using Casko.NemLogin3.Web.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Casko.DefaultsForUmbraco.NemLogin3.Services;
