@@ -1,10 +1,10 @@
-using Casko.DefaultsForUmbraco.Common.Http;
+using Casko.DefaultsForUmbraco.Web.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Casko.DefaultsForUmbraco.Common.Configuration;
+namespace Casko.DefaultsForUmbraco.Web.Configuration;
 
 public static class ConfigurationExtensions
 {

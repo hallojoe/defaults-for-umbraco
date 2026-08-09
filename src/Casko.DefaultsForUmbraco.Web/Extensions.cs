@@ -1,8 +1,8 @@
-using Casko.DefaultsForUmbraco.Common.Sync;
+using Casko.DefaultsForUmbraco.Web.Sync;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Infrastructure.DependencyInjection;
 
-namespace Casko.DefaultsForUmbraco.Common;
+namespace Casko.DefaultsForUmbraco.Web;
 
 public static class ServerRolesConfigurationExtensions
 {

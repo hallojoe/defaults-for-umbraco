@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Casko.DefaultsForUmbraco.Common.Http;
+namespace Casko.DefaultsForUmbraco.Web.Http;
 
 public static class HttpExtensions
 {

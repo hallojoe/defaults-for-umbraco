@@ -1,7 +1,7 @@
 using Casko.DefaultsForUmbraco.NemLogin3.Configuration;
-using Casko.DefaultsForUmbraco.Common;
-using Casko.DefaultsForUmbraco.Common.Configuration;
-using Casko.DefaultsForUmbraco.Common.Http;
+using Casko.DefaultsForUmbraco.Web;
+using Casko.DefaultsForUmbraco.Web.Configuration;
+using Casko.DefaultsForUmbraco.Web.Http;
 
 var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
