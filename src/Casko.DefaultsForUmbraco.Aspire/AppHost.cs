@@ -1,4 +1,5 @@
 var builder = DistributedApplication.CreateBuilder(args);
+var sqlOnly = IsEnabled("CASKO_APPHOST_SQL_ONLY");
 
 var sql = builder
     .AddSqlServer("sql", port: 11433)
@@ -7,9 +8,24 @@ var sql = builder
     .WithDataVolume("defaults-for-umbraco-sql-data")
     .WithHostPort(11433);
 
+if (sqlOnly)
+{
+    builder.Build().Run();
+    return;
+}
+
+var databaseName = "defaults-for-umbraco-v3-db";
 var umbracoDb = sql
-    .AddDatabase("umbracoDbDSN", "defaults-for-umbraco-db")
-    .WithCreationScript(GetUmbracoDatabaseCreationScript());
+    .AddDatabase("umbracoDbDSN", databaseName)
+    .WithCreationScript(GetUmbracoDatabaseCreationScript(databaseName));
+
+var storage = builder
+    .AddAzureStorage("storage")
+    .RunAsEmulator();
+
+var blobs = storage.AddBlobs("blobs");
+var queues = storage.AddQueues("queues");
+var tables = storage.AddTables("tables");
 
 var cm = builder
     .AddProject<Projects.Casko_DefaultsForUmbraco_Web_UI>(
@@ -20,8 +36,13 @@ var cm = builder
     .WithEnvironment("UMBRACO_SERVER_ROLE", "SchedulingPublisher")
     .WithEnvironment("FORWARD_HEADERS_ENABLED", "true")
     .WithReference(umbracoDb)
+    .WithReference(blobs)
+    .WithReference(queues)
+    .WithReference(tables)
     .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
-    .WaitFor(umbracoDb);
+    .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
+    .WaitFor(umbracoDb)
+    .WaitFor(storage);
 
 var cd = builder
     .AddProject<Projects.Casko_DefaultsForUmbraco_Web_UI>(
@@ -32,8 +53,12 @@ var cd = builder
     .WithEnvironment("UMBRACO_SERVER_ROLE", "Subscriber")
     .WithEnvironment("FORWARD_HEADERS_ENABLED", "true")
     .WithReference(umbracoDb)
+    .WithReference(blobs)
+    .WithReference(queues)
+    .WithReference(tables)
     .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
-    .WaitFor(umbracoDb);
+    .WaitFor(umbracoDb)
+    .WaitFor(storage);
 
 builder
     .AddProject<Projects.Casko_DefaultsForUmbraco_Yarp>(
@@ -51,15 +76,22 @@ builder
 
 builder.Build().Run();
 
-static string GetUmbracoDatabaseCreationScript() =>
+static bool IsEnabled(string environmentVariableName)
+{
+    var value = Environment.GetEnvironmentVariable(environmentVariableName);
+
+    return bool.TryParse(value, out var enabled) && enabled;
+}
+
+static string GetUmbracoDatabaseCreationScript(string databaseName) =>
     """
-    IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE name = N'defaults-for-umbraco-db')
+    IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE name = N'{databaseName}')
     BEGIN
-        CREATE DATABASE [defaults-for-umbraco-db];
+        CREATE DATABASE [{databaseName}];
     END
     GO
 
-    USE [defaults-for-umbraco-db];
+    USE [{databaseName}];
     GO
 
     IF OBJECT_ID(N'[dbo].[DistributedCache]', N'U') IS NULL
@@ -86,4 +118,4 @@ static string GetUmbracoDatabaseCreationScript() =>
         CREATE NONCLUSTERED INDEX [IX_DistributedCache_ExpiresAtTime]
             ON [dbo].[DistributedCache]([ExpiresAtTime] ASC);
     END
-    """;
+    """.Replace("{databaseName}", databaseName);
