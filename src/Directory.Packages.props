@@ -15,8 +15,9 @@
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.10" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.8" />
     <PackageVersion Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
+
+      <!-- Keep the Umbraco.Cms package family on one patch version. Core loads related assemblies by exact version. -->
     <PackageVersion Include="Umbraco.Cms" Version="17.6.2" />
-    <!-- Keep the Umbraco.Cms package family on one patch version. Core loads related assemblies by exact version. -->
     <PackageVersion Include="Umbraco.Cms.Core" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.Infrastructure" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.Api.Common" Version="17.6.2" />
@@ -31,7 +32,9 @@
     <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.DeliveryApi" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.Provider.Examine" Version="17.1.0-beta.1" />
+
     <PackageVersion Include="Umbraco.Automate" Version="17.2.0" />
+
     <PackageVersion Include="Umbraco.AI" Version="17.1.1" />
     <PackageVersion Include="Umbraco.AI.Core" Version="17.1.1" />
     <PackageVersion Include="Umbraco.AI.Agent" Version="17.1.4" />
@@ -40,17 +43,20 @@
     <PackageVersion Include="Umbraco.AI.OpenAI" Version="17.2.0" />
     <PackageVersion Include="Umbraco.AI.Automate" Version="17.0.0" />
     <PackageVersion Include="Umbraco.AI.Search" Version="17.0.3" />
+
     <PackageVersion Include="uSync" Version="17.3.6" />
+
     <PackageVersion Include="Casko.HttpHeadersForUmbraco" Version="1.0.3-pre" />
     <PackageVersion Include="Casko.XmlSitemapsForUmbraco" Version="2.3.4-pre" />
     <PackageVersion Include="Casko.RobotsTxtForUmbraco" Version="1.0.1-pre" />
+
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
+
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.2.4" />
     <PackageVersion Include="Aspire.Hosting.SqlServer" Version="13.2.4" />
 
     <PackageVersion Include="ITfoxtec.Identity.Saml2" Version="4.20.1" />
     <PackageVersion Include="ITfoxtec.Identity.Saml2.MvcCore" Version="4.20.1" />
-    <PackageVersion Include="BuildBundlerMinifier" Version="3.2.449" />
       
   </ItemGroup>
 </Project>
