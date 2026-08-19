@@ -1,9 +1,12 @@
-using Casko.DefaultsForUmbraco.NemLogin3.Configuration;
 using Casko.DefaultsForUmbraco.Web;
 using Casko.DefaultsForUmbraco.Web.Configuration;
 using Casko.DefaultsForUmbraco.Web.Http;
+//using Casko.NemLogin3ForUmbraco.Configuration;
 
 var webApplicationBuilder = WebApplication.CreateBuilder(args);
+
+webApplicationBuilder.Configuration
+    .AddJsonFile("appsettings.XmlSitemapsForUmbraco.json", optional: true, reloadOnChange: true);
 
 webApplicationBuilder.AddSpecializedEnvironment();
 
@@ -41,12 +44,12 @@ if (useNemLogin3ExternalLogin && webApplicationBuilder.Environment.IsDevelopment
 {
     if (useMemberLogin)
     {
-        umbracoBuilder.AddNemLogin3MemberLogin(webApplicationBuilder.Environment);
+//        umbracoBuilder.AddNemLogin3MemberLogin(webApplicationBuilder.Environment);
     }
 
     if (useBackOfficeLogin)
     {
-        umbracoBuilder.AddNemLogin3BackOfficeLogin(webApplicationBuilder.Environment);
+//        umbracoBuilder.AddNemLogin3BackOfficeLogin(webApplicationBuilder.Environment);
     }
 }
 
