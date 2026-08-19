@@ -45,6 +45,8 @@
     <PackageVersion Include="Casko.XmlSitemapsForUmbraco" Version="2.3.4-pre" />
     <PackageVersion Include="Casko.RobotsTxtForUmbraco" Version="1.0.1-pre" />
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.2.4" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="13.2.4" />
 
     <PackageVersion Include="ITfoxtec.Identity.Saml2" Version="4.20.1" />
     <PackageVersion Include="ITfoxtec.Identity.Saml2.MvcCore" Version="4.20.1" />

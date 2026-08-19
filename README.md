@@ -25,6 +25,7 @@ flowchart TD
 | `src/Casko.DefaultsForUmbraco.Common` | Shared helpers for server roles, environment-specific configuration, forwarded headers, and distributed cache setup. |
 | `src/Casko.DefaultsForUmbraco.Web.UI` | Runnable Umbraco site used to validate the defaults locally. |
 | `src/Casko.DefaultsForUmbraco.Yarp` | Local YARP reverse proxy for friendly hostnames and split-role development. |
+| `src/Casko.DefaultsForUmbraco.Aspire` | Aspire AppHost that runs SQL Edge, CM, CD, and YARP together. |
 
 The solution file is:
 
@@ -35,8 +36,8 @@ src/Casko.DefaultsForUmbraco.slnx
 ## Prerequisites
 
 - .NET 10 SDK
+- Docker Desktop (for the Aspire-managed Azure SQL Edge container)
 - A trusted ASP.NET Core HTTPS development certificate
-- SQL Server available on `localhost,1434` for the split-role profiles
 
 Trust the development certificate once per machine:
 
@@ -71,10 +72,12 @@ dotnet run --project src/Casko.DefaultsForUmbraco.Web.UI --launch-profile Umbrac
 Run the split-role setup when you want to test backoffice and delivery behavior separately:
 
 ```powershell
-dotnet run --project src/Casko.DefaultsForUmbraco.Web.UI --launch-profile Umbraco.Web.UI.SchedulingPublisher
-dotnet run --project src/Casko.DefaultsForUmbraco.Web.UI --launch-profile Umbraco.Web.UI.Subscriber
-dotnet run --project src/Casko.DefaultsForUmbraco.Yarp --launch-profile LocalReverseProxy
+dotnet run --project src/Casko.DefaultsForUmbraco.Aspire
 ```
+
+Aspire starts Azure SQL Edge on `localhost:11433`, creates `defaults-for-umbraco-db` when needed, and persists it in the Docker volume `defaults-for-umbraco-sql-data`. CM, CD, and YARP receive Aspire-provided connection strings, so this topology never uses the split-profile SQL Server on `localhost:1434`.
+
+The direct Web UI and YARP launch profiles remain available for manual debugging, and still use their existing configuration.
 
 Then browse to:
 
