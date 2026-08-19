@@ -8,9 +8,11 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <PackageReference Include="Umbraco.Cms"/>
+      <PackageReference Include="Umbraco.Cms"/>
     <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice"/>
-    <PackageReference Include="uSync" />
+      <PackageReference Include="uSync" />
+      <PackageReference Include="Casko.XmlSitemapsForUmbraco" />
+<!--      <PackageReference Include="Casko.Nemlogin3ForUmbraco" />-->
   </ItemGroup>
   
   <ItemGroup>
@@ -21,7 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Casko.DefaultsForUmbraco.Web\Casko.DefaultsForUmbraco.Web.csproj" />
-    <ProjectReference Include="..\Casko.DefaultsForUmbraco.NemLogin3\Casko.DefaultsForUmbraco.NemLogin3.csproj" />
   </ItemGroup>
 
   <ItemGroup>

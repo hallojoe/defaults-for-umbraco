@@ -4,11 +4,8 @@
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="ITfoxtec.Identity.Saml2" Version="4.20.1" />
-    <PackageVersion Include="ITfoxtec.Identity.Saml2.MvcCore" Version="4.20.1" />
-
     <PackageVersion Include="Casko.Authentication.NemLogin3.Web" Version="1.0.0-pre" />
-      
+    <PackageVersion Include="Casko.NemLogin3ForUmbraco" Version="1.0.0-pre" />
     <PackageVersion Include="Microsoft.AspNetCore.HttpOverrides" Version="2.3.11" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="10.5.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.8" />
@@ -18,33 +15,34 @@
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.10" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.8" />
     <PackageVersion Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
-    <PackageVersion Include="Umbraco.Cms" Version="17.6.0" />
-    <PackageVersion Include="Umbraco.Cms.Core" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.Infrastructure" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.Api.Common" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.Api.Management" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.Web.Common" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.Web.Website" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.Api.Delivery" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.Web" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.DevelopmentMode.Backoffice" Version="17.5.3" />
-    <PackageVersion Include="Umbraco.Cms.Tests.Integration" Version="17.5.3" />
+    <PackageVersion Include="Umbraco.Cms" Version="17.6.2" />
+    <!-- Keep the Umbraco.Cms package family on one patch version. Core loads related assemblies by exact version. -->
+    <PackageVersion Include="Umbraco.Cms.Core" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.Infrastructure" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.Api.Common" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.Api.Management" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.Web.Common" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.Web.Website" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.Api.Delivery" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.Web" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.DevelopmentMode.Backoffice" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Cms.Tests.Integration" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.Search.Core" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.DeliveryApi" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.Provider.Examine" Version="17.1.0-beta.1" />
-    <PackageVersion Include="Umbraco.Automate" Version="17.0.0" />
+    <PackageVersion Include="Umbraco.Automate" Version="17.2.0" />
     <PackageVersion Include="Umbraco.AI" Version="17.1.1" />
     <PackageVersion Include="Umbraco.AI.Core" Version="17.1.1" />
-    <PackageVersion Include="Umbraco.AI.Agent" Version="17.1.0" />
-    <PackageVersion Include="Umbraco.AI.Agent.Copilot" Version="17.0.0" />
-    <PackageVersion Include="Umbraco.AI.Prompt" Version="17.1.0" />
-    <PackageVersion Include="Umbraco.AI.OpenAI" Version="17.1.0" />
+    <PackageVersion Include="Umbraco.AI.Agent" Version="17.1.4" />
+    <PackageVersion Include="Umbraco.AI.Agent.Copilot" Version="17.0.4" />
+    <PackageVersion Include="Umbraco.AI.Prompt" Version="17.2.3" />
+    <PackageVersion Include="Umbraco.AI.OpenAI" Version="17.2.0" />
     <PackageVersion Include="Umbraco.AI.Automate" Version="17.0.0" />
-    <PackageVersion Include="Umbraco.AI.Search" Version="17.0.0" />
+    <PackageVersion Include="Umbraco.AI.Search" Version="17.0.3" />
     <PackageVersion Include="uSync" Version="17.3.6" />
     <PackageVersion Include="Casko.HttpHeadersForUmbraco" Version="1.0.3-pre" />
-    <PackageVersion Include="Casko.XmlSitemapsForUmbraco" Version="2.1.0-pre" />
+    <PackageVersion Include="Casko.XmlSitemapsForUmbraco" Version="2.3.4-pre" />
     <PackageVersion Include="Casko.RobotsTxtForUmbraco" Version="1.0.1-pre" />
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
 
