@@ -4,8 +4,8 @@ This solution is a local Umbraco 17 / .NET 10 setup for running a single or mult
 
 ```mermaid
 flowchart TD
-    A["Browser<br/>→ cd.dev.localhost<br/>→ cm.dev.localhost/umbraco"]
-    B["Reverse Proxy<br/>→ localhost:443"]
+    A["Browser<br/>→ cd.dev.localhost:4443<br/>→ cm.dev.localhost:4443/umbraco"]
+    B["Reverse Proxy<br/>→ localhost:4443"]
 
     C{"Match Host header"}
 
@@ -60,8 +60,8 @@ dotnet build src/Casko.DefaultsForUmbraco.slnx
 | Launch profile | URL | Role |
 | -------------- | --- | ---- |
 | `Umbraco.Web.UI.Single` | `https://localhost:24101/umbraco/` | Single-server local Umbraco instance |
-| `Umbraco.Web.UI.SchedulingPublisher` | `https://cm.dev.localhost/umbraco/` | Backoffice / scheduling publisher |
-| `Umbraco.Web.UI.Subscriber` | `https://cd.dev.localhost/` | Content delivery subscriber |
+| `Umbraco.Web.UI.SchedulingPublisher` | `https://cm.dev.localhost:4443/umbraco/` | Backoffice / scheduling publisher |
+| `Umbraco.Web.UI.Subscriber` | `https://cd.dev.localhost:4443/` | Content delivery subscriber |
 
 Run the single-server profile when you only need one local Umbraco instance:
 
@@ -82,18 +82,18 @@ The direct Web UI and YARP launch profiles remain available for manual debugging
 Then browse to:
 
 ```text
-https://cm.dev.localhost/umbraco/
-https://cd.dev.localhost/
+https://cm.dev.localhost:4443/umbraco/
+https://cd.dev.localhost:4443/
 ```
 
 ## Local reverse proxy
 
-The YARP project listens on `https://localhost:443` and routes requests by host:
+The YARP project listens on `https://localhost:4443` and routes requests by host:
 
 | Public URL | Destination |
 | ---------- | ----------- |
-| `https://cm.dev.localhost` | `https://localhost:64101/` |
-| `https://cd.dev.localhost` | `https://localhost:44101/` |
+| `https://cm.dev.localhost:4443` | `https://localhost:64101/` |
+| `https://cd.dev.localhost:4443` | `https://localhost:44101/` |
 
 See `src/Casko.DefaultsForUmbraco.Yarp/README.md` for details.
 
@@ -115,8 +115,8 @@ appsettings.Hosts.json
 That file contains the public proxied Umbraco URLs used by the split-role setup:
 
 ```text
-https://cm.dev.localhost
-https://cd.dev.localhost/
+https://cm.dev.localhost:4443
+https://cd.dev.localhost:4443/
 ```
 
 Forwarded headers must be enabled for proxied profiles so Umbraco authentication and redirects use the public hostnames instead of internal Kestrel ports.
@@ -133,7 +133,7 @@ admin@example.com
 Use the backoffice URL for split-role development:
 
 ```text
-https://cm.dev.localhost/umbraco/
+https://cm.dev.localhost:4443/umbraco/
 ```
 
 ## Notes

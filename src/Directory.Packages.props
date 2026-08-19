@@ -28,6 +28,8 @@
     <PackageVersion Include="Umbraco.Cms.Web" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.DevelopmentMode.Backoffice" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.Tests.Integration" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.StorageProviders.AzureBlob" Version="17.1.0" />
+    <PackageVersion Include="Umbraco.StorageProviders.AzureBlob.ImageSharp" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.Core" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.DeliveryApi" Version="17.1.0" />
@@ -53,6 +55,7 @@
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
 
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.2.4" />
+    <PackageVersion Include="Aspire.Hosting.Azure.Storage" Version="13.2.4" />
     <PackageVersion Include="Aspire.Hosting.SqlServer" Version="13.2.4" />
 
     <PackageVersion Include="ITfoxtec.Identity.Saml2" Version="4.20.1" />

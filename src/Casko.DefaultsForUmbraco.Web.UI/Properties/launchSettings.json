@@ -22,7 +22,7 @@
     "Umbraco.Web.UI.SchedulingPublisher": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchUrl": "https://cm.dev.localhost/umbraco/",
+      "launchUrl": "https://cm.dev.localhost:4443/umbraco/",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:64101;http://localhost:54101",
       "environmentVariables": {
@@ -36,16 +36,16 @@
         "Umbraco__CMS__Global__UmbracoMediaPhysicalRootPath": "../../aspnet/media",
         "Umbraco__CMS__Logging__Directory": "../aspnet/logs",
         "Umbraco__CMS__Logging__FileNameFormat": "UmbracoTraceLog.SchedulingPublisher.{0}.json",
-        "NemLogin3__PublicBaseUrl": "https://cm.dev.localhost",
-        "Saml2__Issuer": "https://cm.dev.localhost",
-        "Umbraco__CMS__Security__BackOfficeHost": "https://cm.dev.localhost",
-        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://cd.dev.localhost/"
+        "NemLogin3__PublicBaseUrl": "https://cm.dev.localhost:4443",
+        "Saml2__Issuer": "https://cm.dev.localhost:4443",
+        "Umbraco__CMS__Security__BackOfficeHost": "https://cm.dev.localhost:4443",
+        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://cd.dev.localhost:4443/"
       }
     },
     "Umbraco.Web.UI.Subscriber": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchUrl": "https://cd.dev.localhost/",
+      "launchUrl": "https://cd.dev.localhost:4443/",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:44101;https://localhost:44102;https://localhost:44103;http://localhost:34101",
       "environmentVariables": {
@@ -59,10 +59,10 @@
         "Umbraco__CMS__Global__UmbracoMediaPhysicalRootPath": "../../aspnet/media",
         "Umbraco__CMS__Logging__Directory": "../aspnet/logs",
         "Umbraco__CMS__Logging__FileNameFormat": "UmbracoTraceLog.Subscriber.{0}.json",
-        "NemLogin3__PublicBaseUrl": "https://cd.dev.localhost",
-        "Saml2__Issuer": "https://cd.dev.localhost",
+        "NemLogin3__PublicBaseUrl": "https://cd.dev.localhost:4443",
+        "Saml2__Issuer": "https://cd.dev.localhost:4443",
         "Umbraco__CMS__Security__BackOfficeHost": "",
-        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://cd.dev.localhost/"
+        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://cd.dev.localhost:4443/"
       }
     }
   }

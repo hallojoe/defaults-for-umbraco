@@ -10,6 +10,15 @@ webApplicationBuilder.Configuration
 
 webApplicationBuilder.AddSpecializedEnvironment();
 
+var blobsConnectionString = webApplicationBuilder.Configuration.GetConnectionString("blobs");
+if (!string.IsNullOrWhiteSpace(blobsConnectionString))
+{
+    webApplicationBuilder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
+    {
+        ["Umbraco:Storage:AzureBlob:Media:ConnectionString"] = blobsConnectionString
+    });
+}
+
 var umbracoServerRole = Environment.GetEnvironmentVariable(CommonConstants.UmbracoServerRoleEnvironmentVariableName) 
                         ?? CommonConstants.SingleServerRoleName;
 ArgumentException.ThrowIfNullOrWhiteSpace(umbracoServerRole);
@@ -38,7 +47,9 @@ var umbracoBuilder = webApplicationBuilder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
     .AddDeliveryApi()
-    .AddComposers();
+    .AddComposers()
+    .AddAzureBlobMediaFileSystem()
+    .AddAzureBlobImageSharpCache();
 
 if (useNemLogin3ExternalLogin && webApplicationBuilder.Environment.IsDevelopment())
 {

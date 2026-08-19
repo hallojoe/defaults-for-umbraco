@@ -10,6 +10,8 @@
   <ItemGroup>
       <PackageReference Include="Umbraco.Cms"/>
     <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice"/>
+      <PackageReference Include="Umbraco.StorageProviders.AzureBlob" />
+      <PackageReference Include="Umbraco.StorageProviders.AzureBlob.ImageSharp" />
       <PackageReference Include="uSync" />
       <PackageReference Include="Casko.XmlSitemapsForUmbraco" />
 <!--      <PackageReference Include="Casko.Nemlogin3ForUmbraco" />-->

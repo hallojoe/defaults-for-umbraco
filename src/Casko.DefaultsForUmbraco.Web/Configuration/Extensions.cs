@@ -58,12 +58,18 @@ public static class ConfigurationExtensions
         {
             if (string.IsNullOrWhiteSpace(serverRole))
             {
+                builder.Configuration.AddEnvironmentVariables();
+
                 return builder;
             }
 
             builder.Configuration
-                .AddJsonFile($"appsettings.Development.{serverRole}.json", optional: true, reloadOnChange: true);
+                .AddJsonFile($"appsettings.Development.{serverRole}.json", optional: false, reloadOnChange: true);
         }
+
+        // The role-specific JSON files are intentionally loaded after the default providers.
+        // Re-add environment variables so Aspire references override their local development fallbacks.
+        builder.Configuration.AddEnvironmentVariables();
 
         return builder;
     }

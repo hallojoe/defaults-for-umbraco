@@ -2,7 +2,7 @@
 
 This project is the local reverse proxy used when running the solution as separate Umbraco server roles.
 
-It uses YARP to expose friendly development hostnames on HTTPS port 443 and forward traffic to the local Kestrel ports used by `Casko.DefaultsForUmbraco.Web.UI`.
+It uses YARP to expose friendly development hostnames on HTTPS port 4443 and forward traffic to the local Kestrel ports used by `Casko.DefaultsForUmbraco.Web.UI`.
 
 ## Routes
 
@@ -10,13 +10,13 @@ The development proxy configuration lives in `appsettings.Development.json`.
 
 | Public URL | Role | Destination |
 | ---------- | ---- | ----------- |
-| `https://cm.dev.localhost` | Scheduling publisher / backoffice | `https://localhost:64101/` |
-| `https://cd.dev.localhost` | Subscriber / content delivery | `https://localhost:44101/` |
+| `https://cm.dev.localhost:4443` | Scheduling publisher / backoffice | `https://localhost:64101/` |
+| `https://cd.dev.localhost:4443` | Subscriber / content delivery | `https://localhost:44101/` |
 
 The proxy itself listens on:
 
 ```text
-https://localhost:443
+https://localhost:4443
 ```
 
 ## Running
@@ -37,8 +37,8 @@ dotnet run --project ../Casko.DefaultsForUmbraco.Web.UI --launch-profile Umbraco
 Once both Web UI profiles and the proxy are running, use:
 
 ```text
-https://cm.dev.localhost/umbraco/
-https://cd.dev.localhost/
+https://cm.dev.localhost:4443/umbraco/
+https://cd.dev.localhost:4443/
 ```
 
 ## Certificates and hostnames
@@ -66,7 +66,7 @@ FORWARD_HEADERS_ENABLED=true
 
 That allows `Casko.DefaultsForUmbraco.Common` to register and apply ASP.NET Core forwarded header middleware. This matters because Umbraco and ASP.NET Core authentication need to see the public host and scheme when generating redirects.
 
-Without forwarded headers, the backend can generate URLs for the internal destination, such as `https://localhost:64101`, instead of the public proxy host, such as `https://cm.dev.localhost`.
+Without forwarded headers, the backend can generate URLs for the internal destination, such as `https://localhost:64101`, instead of the public proxy host, such as `https://cm.dev.localhost:4443`.
 
 ## Umbraco host settings
 
@@ -79,10 +79,10 @@ That file sets the public Umbraco URLs:
   "Umbraco": {
     "CMS": {
       "Security": {
-        "BackOfficeHost": "https://cm.dev.localhost"
+        "BackOfficeHost": "https://cm.dev.localhost:4443"
       },
       "WebRouting": {
-        "UmbracoApplicationUrl": "https://cd.dev.localhost/"
+        "UmbracoApplicationUrl": "https://cd.dev.localhost:4443/"
       }
     }
   }
