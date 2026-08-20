@@ -13,6 +13,8 @@
         <PackageReference Include="Aspire.Hosting.Azure.Storage" />
         <PackageReference Include="Aspire.Hosting.SqlServer" />
         <ProjectReference Include="..\Casko.DefaultsForUmbraco.Functions.Test\Casko.DefaultsForUmbraco.Functions.Test.csproj" />
+        <ProjectReference Include="..\Casko.DefaultsForUmbraco.EmailQueue.Api\Casko.DefaultsForUmbraco.EmailQueue.Api.csproj" />
+        <ProjectReference Include="..\Casko.DefaultsForUmbraco.EmailQueue.Worker\Casko.DefaultsForUmbraco.EmailQueue.Worker.csproj" />
         <ProjectReference Include="..\Casko.DefaultsForUmbraco.Web.UI\Casko.DefaultsForUmbraco.Web.UI.csproj" />
         <ProjectReference Include="..\Casko.DefaultsForUmbraco.Yarp\Casko.DefaultsForUmbraco.Yarp.csproj" />
     </ItemGroup>
