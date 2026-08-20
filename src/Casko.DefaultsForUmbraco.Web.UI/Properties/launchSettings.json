@@ -39,7 +39,7 @@
         "NemLogin3__PublicBaseUrl": "https://cm.dev.localhost:4443",
         "Saml2__Issuer": "https://cm.dev.localhost:4443",
         "Umbraco__CMS__Security__BackOfficeHost": "https://cm.dev.localhost:4443",
-        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://cd.dev.localhost:4443/"
+        "Umbraco__CMS__WebRouting__UmbracoApplicationUrl": "https://cm.dev.localhost:4443/"
       }
     },
     "Umbraco.Web.UI.Subscriber": {
