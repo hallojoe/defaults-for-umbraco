@@ -1,8 +1,10 @@
 using Casko.DefaultsForUmbraco.Web;
 using Casko.DefaultsForUmbraco.Web.Configuration;
 using Casko.DefaultsForUmbraco.Web.Http;
+using Casko.DefaultsForUmbraco.Web.OpenTelemetry;
 //using Casko.RobotsTxtForUmbraco.Delivery.Configuration;
 using Azure.Storage.Blobs;
+using Umbraco.Cms.Core.Sync;
 
 //using Casko.NemLogin3ForUmbraco.Configuration;
 
@@ -15,6 +17,7 @@ webApplicationBuilder.Configuration
     .AddJsonFile("appsettings.Development.Email.json", optional: true, reloadOnChange: true);
 
 webApplicationBuilder.AddSpecializedEnvironment();
+webApplicationBuilder.AddOpenTelemetry();
 
 var blobsConnectionString = webApplicationBuilder.Configuration.GetConnectionString("blobs");
 if (!string.IsNullOrWhiteSpace(blobsConnectionString))
@@ -95,6 +98,17 @@ if (webApplicationBuilder.Environment.IsDevelopment())
 
 await webApplication.BootUmbracoAsync();
 
+var assignedServerRole = webApplication.Services
+    .GetRequiredService<IServerRoleAccessor>()
+    .CurrentServerRole;
+
+webApplication.Logger.LogInformation("Server role is {umbracoServerRole}", assignedServerRole);
+
+if (webApplication.Environment.IsDevelopment())
+{
+    webApplication.Logger.LogInformation("ASP.NET temp folder : {aspNetTempFolder}", Path.GetTempPath());
+}
+
 webApplication
     .UseUmbraco()
     .WithMiddleware(u =>
@@ -115,12 +129,23 @@ webApplication
     });
 
 
-webApplication.MapGet("/ping", () => Results.Ok(new
+webApplication.MapGet("/ping", (ILoggerFactory loggerFactory, IServerRoleAccessor umbracoServerRoleAccessor) =>
 {
-    Status = "OK",
-    Environment = webApplication.Environment.EnvironmentName,
-    ServerRole = umbracoServerRole,
-    Timestamp = DateTimeOffset.UtcNow
-}));
+    loggerFactory
+        .CreateLogger("Casko.DefaultsForUmbraco.Web.UI.Ping")
+        .LogInformation(
+            "Ping request received for server role {ServerRole} in environment {Environment}",
+            umbracoServerRole,
+            webApplication.Environment.EnvironmentName);
+
+    return Results.Ok(new
+    {
+        Status = "OK",
+        Environment = webApplication.Environment.EnvironmentName,
+        ClaimedServerRole = umbracoServerRole,
+        AssignedServerRole = umbracoServerRoleAccessor.CurrentServerRole.ToString(),
+        Timestamp = DateTimeOffset.UtcNow
+    });
+});
 
 await webApplication.RunAsync();
