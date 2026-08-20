@@ -23,6 +23,22 @@ var serviceBus = builder
     .AddAzureServiceBus("servicebus")
     .RunAsEmulator();
 
+builder
+    .CreateResourceBuilder(builder.Resources.OfType<ContainerResource>().Single(resource => resource.Name == "servicebus-mssql"))
+    .WithImage("azure-sql-edge")
+    .WithImageRegistry("mcr.microsoft.com");
+
+var outboundEmail = serviceBus
+    .AddServiceBusQueue("outbound-email")
+    .WithProperties(queue =>
+    {
+        queue.MaxDeliveryCount = 5;
+        queue.LockDuration = TimeSpan.FromMinutes(5);
+        // The local Service Bus emulator supports a maximum default TTL of one hour.
+        queue.DefaultMessageTimeToLive = TimeSpan.FromHours(1);
+        queue.DeadLetteringOnMessageExpiration = true;
+    });
+
 var storage = builder
     .AddAzureStorage("storage")
     .RunAsEmulator(emulator => emulator
@@ -36,6 +52,27 @@ var mailpit = builder
     .AddContainer("mailpit", "axllent/mailpit")
     .WithEndpoint(targetPort: 1025, name: "smtp")
     .WithHttpEndpoint(targetPort: 8025, name: "ui");
+
+var emailApi = builder
+    .AddProject<Projects.Casko_DefaultsForUmbraco_EmailQueue_Api>("email-queue-api")
+    .WithHttpEndpoint(name: "http")
+    .WithReference(blobs)
+    .WithReference(serviceBus)
+    .WaitFor(blobs)
+    .WaitFor(outboundEmail);
+
+builder
+    .AddProject<Projects.Casko_DefaultsForUmbraco_EmailQueue_Worker>("email-queue-worker")
+    .WithReference(blobs)
+    .WithReference(serviceBus)
+    .WithReference(mailpit.GetEndpoint("smtp"))
+    .WithEnvironment("Smtp__From", "noreply@example.local")
+    .WithEnvironment("Smtp__Host", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Host))
+    .WithEnvironment("Smtp__Port", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Port))
+    .WithEnvironment("Smtp__UseStartTls", "false")
+    .WaitFor(blobs)
+    .WaitFor(outboundEmail)
+    .WaitFor(mailpit);
 
 builder
     .AddAzureFunctionsProject<Projects.Casko_DefaultsForUmbraco_Functions_Test>("functions-test")

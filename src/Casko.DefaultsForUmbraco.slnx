@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="Casko.DefaultsForUmbraco.Aspire/Casko.DefaultsForUmbraco.Aspire.csproj" />
+  <Project Path="Casko.DefaultsForUmbraco.EmailQueue.Api/Casko.DefaultsForUmbraco.EmailQueue.Api.csproj" />
+  <Project Path="Casko.DefaultsForUmbraco.EmailQueue.Worker/Casko.DefaultsForUmbraco.EmailQueue.Worker.csproj" />
   <Project Path="Casko.DefaultsForUmbraco.Functions.Test/Casko.DefaultsForUmbraco.Functions.Test.csproj" />
   <Project Path="Casko.DefaultsForUmbraco.Search/Casko.DefaultsForUmbraco.Search.csproj" />
   <Project Path="Casko.DefaultsForUmbraco.Web.UI/Casko.DefaultsForUmbraco.Web.UI.csproj" />

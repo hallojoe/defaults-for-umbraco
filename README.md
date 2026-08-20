@@ -38,7 +38,11 @@ flowchart LR
 
     Functions[Test function] --> Storage
 
-    ServiceBus[Local Service Bus emulator]
+    EmailApi[Demo email API] --> Storage
+    EmailApi --> ServiceBus[Local Service Bus emulator]
+    EmailWorker[Demo email worker] --> ServiceBus
+    EmailWorker --> Storage
+    EmailWorker --> Mailpit
 ```
 
 Aspire coordinates these parts and provides a dashboard where each service can be inspected while the system is running.
@@ -71,7 +75,31 @@ Mailpit captures emails sent by the application. Instead of delivering messages 
 
 ### Local Service Bus emulator
 
-Aspire runs an Azure Service Bus emulator locally for future messaging work. It has no queues, topics, subscriptions, or application consumers yet, so CM, CD, and the test function receive no Service Bus connection settings.
+Aspire runs an Azure Service Bus emulator locally. The `outbound-email` queue is currently used only by the demo email API and worker; CM, CD, and the test function receive no Service Bus connection settings.
+
+### Demo email sender
+
+The email demo consists of an anonymous local API and a separate worker. `POST /emails` stores the plain-text payload in Azurite, then sends a compact `EmailRequested` message to `outbound-email`. The worker reads the payload and delivers it to Mailpit using SMTP.
+
+After starting the AppHost, use the `email-queue-api` endpoint shown in the Aspire dashboard:
+
+```powershell
+$emailApi = "https://localhost:<email-queue-api-port>"
+
+Invoke-RestMethod "$emailApi/emails" -Method Post -ContentType "application/json" -Body @'
+{
+  "to": "recipient@example.local",
+  "subject": "Aspire email demo",
+  "body": "This message was queued through Azurite and Service Bus."
+}
+'@
+```
+
+The API returns `202 Accepted` and an `emailId`. Open Mailpit through its `ui` endpoint in the Aspire dashboard to inspect the delivered message.
+
+The worker receives up to 50 messages at a time, waits up to five seconds for a batch, and sends at most eight emails concurrently. It abandons transient storage, Service Bus, and SMTP errors for retry. Malformed messages, missing payload blobs, and SMTP 5xx responses are dead-lettered; the queue allows five delivery attempts and dead-letters expired messages. The local emulator limits the default TTL to one hour. A dead-letter reprocessor is intentionally not included.
+
+Delivery receipts in blob storage suppress normal redelivery of the same `emailId`. SMTP and blob storage do not share an atomic transaction, so a process crash between SMTP delivery and receipt storage can still result in an at-least-once delivery edge case.
 
 ### Test function
 
