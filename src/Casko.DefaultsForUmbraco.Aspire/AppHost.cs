@@ -14,8 +14,8 @@ if (sqlOnly)
     return;
 }
 
-//var databaseName = "defaults-for-umbraco-v3-db";
-var databaseName = "sst-local-database";
+var databaseName = "defaults-for-umbraco-v3-db";
+//var databaseName = "sst-local-database";
 var umbracoDb = sql
     .AddDatabase("umbracoDbDSN", databaseName)
     .WithCreationScript(GetUmbracoDatabaseCreationScript(databaseName));
