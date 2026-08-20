@@ -26,6 +26,7 @@ flowchart TD
 | `src/Casko.DefaultsForUmbraco.Web.UI` | Runnable Umbraco site used to validate the defaults locally. |
 | `src/Casko.DefaultsForUmbraco.Yarp` | Local YARP reverse proxy for friendly hostnames and split-role development. |
 | `src/Casko.DefaultsForUmbraco.Aspire` | Aspire AppHost that runs SQL Edge, CM, CD, and YARP together. |
+| `src/Casko.DefaultsForUmbraco.Functions.Test` | Local Azure Functions test project, hosted by Aspire. |
 
 The solution file is:
 
@@ -37,12 +38,19 @@ src/Casko.DefaultsForUmbraco.slnx
 
 - .NET 10 SDK
 - Docker Desktop (for the Aspire-managed Azure SQL Edge container)
+- Azure Functions Core Tools v4 or later (for the Aspire-hosted test function)
 - A trusted ASP.NET Core HTTPS development certificate
 
 Trust the development certificate once per machine:
 
 ```powershell
 dotnet dev-certs https --trust
+```
+
+Verify the Azure Functions tools are available:
+
+```powershell
+func --version
 ```
 
 ## Build
@@ -73,6 +81,13 @@ Run the split-role setup when you want to test backoffice and delivery behavior 
 
 ```powershell
 dotnet run --project src/Casko.DefaultsForUmbraco.Aspire
+```
+
+The Aspire dashboard also starts `Casko.DefaultsForUmbraco.Functions.Test`. Use its endpoint to call the local test function:
+
+```text
+GET /api/echo
+GET /api/echo?name=Codex
 ```
 
 Aspire starts Azure SQL Edge on `localhost:11433`, creates `defaults-for-umbraco-db` when needed, and persists it in the Docker volume `defaults-for-umbraco-sql-data`. CM, CD, and YARP receive Aspire-provided connection strings, so this topology never uses the split-profile SQL Server on `localhost:1434`.
