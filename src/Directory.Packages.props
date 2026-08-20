@@ -65,9 +65,11 @@
 
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
     <PackageVersion Include="Aspire.Hosting.Azure.Functions" Version="13.5.0" />
+    <PackageVersion Include="Aspire.Hosting.Azure.Redis" Version="13.5.0" />
     <PackageVersion Include="Aspire.Hosting.Azure.ServiceBus" Version="13.5.0" />
     <PackageVersion Include="Aspire.Hosting.Azure.Storage" Version="13.5.0" />
     <PackageVersion Include="Aspire.Hosting.SqlServer" Version="13.5.0" />
+    <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="13.4.6" />
 
     <PackageVersion Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
     <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.1" />

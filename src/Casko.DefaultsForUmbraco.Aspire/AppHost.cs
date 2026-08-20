@@ -14,6 +14,12 @@ if (sqlOnly)
     return;
 }
 
+var distributedCacheProvider = GetDistributedCacheProvider();
+
+var cache = builder
+    .AddAzureManagedRedis("cache")
+    .RunAsContainer();
+
 var databaseName = "defaults-for-umbraco-v3-db";
 var umbracoDb = sql
     .AddDatabase("umbracoDbDSN", databaseName)
@@ -99,8 +105,7 @@ var cm = builder
     .WithEnvironment("Umbraco__CMS__Global__Smtp__DeliveryMethod", "Network")
     .WithEnvironment("Umbraco__CMS__Global__Smtp__Username", string.Empty)
     .WithEnvironment("Umbraco__CMS__Global__Smtp__Password", string.Empty)
-    .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
-    .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
+    .WithEnvironment("CASKO_DISTRIBUTED_CACHE_PROVIDER", distributedCacheProvider)
     .WaitFor(umbracoDb)
     .WaitFor(storage);
 
@@ -124,9 +129,20 @@ var cd = builder
     .WithEnvironment("Umbraco__CMS__Global__Smtp__DeliveryMethod", "Network")
     .WithEnvironment("Umbraco__CMS__Global__Smtp__Username", string.Empty)
     .WithEnvironment("Umbraco__CMS__Global__Smtp__Password", string.Empty)
-    .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
+    .WithEnvironment("CASKO_DISTRIBUTED_CACHE_PROVIDER", distributedCacheProvider)
     .WaitFor(umbracoDb)
     .WaitFor(storage);
+
+if (distributedCacheProvider == "redis")
+{
+    cm.WithReference(cache).WaitFor(cache);
+    cd.WithReference(cache).WaitFor(cache);
+}
+else
+{
+    cm.WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb);
+    cd.WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb);
+}
 
 builder
     .AddProject<Projects.Casko_DefaultsForUmbraco_Yarp>(
@@ -149,6 +165,19 @@ static bool IsEnabled(string environmentVariableName)
     var value = Environment.GetEnvironmentVariable(environmentVariableName);
 
     return bool.TryParse(value, out var enabled) && enabled;
+}
+
+static string GetDistributedCacheProvider()
+{
+    var provider = Environment.GetEnvironmentVariable("CASKO_DISTRIBUTED_CACHE_PROVIDER")?.Trim().ToLowerInvariant() ?? "redis";
+
+    return provider switch
+    {
+        "redis" => provider,
+        "sql" => provider,
+        _ => throw new InvalidOperationException(
+            "CASKO_DISTRIBUTED_CACHE_PROVIDER must be either 'sql' or 'redis'.")
+    };
 }
 
 static string GetUmbracoDatabaseCreationScript(string databaseName) =>
