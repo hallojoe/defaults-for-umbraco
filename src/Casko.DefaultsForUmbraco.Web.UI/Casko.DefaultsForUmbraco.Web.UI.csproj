@@ -15,8 +15,8 @@
     <PackageReference Include="Umbraco.StorageProviders.AzureBlob.ImageSharp" />
     <PackageReference Include="uSync" />
     <PackageReference Include="Casko.XmlSitemapsForUmbraco" />
-<!--    <PackageReference Include="Casko.RobotsTxtForUmbraco" />-->
-<!--    <PackageReference Include="Casko.HttpHeadersForUmbraco" />-->
+    <PackageReference Include="Casko.RobotsTxtForUmbraco" />
+<PackageReference Include="Casko.HttpHeadersForUmbraco" />
 <!--      <PackageReference Include="Casko.Nemlogin3ForUmbraco" />-->
   </ItemGroup>
   
@@ -36,6 +36,18 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="headers.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <DependentUpon>headers.http</DependentUpon>
+    </None>
+    <None Update="robots.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>robots.txt</DependentUpon>
+    </None>
   </ItemGroup>
     
   <PropertyGroup>

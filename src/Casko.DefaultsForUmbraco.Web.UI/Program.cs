@@ -16,6 +16,12 @@ webApplicationBuilder.Configuration
 webApplicationBuilder.Configuration
     .AddJsonFile("appsettings.Development.Email.json", optional: true, reloadOnChange: true);
 
+if (webApplicationBuilder.Environment.IsDevelopment())
+{
+    webApplicationBuilder.Configuration
+        .AddJsonFile("appsettings.Development.HttpHeadersForUmbraco.json", optional: false, reloadOnChange: true);
+}
+
 webApplicationBuilder.AddSpecializedEnvironment();
 webApplicationBuilder.AddOpenTelemetry();
 
