@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /.well-known
+Disallow: /.well-known/
+Disallow: /login
+Disallow: /login/
+Disallow: /assets/
+Disallow: /css/
+Disallow: /scripts/
+Disallow: /404
+Disallow: /404/

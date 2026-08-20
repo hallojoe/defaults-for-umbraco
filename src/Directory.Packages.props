@@ -30,6 +30,7 @@
     <PackageVersion Include="Umbraco.Cms.Tests.Integration" Version="17.6.2" />
     <PackageVersion Include="Umbraco.StorageProviders.AzureBlob" Version="17.1.0" />
     <PackageVersion Include="Umbraco.StorageProviders.AzureBlob.ImageSharp" Version="17.1.0" />
+    <PackageVersion Include="Azure.Storage.Blobs" Version="12.29.1" />
     <PackageVersion Include="Umbraco.Cms.Search.Core" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.BackOffice" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.DeliveryApi" Version="17.1.0" />
@@ -49,7 +50,7 @@
     <PackageVersion Include="uSync" Version="17.3.6" />
 
     <PackageVersion Include="Casko.HttpHeadersForUmbraco" Version="1.0.3-pre" />
-    <PackageVersion Include="Casko.XmlSitemapsForUmbraco" Version="2.3.4-pre" />
+    <PackageVersion Include="Casko.XmlSitemapsForUmbraco" Version="2.3.5-pre" />
     <PackageVersion Include="Casko.RobotsTxtForUmbraco" Version="1.0.1-pre" />
 
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />

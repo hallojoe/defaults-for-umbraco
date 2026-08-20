@@ -1,6 +1,9 @@
 using Casko.DefaultsForUmbraco.Web;
 using Casko.DefaultsForUmbraco.Web.Configuration;
 using Casko.DefaultsForUmbraco.Web.Http;
+//using Casko.RobotsTxtForUmbraco.Delivery.Configuration;
+using Azure.Storage.Blobs;
+
 //using Casko.NemLogin3ForUmbraco.Configuration;
 
 var webApplicationBuilder = WebApplication.CreateBuilder(args);
@@ -41,12 +44,12 @@ if (useNemLogin3ExternalLogin && webApplicationBuilder.Environment.IsDevelopment
         .AddJsonFile($"appsettings.Development.{umbracoServerRole}.NemLogin3.json", optional: true, reloadOnChange: true);
 }
 
-
 var umbracoBuilder = webApplicationBuilder.CreateUmbracoBuilder()
     .AddServerRole(umbracoServerRole!)
     .AddBackOffice()
     .AddWebsite()
     .AddDeliveryApi()
+    // .AddRobotsTxtDeliveryApi()
     .AddComposers()
     .AddAzureBlobMediaFileSystem()
     .AddAzureBlobImageSharpCache();
@@ -67,6 +70,20 @@ if (useNemLogin3ExternalLogin && webApplicationBuilder.Environment.IsDevelopment
 umbracoBuilder.Build();
 
 var webApplication = webApplicationBuilder.Build();
+
+// Aspire exposes the Azurite Blob service but does not create Umbraco's media
+// container. Provision it here so both CM and CD can safely start against a new
+// emulator; CreateIfNotExistsAsync is idempotent when they start concurrently.
+if (!string.IsNullOrWhiteSpace(blobsConnectionString))
+{
+    var mediaContainerName = webApplication.Configuration["Umbraco:Storage:AzureBlob:Media:ContainerName"];
+    ArgumentException.ThrowIfNullOrWhiteSpace(mediaContainerName);
+
+    var blobServiceClient = new BlobServiceClient(blobsConnectionString);
+    await blobServiceClient
+        .GetBlobContainerClient(mediaContainerName)
+        .CreateIfNotExistsAsync();
+}
 
 if (webApplicationBuilder.Environment.IsDevelopment())
 {

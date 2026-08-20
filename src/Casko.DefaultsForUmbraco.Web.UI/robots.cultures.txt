@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /en/404
+Disallow: /en/404/
+Disallow: /pl/404
+Disallow: /pl/404/
+Disallow: /soeg
+Disallow: /soeg/
+Disallow: /en/search
+Disallow: /en/search/
+Disallow: /pl/pols
+Disallow: /pl/pols/

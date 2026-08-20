@@ -21,7 +21,8 @@ var umbracoDb = sql
 
 var storage = builder
     .AddAzureStorage("storage")
-    .RunAsEmulator();
+    .RunAsEmulator(emulator => emulator
+        .WithDataVolume("defaults-for-umbraco-azurite-data"));
 
 var blobs = storage.AddBlobs("blobs");
 var queues = storage.AddQueues("queues");

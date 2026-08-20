@@ -363,3 +363,9 @@ MigrationBackup/
 
 # MacOS
 .DS_Store
+
+# Azurite local emulator state
+__azurite_db*.json
+__blobstorage__
+__queuestorage__
+__tablestorage__
