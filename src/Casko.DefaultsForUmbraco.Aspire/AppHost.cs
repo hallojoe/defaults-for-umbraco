@@ -34,6 +34,11 @@ var mailpit = builder
     .WithEndpoint(targetPort: 1025, name: "smtp")
     .WithHttpEndpoint(targetPort: 8025, name: "ui");
 
+builder
+    .AddAzureFunctionsProject<Projects.Casko_DefaultsForUmbraco_Functions_Test>("functions-test")
+    .WithHostStorage(storage)
+    .WaitFor(storage);
+
 var cm = builder
     .AddProject<Projects.Casko_DefaultsForUmbraco_Web_UI>(
         "cm",
