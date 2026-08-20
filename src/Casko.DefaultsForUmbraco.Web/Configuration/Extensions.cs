@@ -24,18 +24,34 @@ public static class ConfigurationExtensions
             return builder;
         }
 
-        var distributedCacheDbDsn =
-            builder.Configuration.GetConnectionString("distributedCacheDbDSN");
+        var provider = builder.Configuration["CASKO_DISTRIBUTED_CACHE_PROVIDER"]?.Trim().ToLowerInvariant() ?? "sql";
 
-        if (!string.IsNullOrWhiteSpace(distributedCacheDbDsn))
+        switch (provider)
         {
-            builder.Services.AddHybridCache();
-            builder.Services.AddDistributedSqlServerCache(options =>
-            {
-                options.ConnectionString = distributedCacheDbDsn;
-                options.SchemaName = "dbo";
-                options.TableName = "DistributedCache";
-            });
+            case "redis":
+                builder.Services.AddHybridCache();
+                builder.AddRedisDistributedCache("cache");
+                break;
+
+            case "sql":
+                var distributedCacheDbDsn = builder.Configuration.GetConnectionString("distributedCacheDbDSN");
+
+                if (!string.IsNullOrWhiteSpace(distributedCacheDbDsn))
+                {
+                    builder.Services.AddHybridCache();
+                    builder.Services.AddDistributedSqlServerCache(options =>
+                    {
+                        options.ConnectionString = distributedCacheDbDsn;
+                        options.SchemaName = "dbo";
+                        options.TableName = "DistributedCache";
+                    });
+                }
+
+                break;
+
+            default:
+                throw new InvalidOperationException(
+                    "CASKO_DISTRIBUTED_CACHE_PROVIDER must be either 'sql' or 'redis'.");
         }
 
         return builder;

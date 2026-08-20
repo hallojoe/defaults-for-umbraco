@@ -31,6 +31,8 @@ flowchart LR
 
     CM --> SQL[(Database)]
     CD --> SQL
+    CM --> Redis[(Redis cache)]
+    CD --> Redis
     CM --> Storage[Media and shared storage]
     CD --> Storage
     CM --> Mailpit[Local email inbox]
@@ -76,6 +78,12 @@ Mailpit captures emails sent by the application. Instead of delivering messages 
 ### Local Service Bus emulator
 
 Aspire runs an Azure Service Bus emulator locally. The `outbound-email` queue is currently used only by the demo email API and worker; CM, CD, and the test function receive no Service Bus connection settings.
+
+### Local Redis cache
+
+Aspire runs Azure Managed Redis as a local Redis container. CM and CD use Redis for their distributed cache by default; only the selected cache connection is supplied to each site.
+
+Set `CASKO_DISTRIBUTED_CACHE_PROVIDER=sql` before starting the AppHost to use the existing SQL-backed cache instead. This keeps `distributedCacheDbDSN` available as a fallback while allowing local Redis testing without changing application code.
 
 ### Demo email sender
 

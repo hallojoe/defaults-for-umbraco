@@ -11,6 +11,7 @@
     </ItemGroup>
     
     <ItemGroup>
+        <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" />
         <PackageReference Include="Microsoft.AspNetCore.HttpOverrides" />
         <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />
         <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" />
