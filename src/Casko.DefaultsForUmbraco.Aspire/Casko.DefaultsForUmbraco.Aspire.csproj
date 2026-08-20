@@ -9,6 +9,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Aspire.Hosting.Azure.Functions" />
+        <PackageReference Include="Aspire.Hosting.Azure.ServiceBus" />
         <PackageReference Include="Aspire.Hosting.Azure.Storage" />
         <PackageReference Include="Aspire.Hosting.SqlServer" />
         <ProjectReference Include="..\Casko.DefaultsForUmbraco.Functions.Test\Casko.DefaultsForUmbraco.Functions.Test.csproj" />

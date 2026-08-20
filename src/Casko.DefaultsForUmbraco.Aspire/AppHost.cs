@@ -19,6 +19,10 @@ var umbracoDb = sql
     .AddDatabase("umbracoDbDSN", databaseName)
     .WithCreationScript(GetUmbracoDatabaseCreationScript(databaseName));
 
+var serviceBus = builder
+    .AddAzureServiceBus("servicebus")
+    .RunAsEmulator();
+
 var storage = builder
     .AddAzureStorage("storage")
     .RunAsEmulator(emulator => emulator
