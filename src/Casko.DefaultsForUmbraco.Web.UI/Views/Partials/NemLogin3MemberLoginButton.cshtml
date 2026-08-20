@@ -1,0 +1,32 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@using Umbraco.Cms.Web.Common.Models
+@using Umbraco.Cms.Web.Common.Security
+@using Umbraco.Cms.Web.Website.Controllers
+@inject IMemberExternalLoginProviders MemberExternalLoginProviders
+
+@{
+    var isLoggedIn = Context.User?.Identity?.IsAuthenticated ?? false;
+    var loginProviders = await MemberExternalLoginProviders.GetMemberProvidersAsync();
+    var externalSignInError = ViewData.GetExternalSignInProviderErrors();
+    var logoutModel = new PostRedirectModel();
+}
+
+@if (isLoggedIn)
+{
+<span>ddd</span>
+}
+else if (loginProviders.Any())
+{
+
+    foreach (var login in loginProviders)
+    {
+        @using (Html.BeginUmbracoForm<UmbExternalLoginController>(nameof(UmbExternalLoginController.ExternalLogin)))
+        {
+            <button type="submit" name="provider" value="@login.ExternalLoginProvider.AuthenticationType" class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
+                Sign in with @login.AuthenticationScheme.DisplayName
+            </button>
+        }
+    }
+
+}
