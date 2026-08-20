@@ -11,6 +11,9 @@ var webApplicationBuilder = WebApplication.CreateBuilder(args);
 webApplicationBuilder.Configuration
     .AddJsonFile("appsettings.XmlSitemapsForUmbraco.json", optional: true, reloadOnChange: true);
 
+webApplicationBuilder.Configuration
+    .AddJsonFile("appsettings.Development.Email.json", optional: true, reloadOnChange: true);
+
 webApplicationBuilder.AddSpecializedEnvironment();
 
 var blobsConnectionString = webApplicationBuilder.Configuration.GetConnectionString("blobs");

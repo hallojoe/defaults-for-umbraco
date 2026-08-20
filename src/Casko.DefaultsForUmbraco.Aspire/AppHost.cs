@@ -29,6 +29,11 @@ var blobs = storage.AddBlobs("blobs");
 var queues = storage.AddQueues("queues");
 var tables = storage.AddTables("tables");
 
+var mailpit = builder
+    .AddContainer("mailpit", "axllent/mailpit")
+    .WithEndpoint(targetPort: 1025, name: "smtp")
+    .WithHttpEndpoint(targetPort: 8025, name: "ui");
+
 var cm = builder
     .AddProject<Projects.Casko_DefaultsForUmbraco_Web_UI>(
         "cm",
@@ -41,6 +46,14 @@ var cm = builder
     .WithReference(blobs)
     .WithReference(queues)
     .WithReference(tables)
+    .WithReference(mailpit.GetEndpoint("smtp"))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__From", "noreply@example.local")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Host", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Host))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Port", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Port))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__SecureSocketOptions", "None")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__DeliveryMethod", "Network")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Username", string.Empty)
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Password", string.Empty)
     .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
     .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
     .WaitFor(umbracoDb)
@@ -58,6 +71,14 @@ var cd = builder
     .WithReference(blobs)
     .WithReference(queues)
     .WithReference(tables)
+    .WithReference(mailpit.GetEndpoint("smtp"))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__From", "noreply@example.local")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Host", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Host))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Port", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Port))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__SecureSocketOptions", "None")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__DeliveryMethod", "Network")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Username", string.Empty)
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Password", string.Empty)
     .WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb)
     .WaitFor(umbracoDb)
     .WaitFor(storage);
