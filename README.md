@@ -37,6 +37,8 @@ flowchart LR
     CD --> Mailpit
 
     Functions[Test function] --> Storage
+
+    ServiceBus[Local Service Bus emulator]
 ```
 
 Aspire coordinates these parts and provides a dashboard where each service can be inspected while the system is running.
@@ -66,6 +68,10 @@ Storage holds media files and the supporting shared data needed by the applicati
 ### Local email inbox
 
 Mailpit captures emails sent by the application. Instead of delivering messages to real recipients, it provides a safe inbox where emails can be inspected in a browser.
+
+### Local Service Bus emulator
+
+Aspire runs an Azure Service Bus emulator locally for future messaging work. It has no queues, topics, subscriptions, or application consumers yet, so CM, CD, and the test function receive no Service Bus connection settings.
 
 ### Test function
 
