@@ -76,3 +76,5 @@ The test function is a small HTTP service included to demonstrate that Azure Fun
 Aspire defines the relationships between services rather than leaving each service to be configured in isolation. It supplies connection details at runtime, manages the local supporting services, and shows service health, logs, endpoints, and traces in its dashboard.
 
 This keeps the system focused on the same shape it needs in a real environment: separate editing and delivery responsibilities, shared data services, safe email handling, and independently runnable background capabilities.
+
+When the website runs through Aspire, its structured logs, HTTP traces, and runtime metrics are also available in the dashboard. Umbraco's normal log files continue to be written separately.
