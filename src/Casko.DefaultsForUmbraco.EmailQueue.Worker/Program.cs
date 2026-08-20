@@ -6,8 +6,38 @@ using Casko.DefaultsForUmbraco.EmailQueue.Worker.Infrastructure.Smtp;
 using Casko.DefaultsForUmbraco.EmailQueue.Worker.Models;
 using Casko.DefaultsForUmbraco.EmailQueue.Worker.Services;
 using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 
 var builder = Host.CreateApplicationBuilder(args);
+
+var hasOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+if (hasOtlpExporter)
+{
+    builder.Logging.AddOpenTelemetry(logging =>
+    {
+        logging.IncludeFormattedMessage = true;
+        logging.IncludeScopes = true;
+        logging.ParseStateValues = true;
+        logging.AddOtlpExporter();
+    });
+}
+
+var telemetry = builder.Services.AddOpenTelemetry()
+    .WithMetrics(metrics => metrics
+        .AddHttpClientInstrumentation()
+        .AddRuntimeInstrumentation())
+    .WithTracing(tracing => tracing
+        .AddHttpClientInstrumentation()
+        .AddSource("Azure.Core.Http", "Azure.Messaging.ServiceBus"));
+
+if (hasOtlpExporter)
+{
+    telemetry
+        .WithMetrics(metrics => metrics.AddOtlpExporter())
+        .WithTracing(tracing => tracing.AddOtlpExporter());
+}
 
 builder.Services.AddOptions<EmailQueueOptions>()
     .BindConfiguration(EmailQueueOptions.SectionName)
