@@ -107,6 +107,8 @@ var cm = builder
     .WithReference(blobs)
     .WithReference(queues)
     .WithReference(tables)
+    .WithReference(openai)
+    .WithEnvironment("Umbraco__AI__OpenAI__ApiKey", openai.Resource.Key)
     .WithReference(mailpit.GetEndpoint("smtp"))
     .WithEnvironment("Umbraco__CMS__Global__Smtp__From", "noreply@example.local")
     .WithEnvironment("Umbraco__CMS__Global__Smtp__Host", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Host))

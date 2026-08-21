@@ -23,7 +23,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchUrl": "https://cm.dev.localhost:4443/umbraco/",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "applicationUrl": "https://localhost:64101;http://localhost:54101",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -46,7 +46,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchUrl": "https://cd.dev.localhost:4443/",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "applicationUrl": "https://localhost:44101;https://localhost:44102;https://localhost:44103;http://localhost:34101",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
