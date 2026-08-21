@@ -1,11 +1,9 @@
 using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
 using Casko.DefaultsForUmbraco.EmailQueue.Worker.Infrastructure.BlobStorage;
-using Casko.DefaultsForUmbraco.EmailQueue.Worker.Infrastructure.ServiceBus;
 using Casko.DefaultsForUmbraco.EmailQueue.Worker.Infrastructure.Smtp;
 using Casko.DefaultsForUmbraco.EmailQueue.Worker.Models;
 using Casko.DefaultsForUmbraco.EmailQueue.Worker.Services;
-using Microsoft.Extensions.Hosting;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;

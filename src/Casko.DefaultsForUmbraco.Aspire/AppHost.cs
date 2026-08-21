@@ -1,4 +1,10 @@
 var builder = DistributedApplication.CreateBuilder(args);
+
+var openai = builder.AddOpenAI("openai");
+var chat = openai.AddModel("chat", "gpt-4o-mini");
+var embeddings = openai.AddModel("embeddings", "text-embedding-3-small");
+
+
 var sqlOnly = IsEnabled("CASKO_APPHOST_SQL_ONLY");
 
 var sql = builder
@@ -6,7 +12,8 @@ var sql = builder
     .WithImage("azure-sql-edge")
     .WithImageRegistry("mcr.microsoft.com")
     .WithDataVolume("defaults-for-umbraco-sql-data")
-    .WithHostPort(11433);
+    .WithHostPort(11433)
+    .WithDbGate();
 
 if (sqlOnly)
 {
@@ -18,7 +25,10 @@ var distributedCacheProvider = GetDistributedCacheProvider();
 
 var cache = builder
     .AddAzureManagedRedis("cache")
-    .RunAsContainer();
+    .RunAsContainer(redis =>
+    {
+        redis.WithRedisInsight();
+    });
 
 var databaseName = "defaults-for-umbraco-v3-db";
 var umbracoDb = sql
