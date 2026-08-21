@@ -46,8 +46,8 @@
     <PackageVersion Include="Umbraco.Cms.Search.DeliveryApi" Version="17.1.0" />
     <PackageVersion Include="Umbraco.Cms.Search.Provider.Examine" Version="17.1.0-beta.1" />
     <PackageVersion Include="Umbraco.Automate" Version="17.2.0" />
-    <PackageVersion Include="Umbraco.AI" Version="17.1.1" />
-    <PackageVersion Include="Umbraco.AI.Core" Version="17.1.1" />
+    <PackageVersion Include="Umbraco.AI" Version="17.3.1" />
+    <PackageVersion Include="Umbraco.AI.Core" Version="17.3.1" />
     <PackageVersion Include="Umbraco.AI.Agent" Version="17.1.4" />
     <PackageVersion Include="Umbraco.AI.Agent.Copilot" Version="17.0.4" />
     <PackageVersion Include="Umbraco.AI.Prompt" Version="17.2.3" />
