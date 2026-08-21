@@ -11,8 +11,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" />
-        <PackageReference Include="Microsoft.AspNetCore.HttpOverrides" />
+
         <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" />
         <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" />
         <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
@@ -21,9 +20,28 @@
         <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
         <PackageReference Include="Serilog.Sinks.OpenTelemetry" />
-        
+
+        <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" />
+
+        <PackageReference Include="Azure.Storage.Blobs" />
+
+        <PackageReference Include="Umbraco.Automate" />
+        <PackageReference Include="Umbraco.Cms"/>
         <PackageReference Include="Umbraco.Cms.Core" />
         <PackageReference Include="Umbraco.Cms.Infrastructure" />
+        <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice"/>
+        <PackageReference Include="Umbraco.StorageProviders.AzureBlob" />
+        <PackageReference Include="Umbraco.StorageProviders.AzureBlob.ImageSharp" />
+        <PackageReference Include="uSync" />
+        <PackageReference Include="uSync.Command.Setup" />
+
+        <PackageReference Include="Casko.XmlSitemapsForUmbraco" />
+        <PackageReference Include="Casko.RobotsTxtForUmbraco" />
+        <PackageReference Include="Casko.HttpHeadersForUmbraco" />
+        <!--
+        <PackageReference Include="Casko.Nemlogin3ForUmbraco" />
+        -->
+
     </ItemGroup>
 
 </Project>
