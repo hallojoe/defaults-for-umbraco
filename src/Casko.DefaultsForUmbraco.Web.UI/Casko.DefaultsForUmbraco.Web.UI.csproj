@@ -8,19 +8,6 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <PackageReference Include="Azure.Storage.Blobs" />
-    <PackageReference Include="Umbraco.Automate" />
-    <PackageReference Include="Umbraco.Cms"/>
-    <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice"/>
-    <PackageReference Include="Umbraco.StorageProviders.AzureBlob" />
-    <PackageReference Include="Umbraco.StorageProviders.AzureBlob.ImageSharp" />
-    <PackageReference Include="uSync" />
-    <PackageReference Include="Casko.XmlSitemapsForUmbraco" />
-    <PackageReference Include="Casko.RobotsTxtForUmbraco" />
-    <PackageReference Include="Casko.HttpHeadersForUmbraco" />
-    <!--      
-    <PackageReference Include="Casko.Nemlogin3ForUmbraco" />
-    -->
   </ItemGroup>
   
   <ItemGroup>
