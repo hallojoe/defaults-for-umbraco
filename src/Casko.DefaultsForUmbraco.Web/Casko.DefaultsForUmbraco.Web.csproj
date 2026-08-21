@@ -43,5 +43,9 @@
         -->
 
     </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\Casko.DefaultsForUmbraco.Ai\Casko.DefaultsForUmbraco.Ai.csproj" />
+    </ItemGroup>
 
 </Project>
