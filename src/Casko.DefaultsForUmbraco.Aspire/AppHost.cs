@@ -191,8 +191,8 @@ builder
     .WithEnvironment(context =>
     {
         context.EnvironmentVariables["ReverseProxy__Clusters__cm__Destinations__default__Address"] = cm.GetEndpoint("https");
-        context.EnvironmentVariables["ReverseProxy__Clusters__cd__Destinations__subscriber-1__Address"] = cd.GetEndpoint("https");
-        context.EnvironmentVariables["ReverseProxy__Clusters__cd__Destinations__subscriber-2__Address"] = cdAlt.GetEndpoint("https");
+        context.EnvironmentVariables["ReverseProxy__Clusters__cd__Destinations__subscriber-1__Address"] = cd.GetEndpoint("http");
+        context.EnvironmentVariables["ReverseProxy__Clusters__cd__Destinations__subscriber-2__Address"] = cdAlt.GetEndpoint("http");
     })
     .WithReference(cm)
     .WithReference(cd)

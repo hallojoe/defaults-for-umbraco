@@ -1,32 +1,110 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using System.Text.RegularExpressions
+@using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @{
-	Layout = "mainTemplate.cshtml";
+    Layout = "mainTemplate.cshtml";
+
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var title = Model.Value<string>("title");
+    title = string.IsNullOrWhiteSpace(title) ? Model.Name(culture) : title;
+    var description = Model.Value<string>("description");
+    var content = Model.Value("content");
+    var isHomePage = Model.ContentType.Alias == "homePage";
+    var yearPattern = new Regex("^\\d{4}$", RegexOptions.CultureInvariant);
+    var latestNews = isHomePage
+        ? Model.DescendantsOfType("newsPage")
+            .Where(page => !yearPattern.IsMatch(page.Name(culture)) && !page.Children().Any(child => child.ContentType.Alias == "newsPage"))
+            .OrderByDescending(page => page.Value<DateTime?>("overrideCreateDate") ?? page.CreateDate)
+            .Take(3)
+        : Enumerable.Empty<Umbraco.Cms.Core.Models.PublishedContent.IPublishedContent>();
+    var events = isHomePage
+        ? Model.DescendantsOfType("eventPage")
+            .OrderByDescending(page => page.Value<DateTime?>("eventStartDate") ?? DateTime.MinValue)
+        : Enumerable.Empty<Umbraco.Cms.Core.Models.PublishedContent.IPublishedContent>();
 }
-<div class="container my-5">
-	<div class="p-5 text-center bg-body-tertiary rounded-3"> 
-		<svg class="bi mt-4 mb-3" style="color: var(--bs-indigo);" width="100" height="100" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg> 
-		<h1 class="text-body-emphasis">	@(Model.Value("title"))</h1> 
-	<div class="col-lg-8 mx-auto fs-5 text-muted">
+<div class="container py-5">
+    <article class="mx-auto" style="max-width: 52rem;">
+        <h1 class="display-5 mb-3">@title</h1>
+        @if (!string.IsNullOrWhiteSpace(description))
+        {
+            <p class="lead text-body-secondary">@description</p>
+        }
+        @if (content is not null)
+        {
+            <div class="mt-4">@content</div>
+        }
+    </article>
 
-	@(Model.Value("content"))
-</div>
-<div class="d-inline-flex gap-2 mb-5"> 
-	<button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
-Call to action
-<svg class="bi ms-2" width="24" height="24" aria-hidden="true"><use xlink:href="#arrow-right-short"></use></svg> </button> 
+    @if (isHomePage)
+    {
+        <section class="mt-5" aria-labelledby="latest-news-heading">
+            <h2 id="latest-news-heading" class="h3 mb-3">Latest news</h2>
+            @if (latestNews.Any())
+            {
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @foreach (var news in latestNews)
+                    {
+                        var newsTitle = news.Value<string>("title");
+                        newsTitle = string.IsNullOrWhiteSpace(newsTitle) ? news.Name(culture) : newsTitle;
+                        var newsDescription = news.Value<string>("description");
+                        var displayDate = news.Value<DateTime?>("overrideCreateDate") ?? news.CreateDate;
+                        <div class="col">
+                            <article class="card h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <p class="small text-body-secondary mb-2">@displayDate.ToString("d", System.Globalization.CultureInfo.CurrentCulture)</p>
+                                    <h3 class="h5 card-title">@newsTitle</h3>
+                                    @if (!string.IsNullOrWhiteSpace(newsDescription))
+                                    {
+                                        <p class="card-text text-body-secondary">@newsDescription</p>
+                                    }
+                                    <a class="stretched-link mt-auto" href="@news.Url(culture: culture)">Read news</a>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-body-secondary">No news is available.</p>
+            }
+        </section>
 
-<button class="btn btn-outline-secondary btn-lg px-4 rounded-pill" type="button">
-Secondary link
-</button> 
-
-        <partial name="NemLogin3MemberLoginButton" />
-
-
-</div> </div> 
-
-
-        <partial name="NemLogin3MemberLogin" />
-
-
+        <section class="mt-5" aria-labelledby="events-heading">
+            <h2 id="events-heading" class="h3 mb-3">Events</h2>
+            @if (events.Any())
+            {
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    @foreach (var eventPage in events)
+                    {
+                        var eventTitle = eventPage.Value<string>("title");
+                        eventTitle = string.IsNullOrWhiteSpace(eventTitle) ? eventPage.Name(culture) : eventTitle;
+                        var eventDescription = eventPage.Value<string>("description");
+                        var eventStart = eventPage.Value<DateTime?>("eventStartDate");
+                        var eventEnd = eventPage.Value<DateTime?>("eventEndDate");
+                        <div class="col">
+                            <article class="card h-100">
+                                <div class="card-body">
+                                    <h3 class="h5 card-title">@eventTitle</h3>
+                                    @if (eventStart.HasValue)
+                                    {
+                                        <p class="small text-body-secondary">@eventStart.Value.ToString("d", System.Globalization.CultureInfo.CurrentCulture)@if (eventEnd.HasValue) { <text> – @eventEnd.Value.ToString("d", System.Globalization.CultureInfo.CurrentCulture)</text> }</p>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(eventDescription))
+                                    {
+                                        <p class="card-text text-body-secondary">@eventDescription</p>
+                                    }
+                                    <a class="stretched-link" href="@eventPage.Url(culture: culture)">View event</a>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-body-secondary">No events are available.</p>
+            }
+        </section>
+    }
 </div>

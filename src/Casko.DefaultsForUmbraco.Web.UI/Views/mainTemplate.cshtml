@@ -1,23 +1,102 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using System.Globalization
+@using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @{
-	Layout = null;
+    Layout = null;
 
+    var culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
     var rawTitle = Model.Value<string>("title");
-    var title = string.IsNullOrWhiteSpace(rawTitle) ? Model.Name : rawTitle;
+    var title = string.IsNullOrWhiteSpace(rawTitle) ? Model.Name(culture) : rawTitle;
     var description = Model.Value<string>("description");
+    var root = Model.Root();
+    var primaryNavigation = root.Children()
+        .Where(page => page.IsVisible())
+        .OrderBy(page => page.SortOrder);
+    var availableCultures = new[] { "da", "en", "pl" }
+        .Where(language => Model.Cultures.ContainsKey(language));
 }
 <!doctype html>
-<html lang="@System.Threading.Thread.CurrentThread.CurrentCulture">
-  <head>
+<html lang="@culture" data-bs-theme="light">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@title</title>
-    @if(!string.IsNullOrWhiteSpace(description)) { <meta name="description" content="@description" /> }
+    @if (!string.IsNullOrWhiteSpace(description))
+    {
+        <meta name="description" content="@description" />
+    }
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  </head>
-  <body>
+    <script>
+        (() => {
+            const storedTheme = localStorage.getItem('theme');
+            const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-bs-theme', storedTheme || preferredTheme);
+        })();
+    </script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <div class="border-bottom bg-body-tertiary">
+            <div class="container py-2 d-flex flex-wrap justify-content-end align-items-center gap-2 small">
+                <nav aria-label="Service navigation" class="d-flex align-items-center gap-2">
+                    @foreach (var language in availableCultures)
+                    {
+                        var isCurrentCulture = string.Equals(language, culture, StringComparison.OrdinalIgnoreCase);
+                        <a class="link-body-emphasis text-decoration-none @(isCurrentCulture ? "fw-semibold" : string.Empty)" href="@Model.Url(culture: language)" hreflang="@language" lang="@language" aria-current="@(isCurrentCulture ? "true" : null)">@language.ToUpperInvariant()</a>
+                    }
+                </nav>
+                <span aria-hidden="true" class="text-body-secondary">|</span>
+                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary" type="button" aria-label="Toggle light and dark mode" aria-pressed="false">Theme</button>
+            </div>
+        </div>
+        <div class="border-bottom">
+            <div class="container py-3 d-flex flex-wrap align-items-center gap-3">
+                <a class="navbar-brand fw-semibold me-auto" href="@root.Url(culture: culture)">@root.Name(culture)</a>
+                <nav aria-label="Primary navigation">
+                    <ul class="nav gap-1">
+                        @foreach (var item in primaryNavigation)
+                        {
+                            var isActive = Model.AncestorsOrSelf().Any(ancestor => ancestor.Key == item.Key);
+                            <li class="nav-item">
+                                <a class="nav-link px-2 @(isActive ? "active fw-semibold" : string.Empty)" href="@item.Url(culture: culture)" aria-current="@(isActive ? "page" : null)">@item.Name(culture)</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow-1">
         @RenderBody()
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  </body>
+    </main>
+
+    <footer class="mt-auto border-top bg-body-tertiary">
+        <div class="container py-4 d-flex flex-wrap justify-content-between align-items-center gap-3 small">
+            <span class="text-body-secondary">&copy; @DateTime.UtcNow.Year @root.Name(culture)</span>
+            <nav aria-label="Footer navigation">
+                <ul class="nav gap-3">
+                    <li class="nav-item"><a class="link-secondary" href="#">Accessibility</a></li>
+                    <li class="nav-item"><a class="link-secondary" href="#">Privacy</a></li>
+                    <li class="nav-item"><a class="link-secondary" href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        (() => {
+            const toggle = document.getElementById('theme-toggle');
+            const setTheme = (theme) => {
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                localStorage.setItem('theme', theme);
+                toggle.setAttribute('aria-pressed', String(theme === 'dark'));
+                toggle.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+            };
+
+            setTheme(document.documentElement.getAttribute('data-bs-theme') || 'light');
+            toggle.addEventListener('click', () => setTheme(document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark'));
+        })();
+    </script>
+</body>
 </html>
