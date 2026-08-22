@@ -1,0 +1,82 @@
+@using System.Text.RegularExpressions
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "mainTemplate.cshtml";
+
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var yearPattern = new Regex("^\\d{4}$", RegexOptions.CultureInvariant);
+    var isYearArchive = yearPattern.IsMatch(Model.Name(culture));
+    var yearArchives = Model.Children()
+        .Where(page => page.ContentType.Alias == "newsPage" && yearPattern.IsMatch(page.Name(culture)))
+        .OrderByDescending(page => page.Name(culture));
+    var isArchiveLanding = !isYearArchive && yearArchives.Any();
+    var title = Model.Value<string>("title");
+    title = string.IsNullOrWhiteSpace(title) ? Model.Name(culture) : title;
+    var description = Model.Value<string>("description");
+    var content = Model.Value("content");
+    var articles = isYearArchive
+        ? Model.Children()
+            .Where(page => page.ContentType.Alias == "newsPage" && !yearPattern.IsMatch(page.Name(culture)))
+            .OrderByDescending(page => page.Value<DateTime?>("overrideCreateDate") ?? page.CreateDate)
+        : Enumerable.Empty<Umbraco.Cms.Core.Models.PublishedContent.IPublishedContent>();
+}
+<div class="container py-5">
+    <article class="mx-auto" style="max-width: 52rem;">
+        <h1 class="display-5 mb-3">@title</h1>
+        @if (!string.IsNullOrWhiteSpace(description))
+        {
+            <p class="lead text-body-secondary">@description</p>
+        }
+        @if (content is not null)
+        {
+            <div class="mt-4">@content</div>
+        }
+    </article>
+
+    @if (isArchiveLanding)
+    {
+        <section class="mx-auto mt-5" style="max-width: 52rem;" aria-labelledby="archive-years-heading">
+            <h2 id="archive-years-heading" class="h3 mb-3">Browse by year</h2>
+            <div class="list-group">
+                @foreach (var year in yearArchives)
+                {
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="@year.Url(culture: culture)">
+                        @year.Name(culture)
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                }
+            </div>
+        </section>
+    }
+    else if (isYearArchive)
+    {
+        <section class="mx-auto mt-5" style="max-width: 52rem;" aria-label="News articles">
+            @if (articles.Any())
+            {
+                <div class="vstack gap-3">
+                    @foreach (var article in articles)
+                    {
+                        var articleTitle = article.Value<string>("title");
+                        articleTitle = string.IsNullOrWhiteSpace(articleTitle) ? article.Name(culture) : articleTitle;
+                        var articleDescription = article.Value<string>("description");
+                        var displayDate = article.Value<DateTime?>("overrideCreateDate") ?? article.CreateDate;
+                        <article class="border rounded p-4 position-relative">
+                            <p class="small text-body-secondary mb-2">@displayDate.ToString("d", System.Globalization.CultureInfo.CurrentCulture)</p>
+                            <h2 class="h4">@articleTitle</h2>
+                            @if (!string.IsNullOrWhiteSpace(articleDescription))
+                            {
+                                <p class="mb-0 text-body-secondary">@articleDescription</p>
+                            }
+                            <a class="stretched-link" href="@article.Url(culture: culture)"><span class="visually-hidden">Read @articleTitle</span></a>
+                        </article>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-body-secondary">No news is available for this year.</p>
+            }
+        </section>
+    }
+</div>

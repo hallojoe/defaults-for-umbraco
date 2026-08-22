@@ -25,7 +25,7 @@
 
         <PackageReference Include="Azure.Storage.Blobs" />
 
-        <PackageReference Include="Umbraco.Automate" />
+        <!-- <PackageReference Include="Umbraco.Automate" /> -->
         <PackageReference Include="Umbraco.Cms"/>
         <PackageReference Include="Umbraco.Cms.Core" />
         <PackageReference Include="Umbraco.Cms.Infrastructure" />

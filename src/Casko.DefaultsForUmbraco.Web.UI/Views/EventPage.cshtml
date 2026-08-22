@@ -1,5 +1,59 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @{
-	Layout = "mainTemplate.cshtml";
+    Layout = "mainTemplate.cshtml";
+
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var title = Model.Value<string>("title");
+    title = string.IsNullOrWhiteSpace(title) ? Model.Name(culture) : title;
+    var description = Model.Value<string>("description");
+    var content = Model.Value("content");
+    var startDate = Model.Value<DateTime?>("eventStartDate");
+    var endDate = Model.Value<DateTime?>("eventEndDate");
+    var email = Model.Value<string>("contactPointEmail");
+    var telephone = Model.Value<string>("contactPointTelephone");
 }
+<div class="container py-5">
+    <article class="mx-auto" style="max-width: 52rem;">
+        <h1 class="display-5 mb-3">@title</h1>
+        @if (!string.IsNullOrWhiteSpace(description))
+        {
+            <p class="lead text-body-secondary">@description</p>
+        }
+
+        @if (startDate.HasValue || endDate.HasValue)
+        {
+            <dl class="row my-4">
+                @if (startDate.HasValue)
+                {
+                    <dt class="col-sm-3">Starts</dt>
+                    <dd class="col-sm-9">@startDate.Value.ToString("f", System.Globalization.CultureInfo.CurrentCulture)</dd>
+                }
+                @if (endDate.HasValue)
+                {
+                    <dt class="col-sm-3">Ends</dt>
+                    <dd class="col-sm-9">@endDate.Value.ToString("f", System.Globalization.CultureInfo.CurrentCulture)</dd>
+                }
+            </dl>
+        }
+
+        @if (content is not null)
+        {
+            <div class="mt-4">@content</div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(email) || !string.IsNullOrWhiteSpace(telephone))
+        {
+            <section class="border-top mt-5 pt-4" aria-labelledby="event-contact-heading">
+                <h2 id="event-contact-heading" class="h4">Contact</h2>
+                @if (!string.IsNullOrWhiteSpace(email))
+                {
+                    <p class="mb-1"><a href="mailto:@email">@email</a></p>
+                }
+                @if (!string.IsNullOrWhiteSpace(telephone))
+                {
+                    <p class="mb-0"><a href="tel:@telephone">@telephone</a></p>
+                }
+            </section>
+        }
+    </article>
+</div>

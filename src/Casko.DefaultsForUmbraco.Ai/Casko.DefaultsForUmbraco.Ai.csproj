@@ -10,7 +10,6 @@
         <PackageReference Include="Umbraco.AI.Prompt" />
         <PackageReference Include="Umbraco.AI.Agent" />
         <PackageReference Include="Umbraco.AI.Search" />
-        <PackageReference Include="Umbraco.AI.Automate" />
         <PackageReference Include="Umbraco.AI.OpenAI" />
     </ItemGroup>
 </Project>
