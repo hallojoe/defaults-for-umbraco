@@ -102,6 +102,21 @@ if (webApplicationBuilder.Environment.IsDevelopment())
     webApplication.UseDefaultForwardHeaders();
 }
 
+var instanceName = Environment.GetEnvironmentVariable("CASKO_INSTANCE_NAME");
+if (!string.IsNullOrWhiteSpace(instanceName))
+{
+    webApplication.Use(async (context, next) =>
+    {
+        context.Response.OnStarting(() =>
+        {
+            context.Response.Headers["X-Casko-Instance"] = instanceName;
+            return Task.CompletedTask;
+        });
+
+        await next(context);
+    });
+}
+
 await webApplication.BootUmbracoAsync();
 
 var assignedServerRole = webApplication.Services

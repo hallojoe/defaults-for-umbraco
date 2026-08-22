@@ -128,6 +128,32 @@ var cd = builder
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development")
     .WithEnvironment("DOTNET_ENVIRONMENT", "Development")
     .WithEnvironment("UMBRACO_SERVER_ROLE", "Subscriber")
+    .WithEnvironment("CASKO_INSTANCE_NAME", "cd-1")
+    .WithEnvironment("FORWARD_HEADERS_ENABLED", "true")
+    .WithReference(umbracoDb)
+    .WithReference(blobs)
+    .WithReference(queues)
+    .WithReference(tables)
+    .WithReference(mailpit.GetEndpoint("smtp"))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__From", "noreply@example.local")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Host", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Host))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Port", mailpit.GetEndpoint("smtp").Property(EndpointProperty.Port))
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__SecureSocketOptions", "None")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__DeliveryMethod", "Network")
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Username", string.Empty)
+    .WithEnvironment("Umbraco__CMS__Global__Smtp__Password", string.Empty)
+    .WithEnvironment("CASKO_DISTRIBUTED_CACHE_PROVIDER", distributedCacheProvider)
+    .WaitFor(umbracoDb)
+    .WaitFor(storage);
+
+var cdAlt = builder
+    .AddProject<Projects.Casko_DefaultsForUmbraco_Web_UI>(
+        "cd-alt",
+        launchProfileName: "Umbraco.Web.UI.Subscriber.Alternative")
+    .WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development")
+    .WithEnvironment("DOTNET_ENVIRONMENT", "Development")
+    .WithEnvironment("UMBRACO_SERVER_ROLE", "Subscriber")
+    .WithEnvironment("CASKO_INSTANCE_NAME", "cd-2")
     .WithEnvironment("FORWARD_HEADERS_ENABLED", "true")
     .WithReference(umbracoDb)
     .WithReference(blobs)
@@ -149,11 +175,13 @@ if (distributedCacheProvider == "redis")
 {
     cm.WithReference(cache).WaitFor(cache);
     cd.WithReference(cache).WaitFor(cache);
+    cdAlt.WithReference(cache).WaitFor(cache);
 }
 else
 {
     cm.WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb);
     cd.WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb);
+    cdAlt.WithEnvironment("ConnectionStrings__distributedCacheDbDSN", umbracoDb);
 }
 
 builder
@@ -163,12 +191,15 @@ builder
     .WithEnvironment(context =>
     {
         context.EnvironmentVariables["ReverseProxy__Clusters__cm__Destinations__default__Address"] = cm.GetEndpoint("https");
-        context.EnvironmentVariables["ReverseProxy__Clusters__cd__Destinations__default__Address"] = cd.GetEndpoint("https");
+        context.EnvironmentVariables["ReverseProxy__Clusters__cd__Destinations__subscriber-1__Address"] = cd.GetEndpoint("https");
+        context.EnvironmentVariables["ReverseProxy__Clusters__cd__Destinations__subscriber-2__Address"] = cdAlt.GetEndpoint("https");
     })
     .WithReference(cm)
     .WithReference(cd)
+    .WithReference(cdAlt)
     .WaitFor(cm)
-    .WaitFor(cd);
+    .WaitFor(cd)
+    .WaitFor(cdAlt);
 
 builder.Build().Run();
 
