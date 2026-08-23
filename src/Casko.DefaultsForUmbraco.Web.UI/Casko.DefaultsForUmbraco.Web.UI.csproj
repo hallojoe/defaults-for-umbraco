@@ -50,7 +50,7 @@
       <DependentUpon>nemlogin3.json</DependentUpon>
     </None>
     <None Update="nemlog-in-integrationstestrapport-til-private-tjenester.pdf">
-      <DependentUpon>nemlogin3.json</DependentUpon>
+      <DependentUpon>.nemlogin3</DependentUpon>
     </None>
     <Content Update="appsettings.Development.*.json">
       <DependentUpon>appsettings.Development.json</DependentUpon>
@@ -82,6 +82,30 @@
     <Content Update="umbraco-package-schema.json">
       <DependentUpon>appsettings-schema.json</DependentUpon>
     </Content>
+    <None Update="oces3_-test-_systemcertifikat.p12">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-idp-devtest4-inttest-25-11-26.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-casko0001.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-cd.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-cm.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-cm1.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-samlcasko0001.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-prod-cm.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
   </ItemGroup>
     
 </Project>
