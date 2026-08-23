@@ -2,21 +2,19 @@
 
 ## One content platform. Two purposeful experiences.
 
-Casko Defaults for Umbraco is a ready-to-run local setup for teams building dependable Umbraco websites. It keeps content management separate from the public website while making both easy to explore in one place.
+Casko Defaults for Umbraco is a ready-to-run local environment for teams building dependable Umbraco websites. It uses .NET Aspire to coordinate a dedicated content-management site, two public-site instances, and the local services they share.
 
-```mermaid
-flowchart LR
-    Editors[Content editors] --> CM[Content management]
-    Visitors[Website visitors] --> CD[Public website]
-    CM --> Shared[Shared content, media, cache and database]
-    CD --> Shared
-```
+Editors work in a focused backoffice while visitors use the public site through a single local entry point. SQL, Redis, blob storage, and SMTP are provisioned alongside the sites, so the development topology is visible, repeatable, and close to a scalable delivery setup.
+
+![Casko Defaults for Umbraco architecture](docs/images/casko-defaults-for-umbraco-architecture.png)
+
+See [the architecture diagrams](DIAGRAMS.md) for the logical flow, server roles, routing, and shared services.
 
 ### Built for a confident publishing flow
 
 - **A focused editor experience** — manage content in Umbraco without exposing the backoffice to website visitors.
 - **A resilient public site** — run two public-site instances locally to reflect a scalable delivery setup.
-- **Everything visible in one place** — the Aspire dashboard starts the environment and shows its health, activity, safe email inbox, and supporting services.
+- **Everything visible in one place** — the Aspire dashboard starts the environment and shows its health, activity, SMTP, and supporting services.
 
 Start here:
 

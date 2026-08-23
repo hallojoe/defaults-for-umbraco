@@ -2,13 +2,28 @@
 
 This guide prepares your computer to run the project. You only need to do these steps once.
 
+```mermaid
+sequenceDiagram
+    participant You
+    participant DotNet as .NET
+    participant Docker as Docker Desktop
+    participant Terminal
+
+    You->>DotNet: Install the .NET 10 SDK
+    You->>Docker: Install and start Docker Desktop
+    You->>Terminal: Trust the local website certificate
+    Terminal-->>You: Certificate is trusted
+    You->>Terminal: Check .NET and Docker versions
+    Terminal-->>You: Ready to run the project
+```
+
 ## 1. Install .NET
 
 Download the **.NET 10 SDK** for your operating system from the [official .NET download page](https://dotnet.microsoft.com/en-us/download/dotnet/10.0). Choose **SDK**, not Runtime, then follow the installer.
 
 ## 2. Install and start Docker Desktop
 
-Docker Desktop runs the local database, cache, storage, and safe email inbox.
+Docker Desktop runs the local database, cache, storage, and SMTP.
 
 - [Windows installation](https://docs.docker.com/desktop/setup/install/windows-install/)
 - [macOS installation](https://docs.docker.com/desktop/setup/install/mac-install/)

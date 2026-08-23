@@ -6,6 +6,27 @@ Make sure Docker Desktop is running, then open a terminal in the project folder 
 dotnet run --project src/Casko.DefaultsForUmbraco.Aspire
 ```
 
+```mermaid
+sequenceDiagram
+    participant You
+    participant Docker as Docker Desktop
+    participant Terminal
+    participant Aspire as Aspire AppHost
+    participant Dashboard as Aspire dashboard
+
+    You->>Docker: Confirm it is running
+    You->>Terminal: Run the Aspire project
+    Terminal->>Aspire: Start local environment
+    Aspire->>Dashboard: Open dashboard
+    loop While services are starting
+        Dashboard-->>You: Show each service status
+    end
+    Dashboard-->>You: Sites are ready to use
+    You->>Dashboard: Open the site or tool you need
+    You->>Terminal: Press Ctrl+C when finished
+    Terminal->>Aspire: Stop local environment
+```
+
 Your browser opens the Aspire dashboard. The first start may take a few minutes while local services and container images are prepared.
 
 When the dashboard shows the sites as running, open:
