@@ -8,8 +8,6 @@ Editors work in a focused backoffice while visitors use the public site through 
 
 ![Casko Defaults for Umbraco architecture](docs/images/casko-defaults-for-umbraco-architecture.png)
 
-See [the architecture diagrams](DIAGRAMS.md) for the logical flow, server roles, routing, and shared services.
-
 ### Built for a confident publishing flow
 
 - **A focused editor experience** — manage content in Umbraco without exposing the backoffice to website visitors.
@@ -21,3 +19,5 @@ Start here:
 - [Install the local environment](INSTALL.md)
 - [Run the environment](RUN.md)
 - [Working agreement for contributors and coding agents](AGENTS.md)
+
+See [the architecture diagrams](DIAGRAMS.md) for the logical flow, server roles, routing, and shared services.
