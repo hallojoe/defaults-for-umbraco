@@ -8,16 +8,11 @@
         <UserSecretsId>d9af054d-c6f3-4ec6-9f01-906548c8eb18</UserSecretsId>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.Azure.Functions" />
         <PackageReference Include="Aspire.Hosting.Azure.Redis" />
-        <PackageReference Include="Aspire.Hosting.Azure.ServiceBus" />
         <PackageReference Include="Aspire.Hosting.Azure.Storage" />
         <PackageReference Include="Aspire.Hosting.OpenAI" />
         <PackageReference Include="Aspire.Hosting.SqlServer" />
         <PackageReference Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" />
-        <ProjectReference Include="..\Casko.DefaultsForUmbraco.Functions.Test\Casko.DefaultsForUmbraco.Functions.Test.csproj" />
-        <ProjectReference Include="..\Casko.DefaultsForUmbraco.EmailQueue.Api\Casko.DefaultsForUmbraco.EmailQueue.Api.csproj" />
-        <ProjectReference Include="..\Casko.DefaultsForUmbraco.EmailQueue.Worker\Casko.DefaultsForUmbraco.EmailQueue.Worker.csproj" />
         <ProjectReference Include="..\Casko.DefaultsForUmbraco.Web.UI\Casko.DefaultsForUmbraco.Web.UI.csproj" />
         <ProjectReference Include="..\Casko.DefaultsForUmbraco.Yarp\Casko.DefaultsForUmbraco.Yarp.csproj" />
     </ItemGroup>

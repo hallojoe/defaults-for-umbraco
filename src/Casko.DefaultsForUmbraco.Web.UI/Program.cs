@@ -6,7 +6,7 @@ using Casko.DefaultsForUmbraco.Web.OpenTelemetry;
 using Azure.Storage.Blobs;
 using Umbraco.Cms.Core.Sync;
 
-//using Casko.NemLogin3ForUmbraco.Configuration;
+using Casko.NemLogin3ForUmbraco.Configuration;
 
 var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +36,7 @@ if (!string.IsNullOrWhiteSpace(blobsConnectionString))
 
 var umbracoServerRole = Environment.GetEnvironmentVariable(CommonConstants.UmbracoServerRoleEnvironmentVariableName) 
                         ?? CommonConstants.SingleServerRoleName;
+
 ArgumentException.ThrowIfNullOrWhiteSpace(umbracoServerRole);
 
 var useBackoffice =
@@ -61,7 +62,6 @@ var umbracoBuilder = webApplicationBuilder.CreateUmbracoBuilder()
     .AddBackOffice()
     .AddWebsite()
     .AddDeliveryApi()
-    // .AddRobotsTxtDeliveryApi()
     .AddComposers()
     .AddAzureBlobMediaFileSystem()
     .AddAzureBlobImageSharpCache();
@@ -70,12 +70,12 @@ if (useNemLogin3ExternalLogin && webApplicationBuilder.Environment.IsDevelopment
 {
     if (useMemberLogin)
     {
-//        umbracoBuilder.AddNemLogin3MemberLogin(webApplicationBuilder.Environment);
+        umbracoBuilder.AddNemLogin3MemberLogin(webApplicationBuilder.Environment);
     }
 
     if (useBackOfficeLogin)
     {
-//        umbracoBuilder.AddNemLogin3BackOfficeLogin(webApplicationBuilder.Environment);
+        umbracoBuilder.AddNemLogin3BackOfficeLogin(webApplicationBuilder.Environment);
     }
 }
 

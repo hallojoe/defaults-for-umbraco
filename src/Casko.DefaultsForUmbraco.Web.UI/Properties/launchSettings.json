@@ -29,7 +29,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "UMBRACO_SERVER_ROLE": "SchedulingPublisher",
         "FORWARD_HEADERS_ENABLED": "true",
-        "NEMLOGIN_3_ENABLED": "false",
+        "NEMLOGIN_3_ENABLED": "true",
         "TEMP": "..\\aspnet\\temp\\schedulingpublisher",
         "TMP": "..\\aspnet\\temp\\schedulingpublisher",
         "TMPDIR": "tmp/aspnet/schedulingpublisher",

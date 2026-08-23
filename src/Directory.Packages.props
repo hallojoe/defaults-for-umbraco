@@ -5,8 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Aspire.Hosting.OpenAI" Version="13.5.1" />
-    <PackageVersion Include="Casko.Authentication.NemLogin3.Web" Version="1.0.0-pre" />
-    <PackageVersion Include="Casko.NemLogin3ForUmbraco" Version="1.0.0-pre" />
+    <PackageVersion Include="Casko.Authentication.NemLogin3.Web" Version="1.0.1-pre" />
+    <PackageVersion Include="Casko.NemLogin3ForUmbraco" Version="1.0.1-pre" />
     <PackageVersion Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" Version="13.4.1-beta.706" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="10.8.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.8" />

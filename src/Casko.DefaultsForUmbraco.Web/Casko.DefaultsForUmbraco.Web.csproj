@@ -25,7 +25,6 @@
 
         <PackageReference Include="Azure.Storage.Blobs" />
 
-        <!-- <PackageReference Include="Umbraco.Automate" /> -->
         <PackageReference Include="Umbraco.Cms"/>
         <PackageReference Include="Umbraco.Cms.Core" />
         <PackageReference Include="Umbraco.Cms.Infrastructure" />
@@ -38,14 +37,14 @@
         <PackageReference Include="Casko.XmlSitemapsForUmbraco" />
         <PackageReference Include="Casko.RobotsTxtForUmbraco" />
         <PackageReference Include="Casko.HttpHeadersForUmbraco" />
-        <!--
+        
         <PackageReference Include="Casko.Nemlogin3ForUmbraco" />
-        -->
 
+        
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\Casko.DefaultsForUmbraco.Ai\Casko.DefaultsForUmbraco.Ai.csproj" />
+      <Content Remove="..\..\..\..\..\..\Users\cko\.nuget\packages\casko.xmlsitemapsforumbraco\2.3.5-pre\contentFiles\any\net10.0\package-lock.json" />
     </ItemGroup>
-
+    
 </Project>
