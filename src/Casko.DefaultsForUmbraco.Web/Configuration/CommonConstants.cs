@@ -1,4 +1,4 @@
-namespace Casko.DefaultsForUmbraco.Web;
+namespace Casko.DefaultsForUmbraco.Web.Configuration;
 
 public static class CommonConstants
 {

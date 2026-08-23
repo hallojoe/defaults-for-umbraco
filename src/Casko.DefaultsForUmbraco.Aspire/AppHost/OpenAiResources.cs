@@ -1,5 +1,6 @@
-using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.OpenAI;
+
+namespace Casko.DefaultsForUmbraco.Aspire.AppHost;
 
 internal static class OpenAiResourceExtensions
 {

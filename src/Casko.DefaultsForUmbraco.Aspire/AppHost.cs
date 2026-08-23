@@ -1,3 +1,5 @@
+using Casko.DefaultsForUmbraco.Aspire.AppHost;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var groups = builder.AddDashboardGroups();

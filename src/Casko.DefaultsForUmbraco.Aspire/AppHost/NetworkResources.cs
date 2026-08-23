@@ -1,4 +1,4 @@
-using Aspire.Hosting.ApplicationModel;
+namespace Casko.DefaultsForUmbraco.Aspire.AppHost;
 
 internal static class NetworkResourceExtensions
 {

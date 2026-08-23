@@ -1,3 +1,5 @@
+namespace Casko.DefaultsForUmbraco.Aspire.AppHost;
+
 internal static class AppHostConfiguration
 {
     public static bool IsEnabled(string environmentVariableName) =>

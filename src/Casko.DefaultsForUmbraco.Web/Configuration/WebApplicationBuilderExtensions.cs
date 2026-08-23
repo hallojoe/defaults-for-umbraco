@@ -1,23 +1,24 @@
-using Casko.DefaultsForUmbraco.Web.Http;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Casko.DefaultsForUmbraco.Web.Configuration;
 
-public static class ConfigurationExtensions
+public static class WebApplicationBuilderExtensions
 {
-    public static WebApplicationBuilder AddSpecializedEnvironment(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddEnvironmentThings(this WebApplicationBuilder builder)
     {
         builder.AddDefaultForwardHeaders();
-        builder.AddSpecializedEnvironmentJsonFiles();
-        builder.AddSpecializedDistributedCache();
+        builder.AddEnvironmentThingsJsonFiles();
+        builder.AddDistributedCacheThings();
         
         return builder;
     }
 
-    public static WebApplicationBuilder AddSpecializedDistributedCache(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddDistributedCacheThings(this WebApplicationBuilder builder)
     {
         if (Environment.GetEnvironmentVariable(CommonConstants.SingleServerRoleName) == "true")
         {
@@ -57,7 +58,7 @@ public static class ConfigurationExtensions
         return builder;
     }
 
-    public static WebApplicationBuilder AddSpecializedEnvironmentJsonFiles(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddEnvironmentThingsJsonFiles(this WebApplicationBuilder builder)
     {
         var serverRole = Environment.GetEnvironmentVariable(CommonConstants.UmbracoServerRoleEnvironmentVariableName);
         
@@ -89,5 +90,43 @@ public static class ConfigurationExtensions
 
         return builder;
     }
+ 
+    public static WebApplication UseDefaultForwardHeaders(this WebApplication webApplication)
+    {
+        if (!ShouldAddForwardHeaders())
+        {
+            return webApplication;
+        }
+        
+        webApplication.UseForwardedHeaders();
+       
+        return webApplication;
+    }
     
-}
+    public static WebApplicationBuilder AddDefaultForwardHeaders(this WebApplicationBuilder builder)
+    {
+        if (!ShouldAddForwardHeaders())
+        {
+            return builder;
+        }
+
+        builder.Services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders =
+                ForwardedHeaders.XForwardedFor |
+                ForwardedHeaders.XForwardedHost |
+                ForwardedHeaders.XForwardedProto;
+
+            options.KnownProxies.Add(IPAddress.Loopback);
+            options.KnownProxies.Add(IPAddress.IPv6Loopback);
+        });
+
+        return builder;
+    }
+
+    public static bool ShouldAddForwardHeaders()
+    {
+        return Environment.GetEnvironmentVariable(CommonConstants.EnableForwardHeadersEnvironmentVariableName)?
+            .Equals("true", StringComparison.OrdinalIgnoreCase) is true;
+    }
+}    

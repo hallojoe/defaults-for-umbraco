@@ -1,8 +1,5 @@
-using Casko.DefaultsForUmbraco.Web;
 using Casko.DefaultsForUmbraco.Web.Configuration;
-using Casko.DefaultsForUmbraco.Web.Http;
 using Casko.DefaultsForUmbraco.Web.OpenTelemetry;
-//using Casko.RobotsTxtForUmbraco.Delivery.Configuration;
 using Azure.Storage.Blobs;
 using Umbraco.Cms.Core.Sync;
 
@@ -22,7 +19,7 @@ if (webApplicationBuilder.Environment.IsDevelopment())
         .AddJsonFile("appsettings.Development.HttpHeadersForUmbraco.json", optional: false, reloadOnChange: true);
 }
 
-webApplicationBuilder.AddSpecializedEnvironment();
+webApplicationBuilder.AddEnvironmentThings();
 webApplicationBuilder.AddOpenTelemetry();
 
 var blobsConnectionString = webApplicationBuilder.Configuration.GetConnectionString("blobs");

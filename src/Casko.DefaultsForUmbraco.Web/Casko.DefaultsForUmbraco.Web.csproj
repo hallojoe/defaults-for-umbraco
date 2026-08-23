@@ -47,4 +47,22 @@
       <Content Remove="..\..\..\..\..\..\Users\cko\.nuget\packages\casko.xmlsitemapsforumbraco\2.3.5-pre\contentFiles\any\net10.0\package-lock.json" />
     </ItemGroup>
     
+    <ItemGroup>
+      <None Update="appsettings-schema.Umbraco.Cms.json">
+        <DependentUpon>appsettings-schema.json</DependentUpon>
+      </None>
+      <None Update="appsettings-schema.Umbraco.StorageProviders.json">
+        <DependentUpon>appsettings-schema.json</DependentUpon>
+      </None>
+      <None Update="appsettings-schema.Umbraco.StorageProviders.AzureBlob.json">
+        <DependentUpon>appsettings-schema.json</DependentUpon>
+      </None>
+      <None Update="appsettings-schema.usync.json">
+        <DependentUpon>appsettings-schema.json</DependentUpon>
+      </None>
+      <None Update="umbraco-package-schema.json">
+        <DependentUpon>appsettings-schema.json</DependentUpon>
+      </None>
+    </ItemGroup>
+    
 </Project>
