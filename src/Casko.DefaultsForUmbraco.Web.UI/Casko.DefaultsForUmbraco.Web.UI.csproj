@@ -6,9 +6,6 @@
     <CompressionEnabled>false</CompressionEnabled>
     <RootNamespace>Casko.DefaultsForUmbraco.Web.UI</RootNamespace>
   </PropertyGroup>
-    
-  <ItemGroup>
-  </ItemGroup>
   
   <ItemGroup>
     <!-- Opt-in to app-local ICU to ensure consistent globalization APIs across different platforms -->
@@ -18,26 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Casko.DefaultsForUmbraco.Web\Casko.DefaultsForUmbraco.Web.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="App_Plugins\CaskoNemLogin3\umbraco-package.json">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="headers.*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <DependentUpon>headers.http</DependentUpon>
-    </None>
-    <None Update="robots.*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>robots.txt</DependentUpon>
-    </None>
   </ItemGroup>
     
   <PropertyGroup>
@@ -50,5 +27,85 @@
     <RazorCompileOnBuild>true</RazorCompileOnBuild>
     <RazorCompileOnPublish>true</RazorCompileOnPublish>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <Content Include="App_Plugins\CaskoNemLogin3\umbraco-package.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Update="headers.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <DependentUpon>headers.http</DependentUpon>
+    </None>
+    <None Update="robots.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>robots.txt</DependentUpon>
+    </None>
+    <None Update="oces3*.p12">
+      <DependentUpon>nemlogin3.json</DependentUpon>
+    </None>
+    <None Update="oiosaml3-*.xml">
+      <DependentUpon>nemlogin3.json</DependentUpon>
+    </None>
+    <None Update="nemlog-in-integrationstestrapport-til-private-tjenester.pdf">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <Content Update="appsettings.Development.*.json">
+      <DependentUpon>appsettings.Development.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.Development.Email.json">
+      <DependentUpon>appsettings.Development.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.Development.HttpHeadersForUmbraco.json">
+      <DependentUpon>appsettings.Development.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.Development.NemLogin3.json">
+      <DependentUpon>appsettings.Development.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.Development.SchedulingPublisher.json">
+      <DependentUpon>appsettings.Development.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.Development.SchedulingPublisher.NemLogin3.json">
+      <DependentUpon>appsettings.Development.SchedulingPublisher.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.Development.Single.json">
+      <DependentUpon>appsettings.Development.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.Development.Subscriber.json">
+      <DependentUpon>appsettings.Development.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.Development.Subscriber.NemLogin3.json">
+      <DependentUpon>appsettings.Development.Subscriber.json</DependentUpon>
+    </Content>
+    <Content Update="umbraco-package-schema.json">
+      <DependentUpon>appsettings-schema.json</DependentUpon>
+    </Content>
+    <None Update="oces3_-test-_systemcertifikat.p12">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-idp-devtest4-inttest-25-11-26.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-casko0001.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-cd.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-cm.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-cm1.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-inttest-samlcasko0001.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+    <None Update="oiosaml3-sp-devtest4-prod-cm.xml">
+      <DependentUpon>.nemlogin3</DependentUpon>
+    </None>
+  </ItemGroup>
+    
 </Project>
