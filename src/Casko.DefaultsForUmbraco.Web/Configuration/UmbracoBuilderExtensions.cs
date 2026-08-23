@@ -1,4 +1,4 @@
-using Casko.DefaultsForUmbraco.Web.Sync;
+using Casko.DefaultsForUmbraco.Web.Synchronization;
 using Umbraco.Cms.Infrastructure.DependencyInjection;
 
 namespace Casko.DefaultsForUmbraco.Web.Configuration;

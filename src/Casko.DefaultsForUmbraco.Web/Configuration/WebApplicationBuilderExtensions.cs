@@ -90,18 +90,6 @@ public static class WebApplicationBuilderExtensions
 
         return builder;
     }
- 
-    public static WebApplication UseDefaultForwardHeaders(this WebApplication webApplication)
-    {
-        if (!ShouldAddForwardHeaders())
-        {
-            return webApplication;
-        }
-        
-        webApplication.UseForwardedHeaders();
-       
-        return webApplication;
-    }
     
     public static WebApplicationBuilder AddDefaultForwardHeaders(this WebApplicationBuilder builder)
     {
@@ -122,6 +110,18 @@ public static class WebApplicationBuilderExtensions
         });
 
         return builder;
+    }
+
+    public static WebApplication UseDefaultForwardHeaders(this WebApplication webApplication)
+    {
+        if (!ShouldAddForwardHeaders())
+        {
+            return webApplication;
+        }
+        
+        webApplication.UseForwardedHeaders();
+       
+        return webApplication;
     }
 
     public static bool ShouldAddForwardHeaders()
