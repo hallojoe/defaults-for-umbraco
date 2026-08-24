@@ -13,6 +13,10 @@ app.UseWebUiMiddleware(startup);
 await app.BootAndLogUmbracoAsync();
 
 app.UseWebUiEndpoints(startup);
+app.MapControllerRoute(
+    name: "member-login",
+    pattern: "member-login",
+    defaults: new { controller = "MemberLogin", action = "Index" });
 app.MapPingEndpoint(startup);
 
 await app.RunAsync();

@@ -1,0 +1,34 @@
+@model string
+@using Umbraco.Cms.Web.Common.Security
+@using Umbraco.Cms.Web.Website.Controllers
+@inject IMemberExternalLoginProviders MemberExternalLoginProviders
+@{
+    Layout = null;
+    var loginProvider = (await MemberExternalLoginProviders.GetMemberProvidersAsync()).FirstOrDefault();
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Redirecting to login</title>
+</head>
+<body>
+    @if (loginProvider is not null)
+    {
+        @using (Html.BeginUmbracoForm<UmbExternalLoginController>(nameof(UmbExternalLoginController.ExternalLogin), new { returnUrl = Model }, new { id = "member-login-form" }))
+        {
+            <input type="hidden" name="provider" value="@loginProvider.ExternalLoginProvider.AuthenticationType" />
+            <p>Redirecting to login&hellip;</p>
+            <button type="submit">Login</button>
+        }
+        <script>
+            document.getElementById('member-login-form').submit();
+        </script>
+    }
+    else
+    {
+        <p>Member login is not available.</p>
+    }
+</body>
+</html>

@@ -7,26 +7,31 @@
 
 @{
     var isLoggedIn = Context.User?.Identity?.IsAuthenticated ?? false;
-    var loginProviders = await MemberExternalLoginProviders.GetMemberProvidersAsync();
-    var externalSignInError = ViewData.GetExternalSignInProviderErrors();
-    var logoutModel = new PostRedirectModel();
+    var logoutModel = new PostRedirectModel
+    {
+        RedirectUrl = $"{Context.Request.PathBase}{Context.Request.Path}{Context.Request.QueryString}"
+    };
 }
 
 @if (isLoggedIn)
 {
-<span>ddd</span>
-}
-else if (loginProviders.Any())
-{
 
-    foreach (var login in loginProviders)
+    <span class="small text-body-secondary">@Context.User?.Identity?.Name</span>
+    @using (Html.BeginUmbracoForm<UmbLoginStatusController>(nameof(UmbLoginStatusController.HandleLogout), new { RedirectUrl = logoutModel.RedirectUrl }, new { @class = "d-inline" }))
+    {
+        <button type="submit" class="btn btn-sm btn-outline-secondary">Logout</button>
+    }
+}
+else
+{
+    var loginProvider = (await MemberExternalLoginProviders.GetMemberProvidersAsync()).FirstOrDefault();
+    if (loginProvider is not null)
     {
         @using (Html.BeginUmbracoForm<UmbExternalLoginController>(nameof(UmbExternalLoginController.ExternalLogin)))
         {
-            <button type="submit" name="provider" value="@login.ExternalLoginProvider.AuthenticationType" class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
-                Sign in with @login.AuthenticationScheme.DisplayName
+            <button type="submit" name="provider" value="@loginProvider.ExternalLoginProvider.AuthenticationType" class="btn btn-sm btn-outline-secondary">
+                Login
             </button>
         }
     }
-
 }

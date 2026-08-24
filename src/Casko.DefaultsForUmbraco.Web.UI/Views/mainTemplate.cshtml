@@ -1,6 +1,8 @@
 @using System.Globalization
+@using Umbraco.Cms.Core.Services
 @using Umbraco.Extensions
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject IPublicAccessService PublicAccessService
 @{
     Layout = null;
 
@@ -10,13 +12,14 @@
     var description = Model.Value<string>("description");
     var root = Model.Root();
     var primaryNavigation = root.Children()
-        .Where(page => page.IsVisible())
+        .Where(page => page.IsVisible() && !PublicAccessService.IsProtected(page.Path))
         .OrderBy(page => page.SortOrder);
     var availableCultures = new[] { "da", "en", "pl" }
         .Where(language => Model.Cultures.ContainsKey(language));
+    var umbracoInstance = Environment.GetEnvironmentVariable("CASKO_INSTANCE_NAME") ?? "Unknown";
 }
 <!doctype html>
-<html lang="@culture" data-bs-theme="light">
+<html lang="@culture" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,13 +29,6 @@
         <meta name="description" content="@description" />
     }
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script>
-        (() => {
-            const storedTheme = localStorage.getItem('theme');
-            const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-bs-theme', storedTheme || preferredTheme);
-        })();
-    </script>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
@@ -46,12 +42,12 @@
                     }
                 </nav>
                 <span aria-hidden="true" class="text-body-secondary">|</span>
-                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary" type="button" aria-label="Toggle light and dark mode" aria-pressed="false">Theme</button>
+                <partial name="Partials/NemLogin3MemberLoginButton" />
             </div>
         </div>
         <div class="border-bottom">
             <div class="container py-3 d-flex flex-wrap align-items-center gap-3">
-                <a class="navbar-brand fw-semibold me-auto" href="@root.Url(culture: culture)">@root.Name(culture)</a>
+                <a class="navbar-brand fw-semibold me-auto" href="@root.Url(culture: culture)">@root.Name(culture) (@umbracoInstance)</a>
                 <nav aria-label="Primary navigation">
                     <ul class="nav gap-1">
                         @foreach (var item in primaryNavigation)
@@ -83,20 +79,5 @@
             </nav>
         </div>
     </footer>
-
-    <script>
-        (() => {
-            const toggle = document.getElementById('theme-toggle');
-            const setTheme = (theme) => {
-                document.documentElement.setAttribute('data-bs-theme', theme);
-                localStorage.setItem('theme', theme);
-                toggle.setAttribute('aria-pressed', String(theme === 'dark'));
-                toggle.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
-            };
-
-            setTheme(document.documentElement.getAttribute('data-bs-theme') || 'light');
-            toggle.addEventListener('click', () => setTheme(document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark'));
-        })();
-    </script>
 </body>
 </html>
