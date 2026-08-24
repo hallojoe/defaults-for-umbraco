@@ -4,7 +4,7 @@
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Aspire.Hosting.OpenAI" Version="13.5.1" />
+    <PackageVersion Include="Aspire.Hosting.OpenAI" Version="13.5.2" />
     <PackageVersion Include="Casko.Authentication.NemLogin3.Web" Version="1.0.1-pre" />
     <PackageVersion Include="Casko.NemLogin3ForUmbraco" Version="1.0.3-pre" />
     <PackageVersion Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" Version="13.4.1-beta.706" />

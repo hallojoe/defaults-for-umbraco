@@ -15,6 +15,9 @@ src/aspnet/media/*
 !src/aspnet/media/README.md
 src/aspnet/temp/*
 !src/aspnet/temp/README.md
+!src/aspnet/temp/*/
+src/aspnet/temp/*/*
+!src/aspnet/temp/*/.gitkeep
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
