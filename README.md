@@ -2,9 +2,12 @@
 
 Casko Defaults for Umbraco is a ready-to-run local environment for running a single `SchedulingPublisher` and multiple `Subsriber`. It uses .NET Aspire to coordinate a dedicated backoffice site, two delivery instances, and the local resources they share. Concrete local resource choices for this setup is: Azure SQL Edge, Azurite, Redis cache, and Mailpit.
 
-## Start
 
-- [Install the local environment](INSTALL.md)
+
+## Get started
+
+- [Install .NET and Docker](INSTALL.md)
+- [Setup hostnames](HOSTS.md)
 - [Run the environment](RUN.md)
 
 ```mermaid
