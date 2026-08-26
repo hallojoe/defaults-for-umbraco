@@ -16,14 +16,7 @@ flowchart LR
   CM & CD1 & CD2 --> CACHE[Distributed cache]
   CM & CD1 & CD2 --> BLOB[Blob Storage]
 ```
-
-
-### Built for a confident publishing flow
-
-- **A focused editor experience** — manage content in Umbraco without exposing the backoffice to website visitors.
-- **A resilient public site** — run two public-site instances locally to reflect a scalable delivery setup.
-- **Everything visible in one place** — the Aspire dashboard starts the environment and shows its health, activity, SMTP, and supporting services.
-
+s
 Start here:
 
 - [Install the local environment](INSTALL.md)
