@@ -2,10 +2,9 @@
 
 A good local developer experience should resemble the production environment we actually run.
 
-- Start the complete topology together
+- Make onboarding reproducible: clone, start and develop
 - Develop against the same kinds of dependencies
+- Exercise the real CM/CD roles and request routing
+- Verify shared caching, media and database behaviour
 - Find configuration surprises before deployment
-
-My new macOS / ARM64 machine was the catalyst—not the point of the presentation.
-
-It did, however, make the SQL Server question rather urgent.
+- Keep the intended architecture visible and executable

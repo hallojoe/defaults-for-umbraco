@@ -6,7 +6,17 @@ Casko Defaults for Umbraco is a ready-to-run local environment for teams buildin
 
 Editors work in a focused backoffice while visitors use the public site through a single local entry point. SQL, Redis, blob storage, and SMTP are provisioned alongside the sites, so the development topology is visible, repeatable, and close to a scalable delivery setup.
 
-![Casko Defaults for Umbraco architecture](docs/images/casko-defaults-for-umbraco-architecture.png)
+```mermaid
+flowchart LR
+  B[Browser] --> P[Reverse proxy]
+  P -->|cm.dev.localhost| CM[Scheduling Publisher]
+  P -->|cd.dev.localhost| CD1[Subscriber 1]
+  P -->|cd.dev.localhost| CD2[Subscriber 2]
+  CM & CD1 & CD2 --> SQL[SQL server]
+  CM & CD1 & CD2 --> CACHE[Distributed cache]
+  CM & CD1 & CD2 --> BLOB[Blob Storage]
+```
+
 
 ### Built for a confident publishing flow
 
