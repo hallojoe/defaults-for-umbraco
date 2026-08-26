@@ -53,15 +53,3 @@ docker version
 ```
 
 Both commands should return a version. The .NET version must begin with `10`.
-
-## Optional: enable Umbraco AI features
-
-The main content-management site can use OpenAI-powered Umbraco features. To use them, create an [OpenAI API key](https://platform.openai.com/api-keys) and set it in the terminal before starting the project:
-
-```powershell
-$env:OPENAI_API_KEY = "your-api-key"
-```
-
-The rest of the local environment can run without it.
-
-Next: [run the environment](RUN.md).

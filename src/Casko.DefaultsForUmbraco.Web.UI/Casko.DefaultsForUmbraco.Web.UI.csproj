@@ -106,6 +106,9 @@
     <None Update="oiosaml3-sp-devtest4-prod-cm.xml">
       <DependentUpon>.nemlogin3</DependentUpon>
     </None>
+    <Content Update="appsettings.RobotsTxtForUmbraco.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
   </ItemGroup>
     
 </Project>

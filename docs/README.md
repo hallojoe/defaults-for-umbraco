@@ -26,7 +26,6 @@ flowchart TD
 | `src/Casko.DefaultsForUmbraco.Web.UI` | Runnable Umbraco site used to validate the defaults locally. |
 | `src/Casko.DefaultsForUmbraco.Yarp` | Local YARP reverse proxy for friendly hostnames and split-role development. |
 | `src/Casko.DefaultsForUmbraco.Aspire` | Aspire AppHost that runs SQL Edge, CM, CD, and YARP together. |
-| `src/Casko.DefaultsForUmbraco.Functions.Test` | Local Azure Functions test project, hosted by Aspire. |
 
 The solution file is:
 
@@ -38,7 +37,6 @@ src/Casko.DefaultsForUmbraco.slnx
 
 - .NET 10 SDK
 - Docker Desktop (for the Aspire-managed Azure SQL Edge container)
-- Azure Functions Core Tools v4 or later (for the Aspire-hosted test function)
 - A trusted ASP.NET Core HTTPS development certificate
 
 Trust the development certificate once per machine:
@@ -47,10 +45,6 @@ Trust the development certificate once per machine:
 dotnet dev-certs https --trust
 ```
 
-Verify the Azure Functions tools are available:
-
-```powershell
-func --version
 ```
 
 ## Build
