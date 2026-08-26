@@ -1,10 +1,17 @@
 # Run the local environment
 
-Make sure Docker Desktop is running, then open a terminal in the project folder and run:
+Make sure Docker Desktop or Podman is running, then open a terminal in `src/Casko.DefaultsForUmbraco.Aspire` and run:
 
 ```powershell
 dotnet run --project src/Casko.DefaultsForUmbraco.Aspire
 ```
+
+If you have Aspire CLI installed then:
+
+```powershell
+aspire start
+```
+
 
 ```mermaid
 sequenceDiagram
@@ -42,17 +49,7 @@ Press `Ctrl+C` in the terminal to stop the environment.
 
 ## If the website addresses do not open
 
-Add these lines to your computer's hosts file, save it, then try again:
-
-```text
-127.0.0.1 cm.dev.localhost
-127.0.0.1 cd.dev.localhost
-```
-
-The hosts file is:
-
-- Windows: `C:\Windows\System32\drivers\etc\hosts` — open your editor as an administrator.
-- macOS and Linux: `/etc/hosts` — administrator permission is required to save it.
+See HOSTS.md
 
 ## Useful options
 
