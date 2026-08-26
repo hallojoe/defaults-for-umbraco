@@ -12,6 +12,7 @@ internal static class WebUiStartupConfiguration
     {
         builder.Configuration
             .AddJsonFile("appsettings.XmlSitemapsForUmbraco.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("appsettings.RobotsTxtForUmbraco.json", optional: true, reloadOnChange: true)
             .AddJsonFile("appsettings.Development.Email.json", optional: true, reloadOnChange: true);
 
         if (builder.Environment.IsDevelopment())
