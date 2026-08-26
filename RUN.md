@@ -6,6 +6,13 @@ Make sure Docker Desktop is running, then open a terminal in the project folder 
 dotnet run --project src/Casko.DefaultsForUmbraco.Aspire
 ```
 
+If you have Aspire CLI installed then:
+
+```powershell
+aspire start
+```
+
+
 ```mermaid
 sequenceDiagram
     participant You

@@ -1,6 +1,11 @@
-## Loadbalanced Umbraco running local 
+# Loadbalanced local Umbraco instances 
 
-Casko Defaults for Umbraco is a ready-to-run local environment for running a single `SchedulingPublisher` and multiple `Subsriber`. It uses .NET Aspire to coordinate a dedicated backoffice site, two delivery instances, and the local resources they share. Concrete local resource choices for this setup is: Azure SQL Edge, Azurite, Redis or SQL cache, and Mailpit.
+Casko Defaults for Umbraco is a ready-to-run local environment for running a single `SchedulingPublisher` and multiple `Subsriber`. It uses .NET Aspire to coordinate a dedicated backoffice site, two delivery instances, and the local resources they share. Concrete local resource choices for this setup is: Azure SQL Edge, Azurite, Redis cache, and Mailpit.
+
+## Start
+
+- [Install the local environment](INSTALL.md)
+- [Run the environment](RUN.md)
 
 ```mermaid
 flowchart LR
@@ -13,10 +18,8 @@ flowchart LR
   CM & CD1 & CD2 --> BLOB[Blob Storage]
 ```
 
-Start here:
-
-- [Install the local environment](INSTALL.md)
-- [Run the environment](RUN.md)
-- [Working agreement for contributors and coding agents](AGENTS.md)
+## More
 
 See [the architecture diagrams](DIAGRAMS.md) for the logical flow, server roles, routing, and shared resorces.
+
+See also [Working agreement for contributors and coding agents](AGENTS.md)
