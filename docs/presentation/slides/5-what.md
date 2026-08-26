@@ -1,4 +1,6 @@
-# The finished local topology
+# What are we doing?
+
+Somewhat the big picture:
 
 ```mermaid
 flowchart LR

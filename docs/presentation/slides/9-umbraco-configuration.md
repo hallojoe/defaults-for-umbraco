@@ -6,9 +6,10 @@ Umbraco still needs to understand the topology it is running in.
 
 We need to configure:
 
-- CM and CD URLs
-- BackOfficeHost
-- UmbracoApplicationUrl
-- Forwarded headers / reverse proxy behaviour
+- Logs
+- Media
+- Examine
+- Umbraco routing
+- Forwarded headers(for reverse proxy)
 
-These settings make generated URLs and the backoffice behave as if the proxy were the public entry point.
+But lets get back to that. Lets run things: https://cm.dev.localhost
