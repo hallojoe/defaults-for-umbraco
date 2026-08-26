@@ -1,10 +1,9 @@
-# From here
-
-Next we can walk through the setup piece by piece:
+# What did we do?
 
 - Aspire AppHost
 - SQL on ARM64
 - Cache
+- Logs
 - Blob Storage
 - SMTP
 - Reverse proxy and clean local hostnames
@@ -13,5 +12,3 @@ Next we can walk through the setup piece by piece:
 - Umbraco configuration
 - Storage and Examine
 - Running and inspecting the finished environment
-
-Suggested show-and-tell: publish in CM, refresh `cd.dev.localhost`, inspect Mailpit and the Aspire dashboard.
