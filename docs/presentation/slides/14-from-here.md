@@ -1,4 +1,4 @@
-# What did we do?s
+# What did we do?
 
 - Aspire AppHost
 - SQL on ARM64
