@@ -1,5 +1,6 @@
 using Casko.DefaultsForUmbraco.Web.Configuration;
-using Casko.DefaultsForUmbraco.Web.OpenTelemetry;
+using Casko.OpenTelemetry.Extensions.AspNetCore;
+using Casko.OpenTelemetry.Extensions.Serilog;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -24,8 +25,10 @@ internal static class WebUiStartupConfiguration
         }
 
         builder.AddEnvironmentThings();
-        builder.AddOpenTelemetry();
 
+        builder.Configuration.AddOpinionatedOpenTelemetrySink();
+        builder.AddOpinionatedOpenTelemetry();
+        
         var blobsConnectionString = builder.Configuration.GetConnectionString("blobs");
         if (!string.IsNullOrWhiteSpace(blobsConnectionString))
         {

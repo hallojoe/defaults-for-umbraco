@@ -20,8 +20,8 @@ internal static class DatabaseResourceExtensions
             .WithParentRelationship(group);
 
         var umbracoDb = sql
-            .AddDatabase("umbracoDbDSN", "defaults-for-umbraco-v4-db")
-            .WithCreationScript(SqlScripts.GetUmbracoDatabaseCreationScript("defaults-for-umbraco-v4-db"));
+            .AddDatabase("umbracoDbDSN", "defaults-for-umbraco-v7-db")
+            .WithCreationScript(SqlScripts.GetUmbracoDatabaseCreationScript("defaults-for-umbraco-v7-db"));
 
         return new DatabaseResources(sql, umbracoDb);
     }

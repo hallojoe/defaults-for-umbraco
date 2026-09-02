@@ -7,9 +7,11 @@
     <PackageVersion Include="Aspire.Hosting.OpenAI" Version="13.5.2" />
     <PackageVersion Include="Casko.Authentication.NemLogin3.Web" Version="1.0.1-pre" />
     <PackageVersion Include="Casko.NemLogin3ForUmbraco" Version="1.0.3-pre" />
+    <PackageVersion Include="Casko.SyncExtensionsForUmbraco" Version="1.0.0-pre" />
     <PackageVersion Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" Version="13.4.1-beta.706" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Hybrid" Version="10.8.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.SqlServer" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.6" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.6" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.6" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.6" />
@@ -53,9 +55,6 @@
     <PackageVersion Include="Umbraco.AI.OpenAI" Version="17.2.0" />
     <PackageVersion Include="Umbraco.AI.Search" Version="17.0.3" />
     <PackageVersion Include="uSync" Version="17.3.6" />
-    <PackageVersion Include="Casko.HttpHeadersForUmbraco" Version="1.0.3-pre" />
-    <PackageVersion Include="Casko.XmlSitemapsForUmbraco" Version="2.3.5-pre" />
-    <PackageVersion Include="Casko.RobotsTxtForUmbraco" Version="1.0.1-pre" />
     <PackageVersion Include="uSync.Command.Setup" Version="16.1.0" />
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
     <PackageVersion Include="Aspire.Hosting.Azure.Functions" Version="13.5.1" />
@@ -69,5 +68,10 @@
     <PackageVersion Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.1.0" />
     <PackageVersion Include="ITfoxtec.Identity.Saml2" Version="4.20.1" />
     <PackageVersion Include="ITfoxtec.Identity.Saml2.MvcCore" Version="4.20.1" />
+    <PackageVersion Include="Casko.HttpHeadersForUmbraco" Version="1.0.3-pre" />
+    <PackageVersion Include="Casko.XmlSitemapsForUmbraco" Version="2.3.5-pre" />
+    <PackageVersion Include="Casko.RobotsTxtForUmbraco" Version="1.0.3-pre" />
+    <PackageVersion Include="Casko.OpenTelemetry.Extensions.AspNetCore" Version="1.0.1-pre" />
+    <PackageVersion Include="Casko.OpenTelemetry.Extensions.Serilog" Version="1.0.1-pre" />
   </ItemGroup>
 </Project>

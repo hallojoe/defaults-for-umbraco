@@ -46,6 +46,9 @@ internal static class UmbracoResourceExtensions
             group,
             distributedCacheProvider);
 
+        cd.WaitFor(cm);
+        cdAlt.WaitFor(cm);
+
         if (distributedCacheProvider == "redis")
         {
             cm.WithReference(cache.Cache).WaitFor(cache.Cache);
