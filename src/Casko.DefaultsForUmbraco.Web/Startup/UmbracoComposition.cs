@@ -1,5 +1,6 @@
 using Casko.DefaultsForUmbraco.Web.Configuration;
 using Casko.NemLogin3ForUmbraco.Configuration;
+using Casko.SyncExtensionsForUmbraco.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 

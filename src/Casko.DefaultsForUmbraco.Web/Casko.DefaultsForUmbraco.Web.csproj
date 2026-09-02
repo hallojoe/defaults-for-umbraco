@@ -37,6 +37,9 @@
         <PackageReference Include="Casko.RobotsTxtForUmbraco" />
         <PackageReference Include="Casko.HttpHeadersForUmbraco" />
         <PackageReference Include="Casko.Nemlogin3ForUmbraco" />
+        <PackageReference Include="Casko.OpenTelemetry.Extensions.AspNetCore" />
+        <PackageReference Include="Casko.OpenTelemetry.Extensions.SeriLog" />
+        <PackageReference Include="Casko.SyncExtensionsForUmbraco" />
     </ItemGroup>
     
     <ItemGroup>
