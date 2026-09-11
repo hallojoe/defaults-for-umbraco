@@ -4,8 +4,7 @@ internal static class YarpResourceExtensions
 {
     public static void AddYarpResource(
         this IDistributedApplicationBuilder builder,
-        UmbracoResources umbraco,
-        IResourceBuilder<DashboardGroupResource> group)
+        UmbracoResources umbraco)
     {
         builder
             .AddProject<Projects.Casko_DefaultsForUmbraco_Yarp>(
@@ -22,7 +21,6 @@ internal static class YarpResourceExtensions
             .WithReference(umbraco.CdAlt)
             .WaitFor(umbraco.Cm)
             .WaitFor(umbraco.Cd)
-            .WaitFor(umbraco.CdAlt)
-            .WithParentRelationship(group);
+            .WaitFor(umbraco.CdAlt);
     }
 }

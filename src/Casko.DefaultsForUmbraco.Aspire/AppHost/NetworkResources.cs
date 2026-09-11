@@ -2,15 +2,12 @@ namespace Casko.DefaultsForUmbraco.Aspire.AppHost;
 
 internal static class NetworkResourceExtensions
 {
-    public static NetworkResources AddNetworkResources(
-        this IDistributedApplicationBuilder builder,
-        IResourceBuilder<DashboardGroupResource> group)
+    public static NetworkResources AddNetworkResources(this IDistributedApplicationBuilder builder)
     {
         var mailpit = builder
             .AddContainer("mailpit", "axllent/mailpit")
             .WithEndpoint(targetPort: 1025, name: "smtp")
-            .WithHttpEndpoint(targetPort: 8025, name: "ui")
-            .WithParentRelationship(group);
+            .WithHttpEndpoint(targetPort: 8025, name: "ui");
 
         return new NetworkResources(mailpit);
     }

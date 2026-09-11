@@ -2,9 +2,8 @@ using Casko.DefaultsForUmbraco.Aspire.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var groups = builder.AddDashboardGroups();
 //var openAi = builder.AddOpenAiResources();
-var database = builder.AddDatabaseResources(groups.Database);
+var database = builder.AddDatabaseResources();
 
 if (AppHostConfiguration.IsEnabled("CASKO_APPHOST_SQL_ONLY"))
 {
@@ -12,18 +11,17 @@ if (AppHostConfiguration.IsEnabled("CASKO_APPHOST_SQL_ONLY"))
     return;
 }
 
-var cache = builder.AddCacheResources(groups.Caching);
+var cache = builder.AddCacheResources();
 var storage = builder.AddStorageResources();
-var network = builder.AddNetworkResources(groups.Network);
+var network = builder.AddNetworkResources();
 var umbraco = builder.AddUmbracoResources(
     database,
     cache,
     storage,
     null,
     network,
-    groups.Umbraco,
     AppHostConfiguration.GetDistributedCacheProvider());
 
-builder.AddYarpResource(umbraco, groups.Network);
+builder.AddYarpResource(umbraco);
 
 builder.Build().Run();

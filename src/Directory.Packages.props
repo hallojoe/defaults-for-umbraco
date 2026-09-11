@@ -4,7 +4,7 @@
     <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Aspire.Hosting.OpenAI" Version="13.5.2" />
+    <PackageVersion Include="Aspire.Hosting.OpenAI" Version="13.5.3" />
     <PackageVersion Include="Casko.Authentication.NemLogin3.Web" Version="1.0.1-pre" />
     <PackageVersion Include="Casko.NemLogin3ForUmbraco" Version="1.0.3-pre" />
     <PackageVersion Include="Casko.SyncExtensionsForUmbraco" Version="1.0.0-pre" />
@@ -57,12 +57,12 @@
     <PackageVersion Include="uSync" Version="17.3.6" />
     <PackageVersion Include="uSync.Command.Setup" Version="16.1.0" />
     <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
-    <PackageVersion Include="Aspire.Hosting.Azure.Functions" Version="13.5.1" />
-    <PackageVersion Include="Aspire.Hosting.Azure.Redis" Version="13.5.1" />
-    <PackageVersion Include="Aspire.Hosting.Azure.ServiceBus" Version="13.5.1" />
-    <PackageVersion Include="Aspire.Hosting.Azure.Storage" Version="13.5.1" />
-    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="13.5.1" />
-    <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="13.4.6" />
+    <PackageVersion Include="Aspire.Hosting.Azure.Functions" Version="13.5.3" />
+    <PackageVersion Include="Aspire.Hosting.Azure.Redis" Version="13.5.3" />
+    <PackageVersion Include="Aspire.Hosting.Azure.ServiceBus" Version="13.5.3" />
+    <PackageVersion Include="Aspire.Hosting.Azure.Storage" Version="13.5.3" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="13.5.3" />
+    <PackageVersion Include="Aspire.StackExchange.Redis.DistributedCaching" Version="13.5.3" />
     <PackageVersion Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
     <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="2.1.1" />
     <PackageVersion Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.1.0" />
