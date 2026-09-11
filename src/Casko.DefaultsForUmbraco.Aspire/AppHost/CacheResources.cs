@@ -4,18 +4,11 @@ namespace Casko.DefaultsForUmbraco.Aspire.AppHost;
 
 internal static class CacheResourceExtensions
 {
-    public static CacheResources AddCacheResources(
-        this IDistributedApplicationBuilder builder,
-        IResourceBuilder<DashboardGroupResource> group)
+    public static CacheResources AddCacheResources(this IDistributedApplicationBuilder builder)
     {
         var cache = builder
             .AddAzureManagedRedis("cache")
-            .RunAsContainer(redis => redis.WithRedisInsight())
-            .WithParentRelationship(group);
-
-        builder
-            .CreateResourceBuilder(builder.Resources.OfType<ContainerResource>().Single(resource => resource.Name == "redisinsight"))
-            .WithParentRelationship(group);
+            .RunAsContainer(redis => redis.WithRedisInsight());
 
         return new CacheResources(cache);
     }

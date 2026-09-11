@@ -9,7 +9,6 @@ internal static class UmbracoResourceExtensions
         StorageResources storage,
         OpenAiResources openAi,
         NetworkResources network,
-        IResourceBuilder<DashboardGroupResource> group,
         string distributedCacheProvider)
     {
         var cm = builder.AddUmbracoInstance(
@@ -20,7 +19,6 @@ internal static class UmbracoResourceExtensions
             database,
             storage,
             network,
-            group,
             distributedCacheProvider,
             openAi);
 
@@ -32,7 +30,6 @@ internal static class UmbracoResourceExtensions
             database,
             storage,
             network,
-            group,
             distributedCacheProvider);
 
         var cdAlt = builder.AddUmbracoInstance(
@@ -43,7 +40,6 @@ internal static class UmbracoResourceExtensions
             database,
             storage,
             network,
-            group,
             distributedCacheProvider);
 
         cd.WaitFor(cm);
@@ -74,7 +70,6 @@ internal static class UmbracoResourceExtensions
         DatabaseResources database,
         StorageResources storage,
         NetworkResources network,
-        IResourceBuilder<DashboardGroupResource> group,
         string distributedCacheProvider,
         OpenAiResources? openAi = null)
     {
@@ -96,8 +91,7 @@ internal static class UmbracoResourceExtensions
             .WithEnvironment("Umbraco__CMS__Global__Smtp__Password", string.Empty)
             .WithEnvironment("CASKO_DISTRIBUTED_CACHE_PROVIDER", distributedCacheProvider)
             .WaitFor(database.UmbracoDb)
-            .WaitFor(storage.Storage)
-            .WithParentRelationship(group);
+            .WaitFor(storage.Storage);
 
         if (instanceName is not null)
         {
