@@ -23,5 +23,6 @@ var umbraco = builder.AddUmbracoResources(
     AppHostConfiguration.GetDistributedCacheProvider());
 
 builder.AddYarpResource(umbraco);
+builder.AddAstroResource();
 
 builder.Build().Run();

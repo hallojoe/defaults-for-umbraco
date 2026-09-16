@@ -1,0 +1,51 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import {
+  getBreadcrumbs,
+  getChildPages,
+  getDeliverySite,
+  getRootPages,
+  type SitePage,
+} from '../lib/delivery-api';
+
+export async function getStaticPaths() {
+  const site = await getDeliverySite();
+  const rootPages = getRootPages(site);
+
+  return site.pages
+    .filter((page) => page.kind !== 'home' || page.culture !== 'da')
+    .map((page) => ({
+      params: { slug: page.routePath.split('/').filter(Boolean).join('/') },
+      props: { page, pages: site.pages, rootPages },
+    }));
+}
+
+interface Props {
+  page: SitePage;
+  pages: SitePage[];
+  rootPages: SitePage[];
+}
+
+const { page, pages, rootPages } = Astro.props;
+const primaryNavigation = pages.filter((item) => item.culture === page.culture && item.kind === 'list');
+const breadcrumbs = getBreadcrumbs(page, pages);
+const children = page.kind === 'list' ? getChildPages(page, pages) : [];
+---
+
+<SiteLayout {page} {primaryNavigation} languageNavigation={rootPages} {breadcrumbs}>
+  <main>
+    <h1>{page.title}</h1>
+    {page.description && <p>{page.description}</p>}
+    {page.contentMarkup && <div set:html={page.contentMarkup} />}
+    {page.kind === 'list' && (
+      <section aria-label={`${page.title} pages`}>
+        {children.map((child) => (
+          <article>
+            <h2><a href={child.routePath}>{child.title}</a></h2>
+            {child.description && <p>{child.description}</p>}
+          </article>
+        ))}
+      </section>
+    )}
+  </main>
+</SiteLayout>

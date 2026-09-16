@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Aspire.Hosting.OpenAI" Version="13.5.3" />
+    <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.5.3" />
     <PackageVersion Include="Casko.Authentication.NemLogin3.Web" Version="1.0.1-pre" />
     <PackageVersion Include="Casko.NemLogin3ForUmbraco" Version="1.0.3-pre" />
     <PackageVersion Include="Casko.SyncExtensionsForUmbraco" Version="1.0.0-pre" />
@@ -39,6 +40,7 @@
     <PackageVersion Include="Umbraco.Cms.Web" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.DevelopmentMode.Backoffice" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.Tests.Integration" Version="17.6.2" />
+    <PackageVersion Include="Umbraco.Community.DeliveryApiExtensions" Version="17.0.1" />
     <PackageVersion Include="Umbraco.StorageProviders.AzureBlob" Version="17.1.0" />
     <PackageVersion Include="Umbraco.StorageProviders.AzureBlob.ImageSharp" Version="17.1.0" />
     <PackageVersion Include="Azure.Storage.Blobs" Version="12.29.1" />

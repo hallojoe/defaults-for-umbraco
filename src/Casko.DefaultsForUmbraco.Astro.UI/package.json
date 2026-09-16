@@ -1,0 +1,14 @@
+{
+  "name": "casko.defaults-for-umbraco.astro.ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --use-system-ca ./node_modules/astro/astro.js dev",
+    "build": "node --use-system-ca ./node_modules/astro/astro.js build",
+    "preview": "node --use-system-ca ./node_modules/astro/astro.js preview"
+  },
+  "devDependencies": {
+    "astro": "^5.16.0"
+  }
+}
