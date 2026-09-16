@@ -42,10 +42,21 @@ When the dashboard shows the sites as running, open:
 | --- | --- |
 | Manage content in Umbraco | `https://cm.dev.localhost:4443/umbraco/` |
 | View the public website | `https://cd.dev.localhost:4443/` |
+| View the Astro frontend | Open the `frontend` **http** link in the Aspire dashboard |
 | View test emails | Open the `mailpit` **ui** link in the Aspire dashboard |
 | Inspect the local database | Open the `dbgate` link in the Aspire dashboard |
 
 Press `Ctrl+C` in the terminal to stop the environment.
+
+## Build the Astro static site
+
+The Astro site reads published Site 1 content from Umbraco's Delivery API while building. Keep the Aspire environment running, then run:
+
+```powershell
+npm --prefix src/Casko.DefaultsForUmbraco.Astro.UI run build
+```
+
+The default local Delivery API address is `https://cd.dev.localhost:4443`. The Astro scripts use Node's system certificate store so this trusted local HTTPS endpoint works during development and builds. For another environment, set `UMBRACO_DELIVERY_API_URL`, `UMBRACO_DELIVERY_START_ITEM`, and, when the API is private, `UMBRACO_DELIVERY_API_KEY` before building. See `src/Casko.DefaultsForUmbraco.Astro.UI/.env.example`.
 
 ## If the website addresses do not open
 

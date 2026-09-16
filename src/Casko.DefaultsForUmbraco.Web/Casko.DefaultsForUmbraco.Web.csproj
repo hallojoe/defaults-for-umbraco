@@ -30,6 +30,7 @@
         <PackageReference Include="Umbraco.Cms.Core" />
         <PackageReference Include="Umbraco.Cms.Infrastructure" />
         <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice"/>
+        <PackageReference Include="Umbraco.Community.DeliveryApiExtensions" />
         <PackageReference Include="Umbraco.StorageProviders.AzureBlob" />
         <PackageReference Include="Umbraco.StorageProviders.AzureBlob.ImageSharp" />
         <PackageReference Include="uSync" />
