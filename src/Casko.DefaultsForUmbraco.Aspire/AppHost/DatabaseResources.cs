@@ -6,11 +6,12 @@ internal static class DatabaseResourceExtensions
     {
         var sql = builder
             .AddSqlServer("sql", port: 11433)
-            .WithImage("azure-sql-edge")
+            .WithImageTag("2022-latest")
             .WithImageRegistry("mcr.microsoft.com")
             .WithDataVolume("defaults-for-umbraco-sql-data")
             .WithHostPort(11433)
             .WithDbGate();
+        
 
         var umbracoDb = sql
             .AddDatabase("umbracoDbDSN", "defaults-for-umbraco-v7-db")
