@@ -9,4 +9,4 @@
 
 Everything should be startable as one development environment.
 
-Concrete local choices: Azure SQL Edge, Azurite, Redis or SQL cache, and Mailpit.
+Concrete local choices: MSSQL Server, Azurite, Redis or SQL cache, and Mailpit.

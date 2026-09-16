@@ -1,4 +1,6 @@
-# DefaultsForUmbraco
+# Loadbalanced local Umbraco instances 
+
+ > This project depend on MSSQL Server. The image used for MSSQL Server does not support ARM64 by default. Read [Full SQL Server on Apple Silicon with Podman](https://gist.github.com/hallojoe/cd0bc288afdeb0de7d4feceda37c4a03#full-sql-server-on-apple-silicon-with-podman)  
 
 This solution is a local Umbraco 17 / .NET 10 setup for running a single or multiple Umbraco. Supports `SchedulingPublisher` → `Subsciber` and `Single`. Will run `Single` out of the box.
 
@@ -36,7 +38,7 @@ src/Casko.DefaultsForUmbraco.slnx
 ## Prerequisites
 
 - .NET 10 SDK
-- Docker Desktop (for the Aspire-managed Azure SQL Edge container)
+- Docker Desktop (for the Aspire-managed MSSQL Server container)
 - A trusted ASP.NET Core HTTPS development certificate
 
 Trust the development certificate once per machine:
@@ -77,14 +79,7 @@ Run the split-role setup when you want to test backoffice and delivery behavior 
 dotnet run --project src/Casko.DefaultsForUmbraco.Aspire
 ```
 
-The Aspire dashboard also starts `Casko.DefaultsForUmbraco.Functions.Test`. Use its endpoint to call the local test function:
-
-```text
-GET /api/echo
-GET /api/echo?name=Codex
-```
-
-Aspire starts Azure SQL Edge on `localhost:11433`, creates `defaults-for-umbraco-db` when needed, and persists it in the Docker volume `defaults-for-umbraco-sql-data`. CM, CD, and YARP receive Aspire-provided connection strings, so this topology never uses the split-profile SQL Server on `localhost:1434`.
+Aspire starts MSSQL Server on `localhost:11433`, creates `defaults-for-umbraco-db` when needed, and persists it in the Docker volume `defaults-for-umbraco-sql-data`. CM, CD, and YARP receive Aspire-provided connection strings, so this topology never uses the split-profile SQL Server on `localhost:1434`.
 
 The direct Web UI and YARP launch profiles remain available for manual debugging, and still use their existing configuration.
 
