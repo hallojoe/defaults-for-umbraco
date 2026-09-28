@@ -1,0 +1,38 @@
+@using Umbraco.Cms.Core.Services
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject IPublicAccessService PublicAccessService
+@{
+    Layout = "mainTemplate.cshtml";
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var title = Model.Value<string>("title");
+    title = string.IsNullOrWhiteSpace(title) ? Model.Name(culture) : title;
+    var description = Model.Value<string>("description");
+    var groups = Model.Children().Where(page => page.ContentType.Alias == "groupPage" && page.IsVisible() && !PublicAccessService.IsProtected(page.Path)).OrderBy(page => page.SortOrder);
+}
+<div class="container py-5">
+    <header class="mx-auto" style="max-width: 52rem;">
+        <h1 class="display-5 mb-3">@title</h1>
+        @if (!string.IsNullOrWhiteSpace(description)) { <p class="lead text-body-secondary">@description</p> }
+    </header>
+    <section class="mt-5" aria-labelledby="groups-heading">
+        <h2 id="groups-heading" class="h3 mb-3">Groups</h2>
+        @if (groups.Any())
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var group in groups)
+                {
+                    var groupTitle = group.Value<string>("title");
+                    groupTitle = string.IsNullOrWhiteSpace(groupTitle) ? group.Name(culture) : groupTitle;
+                    var groupDescription = group.Value<string>("description");
+                    <div class="col"><article class="card h-100 position-relative"><div class="card-body">
+                        <h3 class="h5 card-title">@groupTitle</h3>
+                        @if (!string.IsNullOrWhiteSpace(groupDescription)) { <p class="card-text text-body-secondary mb-0">@groupDescription</p> }
+                        <a class="stretched-link" href="@group.Url(culture: culture)"><span class="visually-hidden">Open @groupTitle</span></a>
+                    </div></article></div>
+                }
+            </div>
+        }
+        else { <p class="text-body-secondary">No groups are available.</p> }
+    </section>
+</div>

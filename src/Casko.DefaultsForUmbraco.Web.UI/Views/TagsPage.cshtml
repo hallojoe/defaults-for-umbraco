@@ -1,0 +1,50 @@
+@using Umbraco.Cms.Core.Services
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject IPublicAccessService PublicAccessService
+@{
+    Layout = "mainTemplate.cshtml";
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var selectedTag = Context.Request.Query["tag"].ToString();
+    var supportedAliases = new[] { "textPage", "eventPage", "productPage" };
+    var taggedPages = Model.Root().DescendantsOrSelf().Where(page => supportedAliases.Contains(page.ContentType.Alias) && page.IsVisible() && !PublicAccessService.IsProtected(page.Path));
+    var tags = taggedPages.SelectMany(page => page.Value<IEnumerable<string>>("tags") ?? Enumerable.Empty<string>()).Where(tag => !string.IsNullOrWhiteSpace(tag)).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(tag => tag, StringComparer.CurrentCultureIgnoreCase).ToArray();
+    var results = string.IsNullOrWhiteSpace(selectedTag)
+        ? Enumerable.Empty<Umbraco.Cms.Core.Models.PublishedContent.IPublishedContent>()
+        : taggedPages.Where(page => (page.Value<IEnumerable<string>>("tags") ?? Enumerable.Empty<string>()).Any(tag => string.Equals(tag, selectedTag, StringComparison.OrdinalIgnoreCase))).Take(50);
+}
+<div class="container py-5">
+    <section class="mx-auto" style="max-width: 52rem;" aria-labelledby="tags-heading">
+        <h1 id="tags-heading" class="display-5 mb-4">@Model.Name(culture)</h1>
+        @if (tags.Any())
+        {
+            <nav class="d-flex flex-wrap gap-2" aria-label="Tags">
+                @foreach (var tag in tags)
+                {
+                    var isSelected = string.Equals(tag, selectedTag, StringComparison.OrdinalIgnoreCase);
+                    <a class="badge text-decoration-none @(isSelected ? "text-bg-primary" : "text-bg-secondary")" href="@($"{Model.Url(culture: culture)}?tag={Uri.EscapeDataString(tag)}")" aria-current="@(isSelected ? "page" : null)">@tag</a>
+                }
+            </nav>
+        }
+        else { <p class="text-body-secondary">No tags are available.</p> }
+        @if (!string.IsNullOrWhiteSpace(selectedTag))
+        {
+            <section class="mt-5" aria-labelledby="tag-results-heading">
+                <h2 id="tag-results-heading" class="h3 mb-3">Pages tagged “@selectedTag”</h2>
+                @if (results.Any())
+                {
+                    <div class="list-group">
+                        @foreach (var page in results)
+                        {
+                            var pageTitle = page.ContentType.Alias == "productPage" ? page.Value<string>("productName") : page.Value<string>("title");
+                            pageTitle = string.IsNullOrWhiteSpace(pageTitle) ? page.Name(culture) : pageTitle;
+                            var pageDescription = page.ContentType.Alias == "productPage" ? page.Value<string>("productDescription") : page.Value<string>("description");
+                            <a class="list-group-item list-group-item-action" href="@(page.Url(culture: culture))"><span class="d-block fw-semibold">@pageTitle</span>@if (!string.IsNullOrWhiteSpace(pageDescription)) { <span class="d-block text-body-secondary small">@pageDescription</span> }</a>
+                        }
+                    </div>
+                }
+                else { <p class="text-body-secondary">No matching pages are available.</p> }
+            </section>
+        }
+    </section>
+</div>

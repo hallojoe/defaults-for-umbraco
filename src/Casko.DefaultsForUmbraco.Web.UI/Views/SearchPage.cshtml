@@ -1,0 +1,18 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "mainTemplate.cshtml";
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var title = Model.Value<string>("title");
+    title = string.IsNullOrWhiteSpace(title) ? Model.Name(culture) : title;
+    var description = Model.Value<string>("description");
+}
+<div class="container py-5">
+    <section class="mx-auto" style="max-width: 52rem;" aria-labelledby="search-heading">
+        <h1 id="search-heading" class="display-5 mb-3">@title</h1>
+        @if (!string.IsNullOrWhiteSpace(description)) { <p class="lead text-body-secondary">@description</p> }
+        <form class="mt-4" action="@Model.Url(culture: culture)" method="get" role="search">
+            <label class="form-label" for="site-search">Search</label>
+            <div class="input-group"><input id="site-search" class="form-control" type="search" name="q" placeholder="Search the site" autocomplete="off" /><button class="btn btn-primary" type="submit">Search</button></div>
+        </form>
+    </section>
+</div>

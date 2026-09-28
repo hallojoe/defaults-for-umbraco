@@ -58,6 +58,8 @@ npm --prefix src/Casko.DefaultsForUmbraco.Astro.UI run build
 
 The default local Delivery API address is `https://cd.dev.localhost:4443`. The Astro scripts use Node's system certificate store so this trusted local HTTPS endpoint works during development and builds. For another environment, set `UMBRACO_DELIVERY_API_URL`, `UMBRACO_DELIVERY_START_ITEM`, and, when the API is private, `UMBRACO_DELIVERY_API_KEY` before building. See `src/Casko.DefaultsForUmbraco.Astro.UI/.env.example`.
 
+Rich-text media is rewritten to an absolute public URL while the static site is built. Locally, `UMBRACO_MEDIA_BASE_URL` defaults to the Delivery API origin. In production, set it to the public Umbraco media or CDN origin (for example, `https://media.example.com`) so images continue to work after the static site is deployed separately from Umbraco.
+
 ## If the website addresses do not open
 
 See HOSTS.md

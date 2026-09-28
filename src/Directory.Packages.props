@@ -29,6 +29,7 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.17.0" />
     <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.2.0" />
     <!-- Keep the Umbraco.Cms package family on one patch version. Core loads related assemblies by exact version. -->
+    <PackageVersion Include="Umbraco.Automate" Version="17.4.0" />
     <PackageVersion Include="Umbraco.Cms" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.Core" Version="17.6.2" />
     <PackageVersion Include="Umbraco.Cms.Infrastructure" Version="17.6.2" />

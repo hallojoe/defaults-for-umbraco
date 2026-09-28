@@ -17,10 +17,15 @@ internal static class DatabaseResourceExtensions
             .AddDatabase("umbracoDbDSN", "defaults-for-umbraco-v7-db")
             .WithCreationScript(SqlScripts.GetUmbracoDatabaseCreationScript("defaults-for-umbraco-v7-db"));
 
-        return new DatabaseResources(sql, umbracoDb);
+        var automateDb = sql
+            .AddDatabase("umbracoAutomateDbDSN", "defaults-for-umbraco-automate-db")
+            .WithCreationScript(SqlScripts.GetAutomateDatabaseCreationScript("defaults-for-umbraco-automate-db"));
+
+        return new DatabaseResources(sql, umbracoDb, automateDb);
     }
 }
 
 internal sealed record DatabaseResources(
     IResourceBuilder<SqlServerServerResource> Sql,
-    IResourceBuilder<SqlServerDatabaseResource> UmbracoDb);
+    IResourceBuilder<SqlServerDatabaseResource> UmbracoDb,
+    IResourceBuilder<SqlServerDatabaseResource> AutomateDb);

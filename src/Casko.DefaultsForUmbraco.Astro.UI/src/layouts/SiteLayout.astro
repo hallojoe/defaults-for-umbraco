@@ -1,60 +1,40 @@
 ---
 import type { SitePage } from '../lib/delivery-api';
-
-interface Props {
-  page: SitePage;
-  primaryNavigation: SitePage[];
-  languageNavigation: SitePage[];
-  breadcrumbs: SitePage[];
-}
-
+interface Props { page: SitePage; primaryNavigation: SitePage[]; languageNavigation: SitePage[]; breadcrumbs: SitePage[]; }
 const { page, primaryNavigation, languageNavigation, breadcrumbs } = Astro.props;
 ---
-
 <!doctype html>
 <html lang={page.culture}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={page.description ?? page.title} />
-    <title>{page.title}</title>
+    <title>{page.title} · Casko</title>
   </head>
   <body>
-    <header>
-      <a class="brand" href={languageNavigation.find((item) => item.culture === page.culture)?.routePath ?? '/'}>Casko</a>
-      <nav aria-label="Primary navigation">
-        <ul>
-          {primaryNavigation.map((item) => (
-            <li><a href={item.routePath} aria-current={item.routePath === page.routePath ? 'page' : undefined}>{item.title}</a></li>
-          ))}
-        </ul>
-      </nav>
-      <nav aria-label="Language navigation">
-        <ul>
-          {languageNavigation.map((item) => (
-            <li><a href={item.routePath} hreflang={item.culture} aria-current={item.culture === page.culture ? 'page' : undefined}>{item.culture.toUpperCase()}</a></li>
-          ))}
-        </ul>
-      </nav>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href={languageNavigation.find((item) => item.culture === page.culture)?.routePath ?? '/'}><span>C</span>Casko</a>
+        <nav aria-label="Primary navigation"><ul>{primaryNavigation.map((item) => <li><a href={item.routePath} aria-current={item.routePath === page.routePath ? 'page' : undefined}>{item.title}</a></li>)}</ul></nav>
+        <nav class="language-nav" aria-label="Language navigation"><ul>{languageNavigation.map((item) => <li><a href={item.routePath} hreflang={item.culture} aria-current={item.culture === page.culture ? 'page' : undefined}>{item.culture.toUpperCase()}</a></li>)}</ul></nav>
+      </div>
     </header>
-    {page.kind !== 'home' && (
-      <nav aria-label="Breadcrumb">
-        <ol>
-          {breadcrumbs.map((item, index) => (
-            <li>{index === breadcrumbs.length - 1 ? item.title : <a href={item.routePath}>{item.title}</a>}</li>
-          ))}
-        </ol>
-      </nav>
-    )}
-    <slot />
-    <footer>© 2026 Casko</footer>
+    <main class="shell">
+      {page.kind !== 'home' && <nav class="breadcrumbs" aria-label="Breadcrumb"><ol>{breadcrumbs.map((item, index) => <li>{index === breadcrumbs.length - 1 ? item.title : <a href={item.routePath}>{item.title}</a>}</li>)}</ol></nav>}
+      <slot />
+    </main>
+    <footer class="site-footer"><div class="shell">© {new Date().getFullYear()} Casko <span>Built from published Umbraco content.</span></div></footer>
   </body>
 </html>
 
 <style>
-  :global(body) { font-family: system-ui, sans-serif; line-height: 1.5; margin: 0 auto; max-width: 72rem; padding: 1.5rem; }
-  header { align-items: center; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
-  .brand { font-size: 1.25rem; font-weight: 700; }
-  ul, ol { display: flex; flex-wrap: wrap; gap: 0.75rem; padding-left: 1.25rem; }
-  footer { border-top: 1px solid #ccc; margin-top: 3rem; padding-top: 1rem; }
+  :global(:root) { --ink: #172033; --muted: #5e6b82; --paper: #f7f8fc; --surface: #ffffff; --line: #dce1eb; --brand: #5b3df5; --brand-dark: #4029bd; --accent: #dbf7ed; --radius: 1rem; --shadow: 0 14px 36px rgb(23 32 51 / 10%); font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: var(--ink); background: var(--paper); }
+  :global(*) { box-sizing: border-box; } :global(body) { margin: 0; min-width: 320px; } :global(a) { color: var(--brand); } :global(a:hover) { color: var(--brand-dark); } :global(a:focus-visible), :global(button:focus-visible), :global(input:focus-visible) { outline: 3px solid #ffbd3b; outline-offset: 3px; }
+  .shell { margin: 0 auto; max-width: 76rem; padding-inline: 1.5rem; } .site-header { background: var(--surface); border-bottom: 1px solid var(--line); } .header-inner { align-items: center; display: flex; flex-wrap: wrap; gap: 1rem 2rem; min-height: 5rem; } .brand { align-items: center; color: var(--ink); display: inline-flex; font-size: 1.125rem; font-weight: 800; gap: .5rem; text-decoration: none; } .brand span { background: var(--brand); border-radius: .5rem; color: #fff; display: grid; height: 2rem; place-items: center; width: 2rem; }
+  nav ul { display: flex; flex-wrap: wrap; gap: .3rem; list-style: none; margin: 0; padding: 0; } nav a { border-radius: .5rem; display: inline-block; padding: .45rem .65rem; text-decoration: none; } nav a[aria-current="page"] { background: #ece9ff; color: var(--brand-dark); font-weight: 700; } .language-nav { margin-left: auto; } .language-nav a { border: 1px solid var(--line); font-size: .78rem; font-weight: 700; padding: .3rem .45rem; }
+  main { min-height: calc(100vh - 10rem); padding-block: 2.5rem 4rem; } .breadcrumbs { color: var(--muted); font-size: .9rem; margin-bottom: 2rem; } .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: .45rem; list-style: none; margin: 0; padding: 0; } .breadcrumbs li:not(:last-child)::after { content: '/'; margin-left: .45rem; }
+  .site-footer { background: #151b2b; color: #dbe1ef; padding-block: 1.8rem; } .site-footer span { color: #a7b0c3; margin-left: .5rem; }
+  :global(.hero), :global(.page-header), :global(.article), :global(.search-page), :global(.tag-explorer) { max-width: 52rem; } :global(.hero) { background: linear-gradient(135deg, #eeeaff, #e8fbf4); border-radius: 1.5rem; padding: clamp(2rem, 6vw, 5rem); } :global(.eyebrow), :global(.card-kicker) { color: var(--brand); font-size: .78rem; font-weight: 800; letter-spacing: .1em; margin: 0 0 .6rem; text-transform: uppercase; } :global(h1) { font-size: clamp(2.25rem, 6vw, 4.5rem); letter-spacing: -.05em; line-height: 1; margin: 0 0 1.25rem; } :global(h2) { font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -.03em; margin: 3rem 0 1.25rem; } :global(h3) { font-size: 1.2rem; margin: .25rem 0 .7rem; } :global(.lede) { color: var(--muted); font-size: 1.2rem; line-height: 1.6; } :global(.prose) { line-height: 1.75; } :global(.prose img) { border-radius: .75rem; height: auto; max-width: 100%; } :global(.card-grid), :global(.tag-results) { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); } :global(.card) { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; padding: 1.35rem; } :global(.card img) { border-radius: .6rem; display: block; height: 11rem; margin: -0.3rem -0.3rem 1.1rem; object-fit: cover; width: calc(100% + .6rem); } :global(.card h2), :global(.card h3) { margin-top: 0; } :global(.meta) { color: var(--muted); font-size: .9rem; } :global(.details) { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); display: grid; gap: .65rem 1.25rem; grid-template-columns: max-content 1fr; margin: 2rem 0; padding: 1.25rem; } :global(.details dt) { color: var(--muted); font-weight: 700; } :global(.details dd) { margin: 0; } :global(.contact) { border-top: 1px solid var(--line); margin-top: 3rem; } :global(.product-image) { border-radius: var(--radius); display: block; margin: 1.5rem 0; max-width: 100%; } :global(.tag-list) { display: flex; flex-wrap: wrap; gap: .5rem; } :global(.tag-list a), :global(.tag-list span) { background: #ece9ff; border-radius: 999px; color: var(--brand-dark); font-size: .85rem; font-weight: 700; padding: .35rem .65rem; text-decoration: none; } :global(.search-form label) { display: block; font-weight: 700; margin-bottom: .5rem; } :global(.search-form > div) { display: flex; gap: .5rem; } :global(input) { border: 1px solid var(--line); border-radius: .6rem; font: inherit; min-width: 0; padding: .8rem 1rem; width: 100%; } :global(button) { background: var(--brand); border: 0; border-radius: .6rem; color: #fff; cursor: pointer; font: inherit; font-weight: 700; padding: .8rem 1.1rem; } :global(.tag-status) { color: var(--muted); margin: 1.5rem 0; }
+  :global(.card-meta) { color: var(--muted); font-size: .9rem; }
+  @media (max-width: 48rem) { .language-nav { margin-left: 0; width: 100%; } .site-footer span { display: block; margin: .4rem 0 0; } }
 </style>

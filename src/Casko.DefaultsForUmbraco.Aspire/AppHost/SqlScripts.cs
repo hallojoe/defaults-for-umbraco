@@ -2,6 +2,14 @@ namespace Casko.DefaultsForUmbraco.Aspire.AppHost;
 
 internal static class SqlScripts
 {
+    public static string GetAutomateDatabaseCreationScript(string databaseName) =>
+        $$"""
+            IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE name = N'{{databaseName}}')
+            BEGIN
+                CREATE DATABASE [{{databaseName}}];
+            END
+            """;
+
     public static string GetUmbracoDatabaseCreationScript(string databaseName) =>
         """
             IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE name = N'{databaseName}')

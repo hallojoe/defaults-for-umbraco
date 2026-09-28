@@ -41,6 +41,8 @@ https://cm.dev.localhost:4443/umbraco/
 https://cd.dev.localhost:4443/
 ```
 
+The direct SchedulingPublisher and Subscriber profiles require the existing local SQL Server databases, including `LocalAutomate_db` for Umbraco Automate. Aspire provisions and injects its own dedicated Automate database automatically.
+
 ## Certificates and hostnames
 
 The setup relies on the ASP.NET Core development certificate. Trust it once per machine:

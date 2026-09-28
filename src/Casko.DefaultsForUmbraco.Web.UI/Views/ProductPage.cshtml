@@ -1,0 +1,37 @@
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "mainTemplate.cshtml";
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var productName = Model.Value<string>("productName");
+    productName = string.IsNullOrWhiteSpace(productName) ? Model.Name(culture) : productName;
+    var description = Model.Value("productDescription");
+    var image = Model.Value<IPublishedContent>("productImage");
+    var sku = Model.Value<string>("productSku");
+    var brand = Model.Value<string>("productBrand");
+    var category = Model.Value<string>("productCategory");
+    var tags = Model.Value<IEnumerable<string>>("tags") ?? Enumerable.Empty<string>();
+}
+<div class="container py-5">
+    <article class="mx-auto" style="max-width: 52rem;">
+        <h1 class="display-5 mb-4">@productName</h1>
+        @if (image is not null) { <img class="img-fluid rounded mb-4" src="@image.Url()" alt="@image.Name" /> }
+        @if (description is not null) { <div class="mb-4">@description</div> }
+        @if (!string.IsNullOrWhiteSpace(sku) || !string.IsNullOrWhiteSpace(brand) || !string.IsNullOrWhiteSpace(category))
+        {
+            <dl class="row my-4">
+                @if (!string.IsNullOrWhiteSpace(sku)) { <dt class="col-sm-3">SKU</dt><dd class="col-sm-9">@sku</dd> }
+                @if (!string.IsNullOrWhiteSpace(brand)) { <dt class="col-sm-3">Brand</dt><dd class="col-sm-9">@brand</dd> }
+                @if (!string.IsNullOrWhiteSpace(category)) { <dt class="col-sm-3">Category</dt><dd class="col-sm-9">@category</dd> }
+            </dl>
+        }
+        @if (tags.Any())
+        {
+            <section class="border-top mt-5 pt-4" aria-labelledby="product-tags-heading">
+                <h2 id="product-tags-heading" class="h4">Tags</h2>
+                <div class="d-flex flex-wrap gap-2">@foreach (var tag in tags) { <span class="badge text-bg-secondary">@tag</span> }</div>
+            </section>
+        }
+    </article>
+</div>

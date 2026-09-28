@@ -78,8 +78,11 @@ internal static class UmbracoResourceExtensions
             .WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development")
             .WithEnvironment("DOTNET_ENVIRONMENT", "Development")
             .WithEnvironment("UMBRACO_SERVER_ROLE", serverRole)
+            .WithEnvironment("Umbraco__Automate__UseNamedConnectionString", "umbracoAutomateDbDSN")
             .WithEnvironment("FORWARD_HEADERS_ENABLED", "true")
             .WithReference(database.UmbracoDb)
+            .WithReference(database.AutomateDb)
+            .WithEnvironment("ConnectionStrings__umbracoAutomateDbDSN_ProviderName", "Microsoft.Data.SqlClient")
             .WithReference(storage.Blobs)
             .WithReference(network.Mailpit.GetEndpoint("smtp"))
             .WithEnvironment("Umbraco__CMS__Global__Smtp__From", "noreply@example.local")
@@ -91,6 +94,7 @@ internal static class UmbracoResourceExtensions
             .WithEnvironment("Umbraco__CMS__Global__Smtp__Password", string.Empty)
             .WithEnvironment("CASKO_DISTRIBUTED_CACHE_PROVIDER", distributedCacheProvider)
             .WaitFor(database.UmbracoDb)
+            .WaitFor(database.AutomateDb)
             .WaitFor(storage.Storage);
 
         if (instanceName is not null)

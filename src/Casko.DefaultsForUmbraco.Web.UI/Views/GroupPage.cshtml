@@ -1,0 +1,57 @@
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Services
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inject IPublicAccessService PublicAccessService
+@{
+    Layout = "mainTemplate.cshtml";
+    var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var title = Model.Value<string>("title");
+    title = string.IsNullOrWhiteSpace(title) ? Model.Name(culture) : title;
+    var description = Model.Value<string>("description");
+    var content = Model.Value("content");
+    var pages = Model.Children().Where(page => new[] { "textPage", "eventPage", "productPage" }.Contains(page.ContentType.Alias) && page.IsVisible() && !PublicAccessService.IsProtected(page.Path)).OrderBy(page => page.SortOrder);
+}
+<div class="container py-5">
+    <article class="mx-auto" style="max-width: 52rem;">
+        <h1 class="display-5 mb-3">@title</h1>
+        @if (!string.IsNullOrWhiteSpace(description)) { <p class="lead text-body-secondary">@description</p> }
+        @if (content is not null) { <div class="mt-4">@content</div> }
+    </article>
+    <section class="mt-5" aria-labelledby="pages-heading">
+        <h2 id="pages-heading" class="h3 mb-3">Pages</h2>
+        @if (pages.Any())
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                @foreach (var page in pages)
+                {
+                    var pageTitle = page.ContentType.Alias == "productPage" ? page.Value<string>("productName") : page.Value<string>("title");
+                    pageTitle = string.IsNullOrWhiteSpace(pageTitle) ? page.Name(culture) : pageTitle;
+                    var pageDescription = page.ContentType.Alias == "productPage" ? page.Value("productDescription") : page.Value("description");
+                    var image = page.ContentType.Alias == "productPage" ? page.Value<IPublishedContent>("productImage") : null;
+                    var startDate = page.ContentType.Alias == "eventPage" ? page.Value<DateTime?>("eventStartDate") : null;
+                    var endDate = page.ContentType.Alias == "eventPage" ? page.Value<DateTime?>("eventEndDate") : null;
+                    var sku = page.ContentType.Alias == "productPage" ? page.Value<string>("productSku") : null;
+                    var pageType = page.ContentType.Alias switch
+                    {
+                        "eventPage" => "Event",
+                        "productPage" => "Product",
+                        _ => "Text"
+                    };
+                    <div class="col"><article class="card h-100 position-relative">
+                        @if (image is not null) { <img class="card-img-top" src="@image.Url()" alt="@image.Name" /> }
+                        <div class="card-body">
+                            <p class="small text-body-secondary text-capitalize mb-2">@pageType</p>
+                            <h3 class="h5 card-title">@pageTitle</h3>
+                            @if (startDate.HasValue) { <p class="small text-body-secondary">@startDate.Value.ToString("d", System.Globalization.CultureInfo.CurrentCulture)@if (endDate.HasValue) { <text> – @endDate.Value.ToString("d", System.Globalization.CultureInfo.CurrentCulture)</text> }</p> }
+                            @if (!string.IsNullOrWhiteSpace(sku)) { <p class="small text-body-secondary">SKU: @sku</p> }
+                            @if (pageDescription is not null) { <div class="card-text text-body-secondary">@pageDescription</div> }
+                            <a class="stretched-link" href="@(page.Url(culture: culture))"><span class="visually-hidden">Open @pageTitle</span></a>
+                        </div>
+                    </article></div>
+                }
+            </div>
+        }
+        else { <p class="text-body-secondary">No pages are available.</p> }
+    </section>
+</div>
