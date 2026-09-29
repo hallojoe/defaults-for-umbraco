@@ -1,14 +1,16 @@
 # Run the local environment
 
-Make sure Docker Desktop or Podman is running, then open a terminal in `src/Casko.DefaultsForUmbraco.Aspire` and run:
+Before starting, make sure Podman's rootless API socket is enabled and Aspire is configured to use it:
 
-```powershell
-dotnet run --project src/Casko.DefaultsForUmbraco.Aspire
+```bash
+systemctl --user enable --now podman.socket
+export ASPIRE_CONTAINER_RUNTIME=podman
+export ASPIRE_DCP_USE_DEVELOPER_CERTIFICATE=false
 ```
 
-If you have Aspire CLI installed then:
+Open a terminal in the repository root and run:
 
-```powershell
+```bash
 aspire start
 ```
 
@@ -16,12 +18,12 @@ aspire start
 ```mermaid
 sequenceDiagram
     participant You
-    participant Docker as Docker Desktop
+    participant Podman as Podman
     participant Terminal
     participant Aspire as Aspire AppHost
     participant Dashboard as Aspire dashboard
 
-    You->>Docker: Confirm it is running
+    You->>Podman: Confirm its API socket is active
     You->>Terminal: Run the Aspire project
     Terminal->>Aspire: Start local environment
     Aspire->>Dashboard: Open dashboard
@@ -69,12 +71,12 @@ See HOSTS.md
 Use the database-backed cache instead of the default Redis cache:
 
 ```powershell
-$env:CASKO_DISTRIBUTED_CACHE_PROVIDER = "sql"
-dotnet run --project src/Casko.DefaultsForUmbraco.Aspire
+export CASKO_DISTRIBUTED_CACHE_PROVIDER=sql
+aspire start
 ```
 
 Start only the local database and its viewer:
 
 ```powershell
-dotnet run --project src/Casko.DefaultsForUmbraco.Aspire --launch-profile sql-only
+CASKO_APPHOST_SQL_ONLY=true aspire start
 ```

@@ -1,12 +1,12 @@
 ---
 import PageRenderer from '../components/PageRenderer.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
-import { getDeliverySite, getRootPages } from '../lib/delivery-api';
+import { getChildPages, getDeliverySite, getRootPages } from '../lib/delivery-api';
 
 const site = await getDeliverySite();
 const rootPages = getRootPages(site);
 const page = rootPages.find((item) => item.culture === 'da');
 if (!page) throw new Error('The Delivery API root did not provide a Danish home page.');
-const primaryNavigation = site.pages.filter((item) => item.culture === page.culture && item.kind === 'area');
+const primaryNavigation = getChildPages(page, site.pages);
 ---
 <SiteLayout {page} {primaryNavigation} languageNavigation={rootPages} breadcrumbs={[]}><PageRenderer {page} pages={site.pages} /></SiteLayout>

@@ -6,14 +6,14 @@ This guide prepares your computer to run the project. You only need to do these 
 sequenceDiagram
     participant You
     participant DotNet as .NET
-    participant Docker as Docker Desktop
+    participant Podman as Podman
     participant Terminal
 
     You->>DotNet: Install the .NET 10 SDK
-    You->>Docker: Install and start Docker Desktop
+    You->>Podman: Install and enable the rootless API socket
     You->>Terminal: Trust the local website certificate
     Terminal-->>You: Certificate is trusted
-    You->>Terminal: Check .NET and Docker versions
+    You->>Terminal: Check .NET and Podman
     Terminal-->>You: Ready to run the project
 ```
 
@@ -30,17 +30,28 @@ node --version
 npm --version
 ```
 
-## 3. Install and start Docker Desktop
+## 3. Install and start Podman
 
-Docker Desktop runs the local database, cache, storage, and SMTP.
+Rootless Podman runs the local database, cache, storage, and SMTP. Install Podman using your operating system's package manager, then enable its user-level API socket:
 
-- [Windows installation](https://docs.docker.com/desktop/setup/install/windows-install/)
-- [macOS installation](https://docs.docker.com/desktop/setup/install/mac-install/)
-- [Linux installation](https://docs.docker.com/desktop/setup/install/linux/)
+```bash
+systemctl --user enable --now podman.socket
+```
 
-After installation, open Docker Desktop and wait until it reports that it is running.
+Configure Aspire to use Podman in your shell profile:
 
-Podman is supported as an alternative for people who already use it. Set `ASPIRE_CONTAINER_RUNTIME=podman` before starting the environment.
+```bash
+export ASPIRE_CONTAINER_RUNTIME=podman
+export ASPIRE_DCP_USE_DEVELOPER_CERTIFICATE=false
+```
+
+The second setting makes Aspire use DCP's ephemeral certificate. It is required on Linux when the local development certificate is signed by a local certificate authority.
+
+Open a new terminal and verify that the runtime is available:
+
+```bash
+podman info
+```
 
 ## 4. Trust the local website certificate
 
@@ -59,7 +70,7 @@ From the project folder, run:
 ```powershell
 dotnet --version
 node --version
-docker version
+podman info
 ```
 
-All commands should return a version. The .NET version must begin with `10`.
+All commands should succeed. The .NET version must begin with `10`.

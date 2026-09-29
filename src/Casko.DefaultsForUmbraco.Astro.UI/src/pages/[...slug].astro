@@ -1,7 +1,7 @@
 ---
 import PageRenderer from '../components/PageRenderer.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
-import { getBreadcrumbs, getDeliverySite, getRootPages, type SitePage } from '../lib/delivery-api';
+import { getBreadcrumbs, getChildPages, getDeliverySite, getRootPages, type SitePage } from '../lib/delivery-api';
 
 export async function getStaticPaths() {
   const site = await getDeliverySite();
@@ -11,7 +11,9 @@ export async function getStaticPaths() {
 
 interface Props { page: SitePage; pages: SitePage[]; rootPages: SitePage[]; }
 const { page, pages, rootPages } = Astro.props;
-const primaryNavigation = pages.filter((item) => item.culture === page.culture && item.kind === 'area');
+const rootPage = rootPages.find((item) => item.culture === page.culture);
+if (!rootPage) throw new Error(`The Delivery API root did not provide a '${page.culture}' home page.`);
+const primaryNavigation = getChildPages(rootPage, pages);
 const breadcrumbs = getBreadcrumbs(page, pages);
 ---
 <SiteLayout {page} {primaryNavigation} languageNavigation={rootPages} {breadcrumbs}><PageRenderer {page} {pages} /></SiteLayout>

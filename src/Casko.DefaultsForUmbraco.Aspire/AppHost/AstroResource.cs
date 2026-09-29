@@ -7,7 +7,7 @@ internal static class AstroResourceExtensions
     public static void AddAstroResource(this IDistributedApplicationBuilder builder)
     {
         builder
-            .AddViteApp("frontend", "../Casko.DefaultsForUmbraco.Astro.UI", runScriptName: "dev")
+            .AddViteApp("frontend", "../Casko.DefaultsForUmbraco.Astro.UI", runScriptName: "dev")            
             .PublishAsStaticWebsite()
             .WithExternalHttpEndpoints();
     }

@@ -15,7 +15,7 @@ const { page, primaryNavigation, languageNavigation, breadcrumbs } = Astro.props
     <header class="site-header">
       <div class="shell header-inner">
         <a class="brand" href={languageNavigation.find((item) => item.culture === page.culture)?.routePath ?? '/'}><span>C</span>Casko</a>
-        <nav aria-label="Primary navigation"><ul>{primaryNavigation.map((item) => <li><a href={item.routePath} aria-current={item.routePath === page.routePath ? 'page' : undefined}>{item.title}</a></li>)}</ul></nav>
+        <nav aria-label="Primary navigation"><ul>{primaryNavigation.map((item) => <li><a href={item.routePath} title={item.title} aria-current={item.routePath === page.routePath ? 'page' : undefined}>{item.name}</a></li>)}</ul></nav>
         <nav class="language-nav" aria-label="Language navigation"><ul>{languageNavigation.map((item) => <li><a href={item.routePath} hreflang={item.culture} aria-current={item.culture === page.culture ? 'page' : undefined}>{item.culture.toUpperCase()}</a></li>)}</ul></nav>
       </div>
     </header>
