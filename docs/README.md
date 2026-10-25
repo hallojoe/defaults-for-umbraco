@@ -1,4 +1,11 @@
-# Loadbalanced local Umbraco instances 
+# Umbraco 17+ Topology
+
+> This solution has been moved to dotnet template. It is no longer maintained and has been archived. 
+
+See Umbraco topology dotnet template: https://github.com/hallojoe/umbraco-topology
+
+
+## Loadbalanced local Umbraco instances 
 
  > This project depend on MSSQL Server. The image used for MSSQL Server does not support ARM64 by default. Read [Full SQL Server on Apple Silicon with Podman](https://gist.github.com/hallojoe/cd0bc288afdeb0de7d4feceda37c4a03#full-sql-server-on-apple-silicon-with-podman)  
 
