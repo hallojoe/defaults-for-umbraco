@@ -2,7 +2,7 @@
 
 > This solution has been moved to dotnet template. It is no longer maintained and has been archived. 
 
-See Umbraco topolygy dotnet template: https://github.com/hallojoe/umbraco-topology
+See Umbraco topology dotnet template: https://github.com/hallojoe/umbraco-topology
 
 
 ## Loadbalanced local Umbraco instances 
